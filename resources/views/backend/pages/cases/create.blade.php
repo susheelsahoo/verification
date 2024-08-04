@@ -4,6 +4,9 @@
 Create Case Create - Admin Panel
 @endsection
 
+
+
+
 @section('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -47,12 +50,12 @@ Create Case Create - Admin Panel
                     <h4 class="header-title">Create Case</h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.fitypes.store') }}" method="POST">
+                    <form action="{{ route('admin.cases.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Bank</label>
-                                <select class="custom-select selectBank" name="bankname" id="selectBank">
+                                <select class="custom-select selectBank" name="bank_id" id="selectBank">
                                     <option value="">--Select Option--</option>
                                     @foreach ($banks as $bank)
                                     <option value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
@@ -60,75 +63,112 @@ Create Case Create - Admin Panel
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-
                                 <label for="name">Product</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Application Type</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Source Channel</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <select id="productSelect" name="product_id" class="custom-select">
+                                    <option value="">--Select Option--</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">FI Type</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                @foreach ($fitypes as $fitype)
+                                <div class="form-check">
+                                    <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}">
+                                    <label class="form-check-label" for="fitype{{ $fitype['id'] }}">
+                                        {{ $fitype['name'] }}
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                            {!! $fitypesFeild !!}
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="application_type">Application Type</label>
+                                <select class="custom-select application_type" name="application_type" id="application_type">
+                                    <option value="">--Select Option--</option>
+                                    @foreach ($ApplicationTypes as $ApplicationType)
+                                    <option value="{{ $ApplicationType['id'] }}">{{ $ApplicationType['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="name">Reference Number</label>
+                                <input type="text" class="form-control" id="refrence_number" value="EP01010" name="refrence_number" placeholder="Enter Reference Number">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Applicant Name</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <input type="text" class="form-control" id="applicant_name" value="Susheel Sahoo" name="applicant_name" placeholder="Enter Applicant Name">
                             </div>
                         </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Amount</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <input type="number" class="form-control" id="amount" value="100000" name="amount" placeholder="Enter Amount">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Vehicle</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <input type="text" class="form-control" id="vehicle" value="Honda" name="vehicle" placeholder="Enter Vehicle">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Co-Applicant Name</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <input type="text" class="form-control" id="co_applicant_name" value="Joyti Sahu" name="co_applicant_name" placeholder="Enter Co-Applicant Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Guarantee Name</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <input type="text" class="form-control" id="guarantee_name" value="Ankit Sahu" name="guarantee_name" placeholder="Enter Guarantee Name">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Single Agent</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <div class="form-check">
+                                    <input class="form-check-input singleAgentCheckBox" type="checkbox" name="singleAgentCheckBox" value="1">
+                                    <label class="form-check-label" for="singleAgentCheckBox"> Single Agent</label>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Agent</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
-                            </div>
+
+                            {!! $singleAgent !!}
+                        </div>
+                        <div class="form-row">
+                            {!! $AgentsFeild !!}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Geo Limit *</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <label for="geo_limit">Geo Limit *</label>
+                                <select id="geo_limit" name="geo_limit" class="custom-select">
+                                    <option value="">--Select Option--</option>
+                                    <option value="Local">Local</option>
+                                    <option value="Outstation">Outstation</option>
+                                </select>
                             </div>
+
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">TAT Time</label>
-                                <input type="text" class="form-control" id="applicant_name" name="applicant_name" placeholder="Enter FI Name">
+                                <label for="tat_time">TAT Time</label>
+                                <select id="tat_time" name="tat_time" class="custom-select">
+                                    <option value="">--Select Option--</option>
+                                    <?php
+                                    $start = new DateTime('00:00');
+                                    $end = new DateTime('24:00');
+
+                                    $interval = new DateInterval('PT05M'); // 10 minutes interval
+                                    $period = new DatePeriod($start, $interval, $end);
+                                    ?>
+                                    @foreach ($period as $time)
+                                    <option value="{{ $time->format('H:i') }}">{{ $time->format('H:i') }}</option>
+                                    @endforeach
+                                </select>
+
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Remarks</label>
-                                <textarea name="case_remarks" rows="2" cols="20" id="case_remarks" class="form-control" placeholder="Remarks"></textarea>
+                                <textarea name="remarks" rows="2" cols="20" id="remarks" class="form-control" placeholder="Remarks">Test Remark</textarea>
                             </div>
 
                         </div>
@@ -147,54 +187,66 @@ Create Case Create - Admin Panel
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
-        // var baseUrl = "{{ url('/') }}";
-
-        $('#selectBank').on('change', function(e) {
-            var bankId = $(this).val();
-            $.ajax({
-                url: "{{ route('admin.cases.getProducts')}}",
-                type: 'GET',
-                data: {
-                    bankId: bankId,
-                    _token: '{{ csrf_token() }}' // Add CSRF token fsor security
-                },
-                success: function(response) {
-                    if (response.error) {
-                        alert(response.error);
-                    } else {
-                        alert('Request successful: ' + JSON.stringify(response));
-                    }
-                },
-                error: function() {
-                    alert('Request failed');
-                }
-            });
-        });
-    });
-</script>
-<!-- <script>
-    $(document).ready(function() {
         var baseUrl = "{{ url('/') }}";
         $('#selectBank').on('change', function(e) {
-            var bankId = $(this).val(); // Get the selected bank ID
-            // alert(bankId);
+            var bankId = $(this).val();
+            var customGetPath = "{{ route('admin.case.item','ID')}}";
+            customGetPath = customGetPath.replace('ID', bankId);
             $.ajax({
-                url: baseUrl + "/admin/cases/getProducts",
+                url: customGetPath,
                 type: 'GET',
-                data: {
-                    bankId: bankId, // Use the selected bank ID
-                    // _token: $('meta[name="csrf-token"]').attr('content') // Add CSRF token for security
-                },
                 success: function(response) {
-                    if (response.success) {
-                        alert('Request successful');
-                    }
+                    var select = $('#productSelect');
+                    select.empty(); // Clear any existing options
+                    select.append('<option value="">--Select Option--</option>'); // Add default option
+
+                    $.each(response, function(key, products) {
+                        $.each(products, function(index, product) {
+                            console.log(product);
+                            var option = $('<option></option>')
+                                .attr('value', product.id)
+                                .text(product.name + ' (' + product.product_code + ')');
+                            select.append(option);
+                        });
+                    });
                 },
                 error: function() {
                     alert('Request failed');
                 }
             });
         });
-    }); 
-</script>-->
+
+
+        $(document).on('click', '.fytpe_checkbox', function() {
+            var isChecked = $(this).prop('checked');
+            var relName = $(this).attr('rel-name');
+            if (isChecked) {
+                console.log();
+                $('.' + relName + "_section").removeClass('d-none');
+            } else {
+                $('.' + relName + "_section").addClass('d-none');
+            }
+        });
+        singleAgentCheckBox();
+
+        $(document).on('click', '.singleAgentCheckBox', function() {
+            singleAgentCheckBox();
+        });
+
+
+        function singleAgentCheckBox() {
+            $(".singleAgentSection").addClass('d-none');
+            var isChecked = $(".singleAgentCheckBox").prop('checked');
+            var relName = $(".fytpe_checkbox").attr('rel-name');
+            // debugger
+            if (isChecked) {
+                $(".singleAgentSection").removeClass('d-none');
+                $(".multiAgentSection").addClass('d-none');
+            } else {
+                $(".singleAgentSection").addClass('d-none');
+                // $(".multiAgentSection").removeClass('d-none');
+            }
+        }
+    });
+</script>
 @endsection

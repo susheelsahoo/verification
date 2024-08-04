@@ -6,32 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCasesFiTypesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('cases_fi_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('case_id');
+            $table->unsignedBigInteger('case_id');
             $table->integer('fi_type_id');
-            $table->integer('mobile');
+            $table->string('mobile');
             $table->text('address');
             $table->integer('pincode');
             $table->text('land_mark');
+            $table->integer('user_id');
             $table->timestamps();
+
+
+            // Define the foreign key constraint
+            $table->foreign('case_id')->references('id')->on('cases')->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
+        Schema::table('cases_fi_types', function (Blueprint $table) {
+            // Drop the foreign key constraint
+            $table->dropForeign(['case_id']);
+        });
+
+        // Drop the table
         Schema::dropIfExists('cases_fi_types');
     }
 }

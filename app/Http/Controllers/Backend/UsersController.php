@@ -20,7 +20,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $session_id  = Auth::guard('admin')->user()->id;
+        $users = User::where('admin_id', $session_id)->get();
         return view('backend.pages.users.index', compact('users'));
     }
 

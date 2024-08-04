@@ -51,7 +51,9 @@ Cases - Admin Panel
                             <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th width="5%">Sl</th>
+                                    <th width="10%">Refrence Number</th>
                                     <th width="10%">Name</th>
+                                    <th width="10%">amount</th>
                                     <th width="15%">Action</th>
                                 </tr>
                             </thead>
@@ -59,7 +61,9 @@ Cases - Admin Panel
                                 @foreach ($cases as $user)
                                 <tr>
                                     <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->refrence_number }}</td>
+                                    <td>{{ $user->applicant_name }}</td>
+                                    <td>{{ $user->amount }}</td>
                                     <td>
                                         <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $user->id) }}">Edit</a>
 
