@@ -24,7 +24,7 @@ class BanksController extends Controller
     public function index()
     {
         $banks = Bank::all();
-        return view('backend.pages.Banks.index', compact('banks'));
+        return view('backend.pages.banks.index', compact('banks'));
     }
 
     /**
