@@ -31,13 +31,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Backend\DashboardController@index')->name('admin.dashboard');
     Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.cases']);
     Route::get('cases/getList/{id}', 'Backend\CasesController@getItem')->name('admin.case.item');
+    Route::get('cases/importExportView', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
+    Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
+    Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
     Route::resource('reports', 'Backend\RolesController', ['names' => 'admin.reports']);
     Route::resource('fitypes', 'Backend\FITypesController', ['names' => 'admin.fitypes']);
-    Route::resource('products','Backend\ProductsController', ['names' => 'admin.products']);
+    Route::resource('products', 'Backend\ProductsController', ['names' => 'admin.products']);
     Route::resource('banks', 'Backend\BanksController', ['names' => 'admin.banks']);
     Route::resource('roles', 'Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
-    Route::resource('admins','Backend\AdminsController', ['names' => 'admin.admins']);
+    Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);
 
     // Login Routes
     Route::get('/login', 'Backend\Auth\LoginController@showLoginForm')->name('admin.login');

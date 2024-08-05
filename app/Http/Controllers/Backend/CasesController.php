@@ -232,4 +232,45 @@ class CasesController extends Controller
             return response()->json(['error' => 'Bank ID not provided.'], 400);
         }
     }
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function importExportView($bankId = 1)
+    {
+        $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+            ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+            ->where('bpm.bank_id', $bankId)
+            ->where('products.status', '1')
+            ->get()->toArray();
+
+
+        if ($bankId !== null) {
+            return response()->json(['AvailbleProduct' => $AvailbleProduct]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+        // return view('backend.pages.cases.import', compact('cases'));
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function export()
+    {
+        dd('sssssssssssssssssssssssssssssss');
+        return "ssuheee";
+        // return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function import()
+    {
+        dd('sssssssssssssssssssssssssssssss');
+
+        // Excel::import(new UsersImport, request()->file('file'));
+
+        return back();
+    }
 }
