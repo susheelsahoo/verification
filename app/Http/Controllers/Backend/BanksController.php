@@ -35,7 +35,7 @@ class BanksController extends Controller
     public function create()
     {
         $products  = Product::all();
-        return view('backend.pages.Banks.create', compact('products'));
+        return view('backend.pages.banks.create', compact('products'));
     }
 
     /**
@@ -95,7 +95,7 @@ class BanksController extends Controller
         // Load all available products
         $products  = Product::all();
 
-        return view('backend.pages.Banks.edit', compact('bank', 'products'));
+        return view('backend.pages.banks.edit', compact('bank', 'products'));
     }
 
     /**
