@@ -11,6 +11,8 @@ use Spatie\Permission\Traits\HasRoles;
 class Bank extends Authenticatable
 {
     use Notifiable, HasRoles;
+
+    public $table = "banks";
     /**
      * Set the default guard for this model.
      *
