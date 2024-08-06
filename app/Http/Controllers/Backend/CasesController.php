@@ -187,10 +187,10 @@ class CasesController extends Controller
         $cases = Cases::find($id);
 
         // Validation Data
-        $request->validate([
-            'name' => 'required|max:50|unique:fi_Types,name,' . $id,
+        // $request->validate([
+        //     'name' => 'required|max:50|unique:fi_types,name,' . $id,
 
-        ]);
+        // ]);
 
 
         $cases->name = $request->name;

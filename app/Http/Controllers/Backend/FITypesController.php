@@ -46,7 +46,7 @@ class FITypesController extends Controller
     {
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50|unique:fi_Types,name',
+            'name' => 'required|max:50|unique:fi_types,name',
         ]);
         // Create New fitype
         $fitype = new FiType();
@@ -98,7 +98,7 @@ class FITypesController extends Controller
 
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50|unique:fi_Types,name,' . $id,
+            'name' => 'required|max:50|unique:fi_types,name,' . $id,
 
         ]);
 
