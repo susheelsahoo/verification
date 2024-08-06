@@ -86,7 +86,7 @@
                      @if ($usr->can('bank.create') || $usr->can('bank.view') || $usr->can('bank.edit') || $usr->can('bank.delete'))
                      <li>
                          <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
-                                 Banks
+                                 banks
                              </span></a>
                          <ul class="collapse {{ Route::is('admin.banks.create') || Route::is('admin.banks.index') || Route::is('admin.banks.edit') || Route::is('admin.banks.show') ? 'in' : '' }}">
                              @if ($usr->can('bank.view'))

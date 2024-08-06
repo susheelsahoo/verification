@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Banks - Admin Panel
+banks - Admin Panel
 @endsection
 
 @section('styles')
@@ -20,10 +20,10 @@ Banks - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Banks</h4>
+                <h4 class="page-title pull-left">banks</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>All Banks</span></li>
+                    <li><span>All banks</span></li>
                 </ul>
             </div>
         </div>
@@ -40,9 +40,9 @@ Banks - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title float-left">Banks List</h4>
+                    <h4 class="header-title float-left">banks List</h4>
                     <p class="float-right mb-2">
-                        <a class="btn btn-primary text-white" href="{{ route('admin.banks.create') }}">Create New Banks</a>
+                        <a class="btn btn-primary text-white" href="{{ route('admin.banks.create') }}">Create New banks</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">

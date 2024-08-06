@@ -49,16 +49,16 @@ class BanksController extends Controller
         // Validation Data
         $request->validate([
             'name' => 'required|max:50',
-            'branch_code' => 'required|max:50|unique:Banks,branch_code',
+            'branch_code' => 'required|max:50|unique:banks,branch_code',
         ]);
-        // Create New Banks
-        $Banks = new Bank();
-        $Banks->name         = $request->name;
-        $Banks->branch_code  = $request->branch_code;
-        $Banks->created_by   = Auth::guard('admin')->user()->id;
-        $Banks->updated_by   = Auth::guard('admin')->user()->id;
-        $Banks->save();
-        $bank_id = $Banks->id;
+        // Create New banks
+        $banks = new Bank();
+        $banks->name         = $request->name;
+        $banks->branch_code  = $request->branch_code;
+        $banks->created_by   = Auth::guard('admin')->user()->id;
+        $banks->updated_by   = Auth::guard('admin')->user()->id;
+        $banks->save();
+        $bank_id = $banks->id;
         foreach ($request->bank_products as $product_id) {
 
             $mapping = new BankProductMapping;
@@ -107,18 +107,18 @@ class BanksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Create New Banks
-        $Banks = Bank::find($id);
+        // Create New banks
+        $banks = Bank::find($id);
 
         // Validation Data
         $request->validate([
             'name' => 'required|max:50',
-            'branch_code' => 'required|max:50|unique:Banks,branch_code,' . $id,
+            'branch_code' => 'required|max:50|unique:banks,branch_code,' . $id,
         ]);
 
-        $Banks->name = $request->name;
-        $Banks->branch_code = $request->branch_code;
-        $Banks->save();
+        $banks->name = $request->name;
+        $banks->branch_code = $request->branch_code;
+        $banks->save();
 
         session()->flash('success', 'Bank has been updated !!');
         return back();
@@ -132,9 +132,9 @@ class BanksController extends Controller
      */
     public function destroy($id)
     {
-        $Banks = Bank::find($id);
-        if (!is_null($Banks)) {
-            $Banks->delete();
+        $banks = Bank::find($id);
+        if (!is_null($banks)) {
+            $banks->delete();
         }
 
         session()->flash('success', 'Bank has been deleted !!');

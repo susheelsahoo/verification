@@ -25,7 +25,7 @@ Bank Edit - Admin Panel
                 <h4 class="page-title pull-left">Product Create</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.banks.index') }}">All Banks</a></li>
+                    <li><a href="{{ route('admin.banks.index') }}">All banks</a></li>
                     <li><span>Edit Bank - {{ $bank->name }}</span></li>
                 </ul>
             </div>
