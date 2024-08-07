@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Fi Type Create - Admin Panel
+Import Case - Admin Panel
 @endsection
 
 @section('styles')
@@ -22,11 +22,11 @@ Fi Type Create - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Fi Type Create</h4>
+                <h4 class="page-title pull-left">Import Case</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.fitypes.index') }}">All FI Type</a></li>
-                    <li><span>Create Fi Type</span></li>
+                    <li><a href="{{ route('admin.fitypes.index') }}">All Case</a></li>
+                    <li><span>Import Case</span></li>
                 </ul>
             </div>
         </div>
@@ -43,18 +43,18 @@ Fi Type Create - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Create New FI Type</h4>
+                    <h4 class="header-title">Import Case</h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.fitypes.store') }}" method="POST">
+                    <form action="{{ route('admin.case.import') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Fi Type Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter FI Name">
+                                <label for="name">Import Case</label>
+                                <input type="file" class="form-control" name="name">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Fi Type</button>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Import Case</button>
                     </form>
                 </div>
             </div>

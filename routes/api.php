@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BanksController;
+use App\Http\Controllers\Api\CasesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,11 +23,16 @@ use App\Http\Controllers\Api\AuthController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/getBank', [BanksController::class, 'getBank']);
+Route::get('/getFiType', [BanksController::class, 'getFiType']);
+Route::get('/getProduct/{id}', [BanksController::class, 'getProduct']);
+Route::post('/cases/create', [CasesController::class, 'storeCase']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/blogs', [BlogController::class, 'index']);
-    Route::post('/blogs', [BlogController::class, 'store']);
-    Route::get('/blogs/{id}', [BlogController::class, 'show']);
-    Route::put('/blogs/{id}', [BlogController::class, 'update']);
-    Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+
+    // Route::get('/cases', [BlogController::class, 'index']);
+    // // Route::post('/cases/create', [BlogController::class, 'store']);
+    // Route::get('/cases/{id}', [BlogController::class, 'show']);
+    // Route::put('/cases/{id}', [BlogController::class, 'update']);
+    // Route::delete('/cases/{id}', [BlogController::class, 'destroy']);
 });

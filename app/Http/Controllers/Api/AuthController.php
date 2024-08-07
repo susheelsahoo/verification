@@ -21,7 +21,6 @@ class AuthController extends Controller
 
         // Attempt to authenticate the user
         $credentials = $request->only('email', 'password');
-
         if (!Auth::attempt($credentials)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],

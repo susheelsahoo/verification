@@ -1,25 +1,88 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-// use App\Models\Fitype;
-use App\Models\Cases;
-use App\Models\Bank;
-use App\Models\Product;
-use App\Models\FiType;
-use App\Models\ApplicationType;
-use App\Models\User;
-use App\Models\casesFiType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Bank;
+use App\Models\FiType;
+use App\Models\Product;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
+
+// use App\Models\Cases;
+// use App\Models\Bank;
+// use App\Models\Product;
+// use App\Models\FiType;
+// use App\Models\ApplicationType;
+// use App\Models\User;
+// use App\Models\casesFiType;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\Hash;
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
 
 class CasesController extends Controller
 {
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCase(Request $request)
+    {
+        // Validation Data
+        // $request->validate([
+        //     'applicant_name' => 'required|max:50|',
+        // ]);
+        // Create New cases
+        dd(json_encode($request->all()));
+        $cases = new Cases();
+        $cases->bank_id             = $request->bank_id;
+        $cases->product_id          = $request->product_id;
+        $cases->application_type    = $request->application_type;
+        $cases->refrence_number     = $request->refrence_number;
+        $cases->applicant_name      = $request->applicant_name;
+        $cases->source_channel      = '1';
+        $cases->amount              = $request->amount;
+        $cases->vehicle             = $request->vehicle;
+        $cases->co_applicant_name   = $request->co_applicant_name;
+        $cases->guarantee_name      = $request->guarantee_name;
+        $cases->geo_limit           = $request->geo_limit;
+        $cases->tat_time            = $request->tat_time;
+        $cases->remarks             = $request->remarks;
+        $cases->created_by          = Auth::guard('admin')->user()->id;
+        $cases->updated_by          = Auth::guard('admin')->user()->id;
+        // $cases->name         = $request->name;
+        $cases->save();
+        $cases_id = $cases->id;
+
+        foreach ($request->fi_type_id as $fi_type_id) {
+
+            if (!empty($fi_type_id['id'])) {
+                $casesFiType = new casesFiType;
+                $casesFiType->case_id       = $cases_id;
+                $casesFiType->fi_type_id    = $fi_type_id['id'];
+                $casesFiType->mobile        = $fi_type_id['phone_number'];
+                $casesFiType->address       = $fi_type_id['address'];
+                $casesFiType->pincode       = $fi_type_id['pincode'];
+                $casesFiType->land_mark     = $fi_type_id['landmark'];
+                $casesFiType->user_id       = $fi_type_id['agent'];
+                $casesFiType->save();
+            }
+        }
+
+        session()->flash('success', 'Case has been created !!');
+        return redirect()->route('admin.cases.index');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -97,58 +160,7 @@ class CasesController extends Controller
         return view('backend.pages.cases.create', compact('banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'singleAgent', 'AgentsFeild'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // Validation Data
-        // $request->validate([
-        //     'applicant_name' => 'required|max:50|',
-        // ]);
-        // Create New cases
-        dd(json_encode($request->all()));
-        $cases = new Cases();
-        $cases->bank_id             = $request->bank_id;
-        $cases->product_id          = $request->product_id;
-        $cases->application_type    = $request->application_type;
-        $cases->refrence_number     = $request->refrence_number;
-        $cases->applicant_name      = $request->applicant_name;
-        $cases->source_channel      = '1';
-        $cases->amount              = $request->amount;
-        $cases->vehicle             = $request->vehicle;
-        $cases->co_applicant_name   = $request->co_applicant_name;
-        $cases->guarantee_name      = $request->guarantee_name;
-        $cases->geo_limit           = $request->geo_limit;
-        $cases->tat_time            = $request->tat_time;
-        $cases->remarks             = $request->remarks;
-        $cases->created_by          = Auth::guard('admin')->user()->id;
-        $cases->updated_by          = Auth::guard('admin')->user()->id;
-        // $cases->name         = $request->name;
-        $cases->save();
-        $cases_id = $cases->id;
 
-        foreach ($request->fi_type_id as $fi_type_id) {
-
-            if (!empty($fi_type_id['id'])) {
-                $casesFiType = new casesFiType;
-                $casesFiType->case_id       = $cases_id;
-                $casesFiType->fi_type_id    = $fi_type_id['id'];
-                $casesFiType->mobile        = $fi_type_id['phone_number'];
-                $casesFiType->address       = $fi_type_id['address'];
-                $casesFiType->pincode       = $fi_type_id['pincode'];
-                $casesFiType->land_mark     = $fi_type_id['landmark'];
-                $casesFiType->user_id       = $fi_type_id['agent'];
-                $casesFiType->save();
-            }
-        }
-
-        session()->flash('success', 'Case has been created !!');
-        return redirect()->route('admin.cases.index');
-    }
 
     /**
      * Display the specified resource.
