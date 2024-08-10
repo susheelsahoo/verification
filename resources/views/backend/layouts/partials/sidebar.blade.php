@@ -32,6 +32,9 @@
                              @endif
                              @if ($usr->can('case.create'))
                              <li class="{{ Route::is('admin.cases.create')  ? 'active' : '' }}"><a href="{{ route('admin.cases.create') }}">Create Case</a></li>
+                             <li class="{{ Route::currentRouteName() == 'admin.case.import.view' ? 'active' : '' }}">
+                                 <a href="{{ route('admin.case.import.view', ['id' => '1']) }}">Import Case</a>
+                             </li>
                              @endif
 
                          </ul>

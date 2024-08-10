@@ -46,12 +46,13 @@ Import Case - Admin Panel
                     <h4 class="header-title">Import Case</h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.case.import') }}" method="POST">
+
+                    <form action="{{ route('admin.case.import') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Import Case</label>
-                                <input type="file" class="form-control" name="name">
+                                <input type="file" name="file" accept=".csv, .xls, .xlsx">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Import Case</button>

@@ -1,0 +1,77 @@
+
+
+Get Banks
+Method Get
+http://127.0.0.1:8000/api/getBank
+
+------------------------------------------------------------
+Get Product
+Method Get
+http://127.0.0.1:8000/api/getProduct/1
+
+------------------------------------------------------------
+Get FI Type
+Method Get
+http://127.0.0.1:8000/api/getFiType
+
+------------------------------------------------------------
+Create Case
+Method POST
+http://127.0.0.1:8000/api/cases/create
+------------------------------------------------------------
+{
+  "bank_id": "1",
+  "product_id": "1",
+  "fi_type_id": [
+    {
+      "id": "1",
+      "address": "Address1",
+      "pincode": "2013011",
+      "phone_number": "9876543211",
+      "landmark": "Landmark1",
+      "agent": "1"
+    },
+    {
+      "id": "2",
+      "address": "Address2",
+      "pincode": "2013012",
+      "phone_number": "9876543212",
+      "landmark": "Landmark2",
+      "agent": "1"
+    },
+    {
+      "address": "Address3",
+      "pincode": "2013013",
+      "phone_number": "9876543213",
+      "landmark": "Landmark3",
+      "agent": null
+    },
+    {
+      "address": "Address4",
+      "pincode": "2013014",
+      "phone_number": "9876543214",
+      "landmark": "Landmark4",
+      "agent": null
+    },
+    {
+      "address": "Address5",
+      "pincode": "2013015",
+      "phone_number": "9876543215",
+      "landmark": "Landmark5",
+      "agent": null
+    }
+  ],
+  "application_type": "1",
+  "refrence_number": "EP01010",
+  "applicant_name": "Susheel Sahoo",
+  "amount": "100000",
+  "vehicle": "Honda",
+  "co_applicant_name": "Joyti Sahu",
+  "guarantee_name": "Ankit Sahu",
+  "singleAgent": null,
+  "geo_limit": "Local",
+  "tat_time": "00:55",
+  "remarks": "Test Remark"
+}
+
+------------------------------------------------------------

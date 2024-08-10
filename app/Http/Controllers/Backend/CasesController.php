@@ -11,6 +11,9 @@ use App\Models\FiType;
 use App\Models\ApplicationType;
 use App\Models\User;
 use App\Models\casesFiType;
+use App\Imports\CasesImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\HeadingRowImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,11 +109,11 @@ class CasesController extends Controller
     public function store(Request $request)
     {
         // Validation Data
-        // $request->validate([
-        //     'applicant_name' => 'required|max:50|',
-        // ]);
+        $request->validate([
+            'applicant_name' => 'required|max:50|',
+        ]);
         // Create New cases
-        dd(json_encode($request->all()));
+
         $cases = new Cases();
         $cases->bank_id             = $request->bank_id;
         $cases->product_id          = $request->product_id;
@@ -244,13 +247,103 @@ class CasesController extends Controller
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function import()
+    public function import(Request $request)
     {
-        dd('aaaaaaaaaaaaaaaaaaaaaa');
-        return "ssuheee";
-        // return Excel::download(new UsersExport, 'users.xlsx');
+        // $request->validate([
+        //     'file' => 'required|mimes:xlsx,csv|max:2048',
+        // ]);
+
+        // Load the file and iterate through its rows
+        $rows = Excel::toArray([], $request->file('file'));
+        foreach ($rows[0] as $key => $row) {
+            if ($key > 1 && !empty($key[0])) {
+                $productCode = $row[3];
+                $product = Product::where('product_code', '=', $productCode)->first();
+                if ($product) {
+                    $product_id = $product['id'];
+                } else {
+                    $product = new Product();
+                    $product->name = $productCode;
+                    $product->product_code = $productCode;
+                    $product->created_by          = '0';
+                    $product->updated_by          = '0';
+                    $product->save();
+                    $product_id = $product->id;
+                }
+                $cases = new Cases();
+                $cases->bank_id             = '1';
+                $cases->product_id          = $product_id;
+                $cases->application_type    = '3';
+                $cases->refrence_number     = $row['4'];
+                $cases->applicant_name      = $row['5'];
+                $cases->source_channel      = '1';
+                $cases->amount              = '0';
+                $cases->created_by          = '0';
+                $cases->updated_by          = '0';
+                $cases->save();
+                $cases_id = $cases->id;
+
+                $fitype_data = $row[6];
+                $fitype_details = FiType::where('name', '=', $fitype_data)->first();
+
+                if ($fitype_details) {
+                    $fitype_id = $fitype_details['id'];
+                } else {
+                    $fitype = new FiType();
+                    $fitype->name         = $fitype_data;
+                    $fitype->created_by   = '0';
+                    $fitype->updated_by   = '0';
+                    $fitype->save();
+                    $fitype_id = $fitype->id;
+                }
+                $casesFiType = new casesFiType;
+                $casesFiType->case_id       = $cases_id;
+                $casesFiType->fi_type_id    = $fitype_id;
+                $casesFiType->mobile        = $row['13'];
+                $casesFiType->address       = $row['8'];
+                $casesFiType->pincode       = $row['11'];
+                $casesFiType->land_mark     = $row['12'];
+                $casesFiType->user_id       = 1;
+                $casesFiType->save();
+            }
+        }
+        session()->flash('success', 'File imported successfully.');
+        return redirect()->route('admin.cases.index');
     }
 
+    private function importCSV($file)
+    {
+        if (($handle = fopen($file->getRealPath(), 'r')) !== FALSE) {
+            $header = fgetcsv($handle, 1000, ',');
+            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                $row = array_combine($header, $data);
+                DB::table('your_table')->insert([
+                    'column1' => $row['Header1'],
+                    'column2' => $row['Header2'],
+                    // more columns...
+                ]);
+            }
+            fclose($handle);
+        }
+    }
+
+    private function importExcel($file)
+    {
+        $spreadsheet = IOFactory::load($file->getRealPath());
+        $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+        $header = $sheetData[1];
+        unset($sheetData[1]); // Remove header row
+
+        foreach ($sheetData as $row) {
+            $data = array_combine($header, $row);
+            DB::table('your_table')->insert([
+                'column1' => $data['A'], // Adjust based on your Excel columns
+                'column2' => $data['B'],
+                // more columns...
+            ]);
+        }
+    }
     /**
      * @return \Illuminate\Support\Collection
      */
