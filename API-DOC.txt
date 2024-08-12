@@ -1,3 +1,13 @@
+Get Case with count
+Method Get
+http://127.0.0.1:8000/api/cases/show/count
+------------------------------------------------------------
+
+Get Case details with product id 
+Method Get
+http://127.0.0.1:8000/api/cases/list/1
+------------------------------------------------------------
+
 
 
 Get Banks

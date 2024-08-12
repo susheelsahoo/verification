@@ -35,6 +35,36 @@ class CasesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function ShowCaseCountWise()
+    {
+        $cases = DB::table('cases as c')
+            ->join('products as p', 'p.id', '=', 'c.product_id')
+            ->join('banks as b', 'b.id', '=', 'c.bank_id')
+            ->select('b.name as bank_name', 'p.id', 'p.name', DB::raw('COUNT(p.id) as total_count'))
+            ->groupBy('b.name', 'p.id', 'p.name') // Include all non-aggregated columns
+            ->orderBy('c.amount', 'asc')
+            ->get();
+
+        if ($cases !== null) {
+            return response()->json(['ShowCaseCountWise' => $cases]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
+
+    public function showCasebyProductId($id)
+    {
+        $cases = DB::table('cases')
+            ->where('product_id', $id)
+            ->get();
+
+        if ($cases !== null) {
+            return response()->json(['CaseList' => $cases]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
+
     public function storeCase(Request $request)
     {
         // Validation Data
@@ -81,6 +111,7 @@ class CasesController extends Controller
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.cases.index');
     }
+
 
 
     /**

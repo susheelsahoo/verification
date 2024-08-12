@@ -27,6 +27,8 @@ Route::get('/getBank', [BanksController::class, 'getBank']);
 Route::get('/getFiType', [BanksController::class, 'getFiType']);
 Route::get('/getProduct/{id}', [BanksController::class, 'getProduct']);
 Route::post('/cases/create', [CasesController::class, 'storeCase']);
+Route::post('/cases/show/count', [CasesController::class, 'ShowCaseCountWise']);
+Route::post('/cases/list/{id}', [CasesController::class, 'showCasebyProductId']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
