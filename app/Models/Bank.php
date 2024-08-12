@@ -12,7 +12,7 @@ class Bank extends Authenticatable
 {
     use Notifiable, HasRoles;
 
-    public $table = "banks";
+    protected $table = 'banks';
     /**
      * Set the default guard for this model.
      *
