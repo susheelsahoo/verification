@@ -64,10 +64,23 @@ class CasesController extends Controller
         }
     }
 
-    public function showCasebyProductId($id)
+    public function showCasebyProductId($product_id)
     {
         $cases = DB::table('cases')
-            ->where('product_id', $id)
+            ->where('product_id', $product_id)
+            ->get();
+
+        if ($cases !== null) {
+            return response()->json(['CaseList' => $cases]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
+
+    public function showCasebyId($case_id)
+    {
+        $cases = DB::table('cases')
+            ->where('id', $case_id)
             ->get();
 
         if ($cases !== null) {
