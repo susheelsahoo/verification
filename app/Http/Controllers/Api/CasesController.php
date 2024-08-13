@@ -35,15 +35,27 @@ class CasesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function ShowCaseCountWise()
+    public function ShowCaseCountWise($user_id)
     {
-        $cases = DB::table('cases as c')
+        // ALTER TABLE `cases`  ADD `status` ENUM('0','1','2','3') NOT NULL COMMENT '0->inprogress,1->resolve, 2->verified, 3->rejected'  AFTER `remarks`;
+
+        $cases = DB::table('cases_fi_types as cft')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
             ->join('products as p', 'p.id', '=', 'c.product_id')
             ->join('banks as b', 'b.id', '=', 'c.bank_id')
-            ->select('b.name as bank_name', 'p.id', 'p.name', DB::raw('COUNT(p.id) as total_count'))
-            ->groupBy('b.name', 'p.id', 'p.name') // Include all non-aggregated columns
-            ->orderBy('c.amount', 'asc')
+            ->select(
+                'p.id as product_id',
+                'ft.name as fi_type',
+                'b.name as bank_name',
+                'p.name as product_name',
+                DB::raw('COUNT(p.id) as total_count')
+            )
+            ->where('cft.user_id', $user_id)
+            ->where('c.status', '0')
+            ->groupBy('ft.name', 'p.id', 'b.name', 'p.name')
             ->get();
+
 
         if ($cases !== null) {
             return response()->json(['ShowCaseCountWise' => $cases]);

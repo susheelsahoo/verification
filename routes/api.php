@@ -23,14 +23,15 @@ use App\Http\Controllers\Api\CasesController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/getBank', [BanksController::class, 'getBank']);
-Route::get('/getFiType', [BanksController::class, 'getFiType']);
-Route::get('/getProduct/{id}', [BanksController::class, 'getProduct']);
-Route::post('/cases/create', [CasesController::class, 'storeCase']);
-Route::post('/cases/show/count', [CasesController::class, 'ShowCaseCountWise']);
-Route::post('/cases/list/{id}', [CasesController::class, 'showCasebyProductId']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/getFiType', [BanksController::class, 'getFiType']);
+    Route::get('/getBank', [BanksController::class, 'getBank']);
+    Route::get('/getProduct/{id}', [BanksController::class, 'getProduct']);
+    Route::post('/cases/create/{id}', [CasesController::class, 'storeCase']);
+    Route::get('/cases/show/count/{id}', [CasesController::class, 'ShowCaseCountWise']);
+    Route::get('/cases/list/{id}', [CasesController::class, 'showCasebyProductId']);
+
 
     // Route::get('/cases', [BlogController::class, 'index']);
     // // Route::post('/cases/create', [BlogController::class, 'store']);

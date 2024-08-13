@@ -37,10 +37,11 @@ class AuthController extends Controller
 
         // Return a JSON response with the token and user details
         return response()->json([
-            'status' => 200,
-            'msg'   => "You have login successsfully",
-            'token_type' => 'Bearer',
-            'access_token' => $token,
+            'status'        => 200,
+            'msg'           => "You have login successsfully",
+            'token_type'    => 'Bearer',
+            'access_token'  => $token,
+            'user_id'       => $user->id,
         ]);
     }
 
