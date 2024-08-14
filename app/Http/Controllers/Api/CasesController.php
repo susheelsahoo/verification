@@ -54,7 +54,7 @@ class CasesController extends Controller
             ->where('cft.user_id', $user_id)
             ->where('c.status', '0')
             ->groupBy('ft.name', 'p.id', 'b.name', 'p.name')
-            ->get();
+            ->toSql();
 
 
         if ($cases !== null) {
