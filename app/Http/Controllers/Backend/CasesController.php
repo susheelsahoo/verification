@@ -120,7 +120,6 @@ class CasesController extends Controller
         $cases->application_type    = $request->application_type;
         $cases->refrence_number     = $request->refrence_number;
         $cases->applicant_name      = $request->applicant_name;
-        $cases->source_channel      = '1';
         $cases->status              = '0';
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
@@ -277,7 +276,6 @@ class CasesController extends Controller
                 $cases->application_type    = '3';
                 $cases->refrence_number     = $row['4'];
                 $cases->applicant_name      = $row['5'];
-                $cases->source_channel      = '1';
                 $cases->amount              = '0';
                 $cases->created_by          = '0';
                 $cases->updated_by          = '0';

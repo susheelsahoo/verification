@@ -104,7 +104,6 @@ class CasesController extends Controller
         $cases->application_type    = $request->application_type;
         $cases->refrence_number     = $request->refrence_number;
         $cases->applicant_name      = $request->applicant_name;
-        $cases->source_channel      = '1';
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
         $cases->co_applicant_name   = $request->co_applicant_name;

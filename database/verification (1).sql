@@ -139,7 +139,7 @@ CREATE TABLE `cases` (
   `bank_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `refrence_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `source_channel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `applicant_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(8,2) NOT NULL,
   `vehicle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE `cases` (
 -- Dumping data for table `cases`
 --
 
-INSERT INTO `cases` (`id`, `application_type`, `bank_id`, `product_id`, `refrence_number`, `source_channel`, `applicant_name`, `amount`, `vehicle`, `co_applicant_name`, `guarantee_name`, `geo_limit`, `tat_time`, `remarks`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+INSERT INTO `cases` (`id`, `application_type`, `bank_id`, `product_id`, `refrence_number`, `status`, `applicant_name`, `amount`, `vehicle`, `co_applicant_name`, `guarantee_name`, `geo_limit`, `tat_time`, `remarks`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (1, '1', 1, 1, 'EP01010', '1', 'Susheel Sahoo', 100000.00, 'Honda', 'Joyti Sahu', 'Ankit Sahu', 'Local', '00:35', 'Test Remark', 1, 1, '2024-08-04 07:12:37', '2024-08-04 07:12:37'),
 (2, '1', 1, 1, 'EP01010', '1', 'Susheel Sahoo', 100000.00, 'Honda', 'Joyti Sahu', 'Ankit Sahu', 'Local', '00:35', 'Test Remark', 1, 1, '2024-08-04 07:14:02', '2024-08-04 07:14:02'),
 (3, '1', 1, 1, 'EP01010', '1', 'Susheel Sahoo', 100000.00, 'Honda', 'Joyti Sahu', 'Ankit Sahu', 'Local', '00:35', 'Test Remark', 1, 1, '2024-08-04 07:15:00', '2024-08-04 07:15:00');

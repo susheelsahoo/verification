@@ -19,7 +19,8 @@ class CreateCasesTable extends Migration
             $table->integer('bank_id');
             $table->integer('product_id');
             $table->string('refrence_number');
-            $table->string('source_channel');
+            $table->enum('status', ['0', '1', '2', '3'])
+                ->comment('0->inprogress,1->resolve,2->verified,3->rejected');
             $table->string('applicant_name');
             $table->float('amount');
             $table->string('vehicle');
