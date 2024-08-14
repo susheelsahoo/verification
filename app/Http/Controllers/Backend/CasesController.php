@@ -121,6 +121,7 @@ class CasesController extends Controller
         $cases->refrence_number     = $request->refrence_number;
         $cases->applicant_name      = $request->applicant_name;
         $cases->source_channel      = '1';
+        $cases->status              = '0';
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
         $cases->co_applicant_name   = $request->co_applicant_name;
