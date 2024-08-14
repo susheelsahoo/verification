@@ -204,7 +204,7 @@ Create Case Create - Admin Panel
                         $.each(products, function(index, product) {
                             console.log(product);
                             var option = $('<option></option>')
-                                .attr('value', product.id)
+                                .attr('value', product.product_id)
                                 .text(product.name + ' (' + product.product_code + ')');
                             select.append(option);
                         });
