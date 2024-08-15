@@ -152,47 +152,47 @@ class CasesController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors(), 400]);
         }
+
+
+        // Get the current year and month
+        $year = Carbon::now()->format('Y');
+        $month = Carbon::now()->format('m');
+
+        // Create the path to store the image
+        $image_1 = $image_2 = $image_3 = $image_4 = $image_5 = $image_6 = $image_7 = $image_8 = $image_9 = NULL;
+        if ($request->hasFile('image_1')) {
+            $image_1 = $request->file('image_1')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_2')) {
+            $image_2 = $request->file('image_2')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_3')) {
+            $image_3 = $request->file('image_3')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_4')) {
+            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_4')) {
+            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_5')) {
+            $image_5 = $request->file('image_5')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_6')) {
+            $image_6 = $request->file('image_6')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_7')) {
+            $image_7 = $request->file('image_7')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_8')) {
+            $image_8 = $request->file('image_8')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_9')) {
+            $image_9 = $request->file('image_9')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        $case_fi_type_id = $data['case_fi_type_id'];
+
         try {
-
-            // Get the current year and month
-            $year = Carbon::now()->format('Y');
-            $month = Carbon::now()->format('m');
-
-            // Create the path to store the image
-            $image_1 = $image_2 = $image_3 = $image_4 = $image_5 = $image_6 = $image_7 = $image_8 = $image_9 = NULL;
-            if ($request->hasFile('image_1')) {
-                $image_1 = $request->file('image_1')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_2')) {
-                $image_2 = $request->file('image_2')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_3')) {
-                $image_3 = $request->file('image_3')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_4')) {
-                $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_4')) {
-                $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_5')) {
-                $image_5 = $request->file('image_5')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_6')) {
-                $image_6 = $request->file('image_6')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_7')) {
-                $image_7 = $request->file('image_7')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_8')) {
-                $image_8 = $request->file('image_8')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            if ($request->hasFile('image_9')) {
-                $image_9 = $request->file('image_9')->store("images/cases/{$year}/{$month}", 'public');
-            }
-            $case_fi_type_id = $data['case_fi_type_id'];
-
-
             $cases = casesFiType::find($case_fi_type_id);
 
             $cases->image_1 = $image_1;
