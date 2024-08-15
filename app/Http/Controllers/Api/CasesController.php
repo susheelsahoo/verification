@@ -192,26 +192,19 @@ class CasesController extends Controller
         }
         $case_fi_type_id = $data['case_fi_type_id'];
 
-        try {
-            $cases = casesFiType::find($case_fi_type_id);
 
-            $cases->image_1 = $image_1;
-            $cases->image_2 = $image_2;
-            $cases->image_3 = $image_3;
-            $cases->image_4 = $image_4;
-            $cases->image_5 = $image_5;
-            $cases->image_6 = $image_6;
-            $cases->image_7 = $image_7;
-            $cases->image_8 = $image_8;
-            $cases->image_9 = $image_9;
-            $cases->save();
-            return response()->json(['message' => 'Image uploaded successfully'], 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => $e->errors()], 400);
-        }
-        // } else {
-        //     return response()->json(['error' => 'Case Fi_type Id in invaild', 400]);
-        // }
+        $cases = casesFiType::findOrFail($case_fi_type_id);
+        $cases->image_1 = $image_1;
+        $cases->image_2 = $image_2;
+        $cases->image_3 = $image_3;
+        $cases->image_4 = $image_4;
+        $cases->image_5 = $image_5;
+        $cases->image_6 = $image_6;
+        $cases->image_7 = $image_7;
+        $cases->image_8 = $image_8;
+        $cases->image_9 = $image_9;
+        $cases->save();
+        return response()->json(['message' => 'Image uploaded successfully'], 200);
     }
     public function storeCase(Request $request)
     {
