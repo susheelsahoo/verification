@@ -30,7 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/getProduct/{id}', [BanksController::class, 'getProduct']);
     Route::post('/cases/create/{id}', [CasesController::class, 'storeCase']);
     Route::get('/cases/show/count/{id}', [CasesController::class, 'ShowCaseCountWise']);
-    Route::get('/cases/list/{id}', [CasesController::class, 'showCasebyProductId']);
+    Route::get('/cases/list/{fi}/{id}', [CasesController::class, 'showCasebyProductId']);
     Route::get('/cases/{id}', [CasesController::class, 'showCasebyId']);
 
 

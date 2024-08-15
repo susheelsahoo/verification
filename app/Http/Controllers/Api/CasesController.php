@@ -64,10 +64,32 @@ class CasesController extends Controller
         }
     }
 
-    public function showCasebyProductId($product_id)
+    public function showCasebyProductId($fi_type, $product_id)
     {
-        $cases = DB::table('cases')
-            ->where('product_id', $product_id)
+        // dd($fi_type);
+        // SELECT p.id as product_id, p.name as product_name, c.applicant_name, c.created_at, c.refrence_number, cft.address, cft.pincode
+        // FROM products p 
+        // INNER JOIN cases as c ON c.product_id = p.id
+        // INNER JOIN cases_fi_types as cft ON cft.case_id = c.id
+        // INNER JOIN fi_types ft on ft.id = cft.fi_type_id
+        // WHERE p.id = 1 AND ft.name = 'BV'
+        $cases = DB::table('products as p')
+            ->join('cases as c', 'c.product_id', '=', 'p.id')
+            ->join('cases_fi_types as cft', 'cft.case_id', '=', 'c.id')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->select(
+                'p.id as product_id',
+                'c.id as case_id',
+                'cft.id as case_fi_type_id',
+                'p.name as product_name',
+                'c.applicant_name',
+                'c.created_at',
+                'c.refrence_number',
+                'cft.address',
+                'cft.pincode'
+            )
+            ->where('p.id', $product_id)
+            ->where('ft.name', $fi_type)
             ->get();
 
         if ($cases !== null) {
@@ -77,11 +99,27 @@ class CasesController extends Controller
         }
     }
 
-    public function showCasebyId($case_id)
+    public function showCasebyId($cft_id)
     {
-        $cases = DB::table('cases')
-            ->where('id', $case_id)
-            ->get();
+
+        //SELECT c.* , cft.mobile, cft.address, cft.pincode, cft.land_mark, a.name as created_by
+        // FROM cases_fi_types as cft
+        // INNER JOIN cases as c ON c.id = cft.case_id
+        // INNER JOIN admins as a ON a.id = c.created_by
+        // WHERE cft.id = 2
+        $cases = DB::table('cases_fi_types as cft')
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
+            ->join('admins as a', 'a.id', '=', 'c.created_by')
+            ->select(
+                'c.*',
+                'cft.mobile',
+                'cft.address',
+                'cft.pincode',
+                'cft.land_mark',
+                'a.name as created_by'
+            )
+            ->where('cft.id', $cft_id)
+            ->first();
 
         if ($cases !== null) {
             return response()->json(['CaseList' => $cases]);
