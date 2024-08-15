@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Bank;
+use App\Models\casesFiType;
 use App\Models\FiType;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 // use App\Models\Cases;
 // use App\Models\Bank;
@@ -111,6 +113,7 @@ class CasesController extends Controller
             ->join('cases as c', 'c.id', '=', 'cft.case_id')
             ->join('admins as a', 'a.id', '=', 'c.created_by')
             ->select(
+                'cft.id as case_fi_type_id',
                 'c.*',
                 'cft.mobile',
                 'cft.address',
@@ -128,6 +131,78 @@ class CasesController extends Controller
         }
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        // Create New Cases
+        $data = $request->all();
+
+        $validator = Validator::make(
+            request()->all(),
+            array(
+                'case_fi_type_id'  =>       'required',
+            )
+        );
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 400]);
+        }
+        // Get the current year and month
+        $year = Carbon::now()->format('Y');
+        $month = Carbon::now()->format('m');
+
+        // Create the path to store the image
+        $image_1 = $image_2 = $image_3 = $image_4 = $image_5 = $image_6 = $image_7 = $image_8 = $image_9 = NULL;
+        if ($request->hasFile('image_1')) {
+            $image_1 = $request->file('image_1')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_2')) {
+            $image_2 = $request->file('image_2')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_3')) {
+            $image_3 = $request->file('image_3')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_4')) {
+            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_4')) {
+            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_5')) {
+            $image_5 = $request->file('image_5')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_6')) {
+            $image_6 = $request->file('image_6')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_7')) {
+            $image_7 = $request->file('image_7')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_8')) {
+            $image_8 = $request->file('image_8')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        if ($request->hasFile('image_9')) {
+            $image_9 = $request->file('image_9')->store("images/cases/{$year}/{$month}", 'public');
+        }
+        $case_fi_type_id = $data['case_fi_type_id'];
+
+        $cases = casesFiType::find($case_fi_type_id);
+        $cases->image_1 = $image_1;
+        $cases->image_2 = $image_2;
+        $cases->image_3 = $image_3;
+        $cases->image_4 = $image_4;
+        $cases->image_5 = $image_5;
+        $cases->image_6 = $image_6;
+        $cases->image_7 = $image_7;
+        $cases->image_8 = $image_8;
+        $cases->image_9 = $image_9;
+        $cases->save();
+        return response()->json(['message' => 'Image uploaded successfully'], 200);
+    }
     public function storeCase(Request $request)
     {
         // Validation Data
@@ -173,7 +248,6 @@ class CasesController extends Controller
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.cases.index');
     }
-
 
 
     /**
@@ -279,31 +353,6 @@ class CasesController extends Controller
     //     return view('backend.pages.cases.edit', compact('cases'));
     // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     // Create New Cases
-    //     $cases = Cases::find($id);
-
-    //     // Validation Data
-    //     // $request->validate([
-    //     //     'name' => 'required|max:50|unique:fi_types,name,' . $id,
-
-    //     // ]);
-
-
-    //     $cases->name = $request->name;
-    //     $cases->save();
-
-    //     session()->flash('success', 'FI Type has been updated !!');
-    //     return back();
-    // }
 
     /**
      * Remove the specified resource from storage.

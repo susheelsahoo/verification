@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/cases/show/count/{id}', [CasesController::class, 'ShowCaseCountWise']);
     Route::get('/cases/list/{fi}/{id}', [CasesController::class, 'showCasebyProductId']);
     Route::get('/cases/{id}', [CasesController::class, 'showCasebyId']);
+    Route::post('/cases/update', [CasesController::class, 'update']);
 
 
     // Route::get('/cases', [BlogController::class, 'index']);

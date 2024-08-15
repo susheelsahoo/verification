@@ -13,6 +13,8 @@ Method Get
 http://127.0.0.1:8000/api/cases/{case_fi_type_id}
 ------------------------------------------------------------
 
+ALTER TABLE `cases_fi_types` ADD `image_1` TEXT NULL AFTER `land_mark`, ADD `image_2` TEXT NULL AFTER `image_1`, ADD `image_3` TEXT NULL AFTER `image_2`, ADD `image_4` TEXT NULL AFTER `image_3`, ADD `image_5` TEXT NULL AFTER `image_4`, ADD `image_6` TEXT NULL AFTER `image_5`, ADD `image_7` TEXT NULL AFTER `image_6`, ADD `image_8` TEXT NULL AFTER `image_7`, ADD `image_9` TEXT NULL AFTER `image_8`;
+
 
 
 
