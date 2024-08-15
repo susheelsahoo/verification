@@ -1,16 +1,16 @@
 Get Case with count
 Method Get
-http://127.0.0.1:8000/api/cases/show/count/1
+http://127.0.0.1:8000/api/cases/show/count/{user_id}
 ------------------------------------------------------------
 
 Get Case details with product id 
 Method Get
-http://127.0.0.1:8000/api/cases/list/BV/1
+http://127.0.0.1:8000/api/cases/list/{fi_type}/{product_id}
 ------------------------------------------------------------
 
-Get Case details with case id 
+Get Case details with cases_fi_types id 
 Method Get
-http://127.0.0.1:8000/api/cases/1
+http://127.0.0.1:8000/api/cases/{case_fi_type_id}
 ------------------------------------------------------------
 
 
