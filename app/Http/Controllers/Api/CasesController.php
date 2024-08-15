@@ -190,6 +190,7 @@ class CasesController extends Controller
         }
         $case_fi_type_id = $data['case_fi_type_id'];
 
+
         $cases = casesFiType::find($case_fi_type_id);
         $cases->image_1 = $image_1;
         $cases->image_2 = $image_2;
