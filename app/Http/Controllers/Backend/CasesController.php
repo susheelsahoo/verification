@@ -240,8 +240,8 @@ class CasesController extends Controller
      */
     public function importExportView($bankId = 1)
     {
-        $cases = '';
-        return view('backend.pages.cases.import', compact('cases'));
+        $banks  = Bank::all();
+        return view('backend.pages.cases.import', compact('banks'));
     }
 
     /**
@@ -249,30 +249,14 @@ class CasesController extends Controller
      */
     public function import(Request $request)
     {
-        // $request->validate([
-        //     'file' => 'required|mimes:xlsx,csv|max:2048',
-        // ]);
-
-        // Load the file and iterate through its rows
+        $params = $request->all();
         $rows = Excel::toArray([], $request->file('file'));
+
         foreach ($rows[0] as $key => $row) {
-            if ($key > 1 && !empty($key[0])) {
-                $productCode = $row[3];
-                $product = Product::where('product_code', '=', $productCode)->first();
-                if ($product) {
-                    $product_id = $product['id'];
-                } else {
-                    $product = new Product();
-                    $product->name = $productCode;
-                    $product->product_code = $productCode;
-                    $product->created_by          = '0';
-                    $product->updated_by          = '0';
-                    $product->save();
-                    $product_id = $product->id;
-                }
+            if ($key > 0 && !empty($row[0])) {
                 $cases = new Cases();
-                $cases->bank_id             = '1';
-                $cases->product_id          = $product_id;
+                $cases->bank_id             = $params['bank_id'];
+                $cases->product_id          = $params['product_id'];
                 $cases->application_type    = '3';
                 $cases->refrence_number     = $row['4'];
                 $cases->applicant_name      = $row['5'];

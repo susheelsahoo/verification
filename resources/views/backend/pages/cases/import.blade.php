@@ -51,6 +51,23 @@ Import Case - Admin Panel
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
+                                <label for="name">Bank</label>
+                                <select class="custom-select selectBank" name="bank_id" id="selectBank">
+                                    <option value="">--Select Option--</option>
+                                    @foreach ($banks as $bank)
+                                    <option value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="name">Product</label>
+                                <select id="productSelect" name="product_id" class="custom-select">
+                                    <option value="">--Select Option--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Import Case</label>
                                 <input type="file" name="file" accept=".csv, .xls, .xlsx">
                             </div>
@@ -70,7 +87,34 @@ Import Case - Admin Panel
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('.select2').select2();
-    })
+        var baseUrl = "{{ url('/') }}";
+        $('#selectBank').on('change', function(e) {
+            var bankId = $(this).val();
+            var customGetPath = "{{ route('admin.case.item','ID')}}";
+            customGetPath = customGetPath.replace('ID', bankId);
+            $.ajax({
+                url: customGetPath,
+                type: 'GET',
+                success: function(response) {
+                    var select = $('#productSelect');
+                    select.empty(); // Clear any existing options
+                    select.append('<option value="">--Select Option--</option>'); // Add default option
+
+                    $.each(response, function(key, products) {
+                        $.each(products, function(index, product) {
+                            console.log(product);
+                            var option = $('<option></option>')
+                                .attr('value', product.product_id)
+                                .text(product.name + ' (' + product.product_code + ')');
+                            select.append(option);
+                        });
+                    });
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+        });
+    });
 </script>
 @endsection
