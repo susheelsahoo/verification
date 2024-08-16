@@ -48,16 +48,6 @@ class CasesController extends Controller
         $ApplicationTypes   = ApplicationType::all();
         $session_id         = Auth::guard('admin')->user()->id;
         $users              = User::where('admin_id', $session_id)->get();
-        $singleAgent = '';
-        $singleAgent .= '<div class="form-group col-md-6 col-sm-12 singleAgentSection">';
-        $singleAgent .= '<label for="singleAgent">Agent</label>';
-        $singleAgent .= '<select class="custom-select" name="singleAgent" id="singleAgent">';
-        $singleAgent .= '<option value="">--Select Option--</option>';
-        foreach ($users as $user) {
-            $singleAgent .= '<option value="' . $user['id'] . '">' . $user['name'] . '</option>';
-        }
-        $singleAgent .= '</select>';
-        $singleAgent .= '</div>';
 
 
         $fitypesFeild = '';
@@ -83,21 +73,9 @@ class CasesController extends Controller
             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="Landmark' . $fitype['id'] . '" placeholder="landmark">';
             //$fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[landmark]" value="Landmark' . $fitype['id'] . '" placeholder="landmark">';
             $fitypesFeild .= '</div>';
-
-
-
-            $AgentsFeild .= '<div class="form-group col-md-6 col-sm-12 multiAgentSection ' . $fitype['name'] . '_section' . ' d-none">';
-            $AgentsFeild .= '<label for="Agent' . $fitype['id'] . '">' . $fitype['name'] . ' Agent</label>';
-            $AgentsFeild .= '<select class="custom-select" name="fi_type_id[' . $key . '][agent]">';
-            $AgentsFeild .= '<option value="">--Select Option--</option>';
-            foreach ($users as $user) {
-                $AgentsFeild .= '<option value="' . $user['id'] . '">' . $user['name'] . '</option>';
-            }
-            $AgentsFeild .= '</select>';
-            $AgentsFeild .= '</div>';
         }
 
-        return view('backend.pages.cases.create', compact('banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'singleAgent', 'AgentsFeild'));
+        return view('backend.pages.cases.create', compact('banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes'));
     }
 
     /**
@@ -113,20 +91,25 @@ class CasesController extends Controller
             'applicant_name' => 'required|max:50|',
         ]);
         // Create New cases
-
         $cases = new Cases();
         $cases->bank_id             = $request->bank_id;
         $cases->product_id          = $request->product_id;
         $cases->application_type    = $request->application_type;
+        if ($request->application_type == '1') {
+            $cases->applicant_name      = $request->applicant_name;
+        } elseif ($request->application_type == '2') {
+            $cases->applicant_name      = $request->applicant_name;
+            $cases->co_applicant_name   = $request->co_applicant_name;
+        } elseif ($request->application_type == '3') {
+            $cases->applicant_name      = $request->guarantee_name;
+        } elseif ($request->application_type == '4') {
+            $cases->applicant_name      = $request->seller_name;
+        }
         $cases->refrence_number     = $request->refrence_number;
-        $cases->applicant_name      = $request->applicant_name;
         $cases->status              = '0';
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
-        $cases->co_applicant_name   = $request->co_applicant_name;
-        $cases->guarantee_name      = $request->guarantee_name;
         $cases->geo_limit           = $request->geo_limit;
-        $cases->tat_time            = $request->tat_time;
         $cases->remarks             = $request->remarks;
         $cases->created_by          = Auth::guard('admin')->user()->id;
         $cases->updated_by          = Auth::guard('admin')->user()->id;
@@ -144,7 +127,7 @@ class CasesController extends Controller
                 $casesFiType->address       = $fi_type_id['address'];
                 $casesFiType->pincode       = $fi_type_id['pincode'];
                 $casesFiType->land_mark     = $fi_type_id['landmark'];
-                $casesFiType->user_id       = $fi_type_id['agent'];
+                $casesFiType->user_id       = '0';
                 $casesFiType->save();
             }
         }

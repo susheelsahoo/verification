@@ -99,45 +99,36 @@ Create Case Create - Admin Panel
                                 <input type="text" class="form-control" id="refrence_number" value="EP01010" name="refrence_number" placeholder="Enter Reference Number">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Applicant Name</label>
-                                <input type="text" class="form-control" id="applicant_name" value="Susheel Sahoo" name="applicant_name" placeholder="Enter Applicant Name">
+                                <label for="name">Amount</label>
+                                <input type="number" class="form-control" id="amount" value="100000" name="amount" placeholder="Enter Amount">
                             </div>
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Amount</label>
-                                <input type="number" class="form-control" id="amount" value="100000" name="amount" placeholder="Enter Amount">
+                            <div class="form-group col-md-6 col-sm-12 name Applicant co_applicant_name d-none">
+                                <label for="name">Applicant Name</label>
+                                <input type="text" class="form-control" value="Susheel Sahoo" name="applicant_name" placeholder="Enter Applicant Name">
                             </div>
+                            <div class="form-group col-md-6 col-sm-12 name co_applicant_name d-none">
+                                <label for="name">Co-Applicant Name</label>
+                                <input type="text" class="form-control" value="Joyti Sahu" name="co_applicant_name" placeholder="Enter Co-Applicant Name">
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12 name Guranter d-none">
+                                <label for="name">Guarantee Name</label>
+                                <input type="text" class="form-control" value="Ankit Sahu" name="guarantee_name" placeholder="Enter Guarantee Name">
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12 name Seller d-none">
+                                <label for="name">Seller Name</label>
+                                <input type="text" class="form-control" value="Ankit Sahu" name="seller_name" placeholder="Enter Seller Name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Vehicle</label>
                                 <input type="text" class="form-control" id="vehicle" value="Honda" name="vehicle" placeholder="Enter Vehicle">
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Co-Applicant Name</label>
-                                <input type="text" class="form-control" id="co_applicant_name" value="Joyti Sahu" name="co_applicant_name" placeholder="Enter Co-Applicant Name">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Guarantee Name</label>
-                                <input type="text" class="form-control" id="guarantee_name" value="Ankit Sahu" name="guarantee_name" placeholder="Enter Guarantee Name">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <div class="form-check">
-                                    <input class="form-check-input singleAgentCheckBox" type="checkbox" name="singleAgentCheckBox" value="1">
-                                    <label class="form-check-label" for="singleAgentCheckBox"> Single Agent</label>
-                                </div>
-                            </div>
-
-                            {!! $singleAgent !!}
-                        </div>
-                        <div class="form-row">
-                            {!! $AgentsFeild !!}
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="geo_limit">Geo Limit *</label>
                                 <select id="geo_limit" name="geo_limit" class="custom-select">
@@ -145,24 +136,6 @@ Create Case Create - Admin Panel
                                     <option value="Local">Local</option>
                                     <option value="Outstation">Outstation</option>
                                 </select>
-                            </div>
-
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="tat_time">TAT Time</label>
-                                <select id="tat_time" name="tat_time" class="custom-select">
-                                    <option value="">--Select Option--</option>
-                                    <?php
-                                    $start = new DateTime('00:00');
-                                    $end = new DateTime('24:00');
-
-                                    $interval = new DateInterval('PT05M'); // 10 minutes interval
-                                    $period = new DatePeriod($start, $interval, $end);
-                                    ?>
-                                    @foreach ($period as $time)
-                                    <option value="{{ $time->format('H:i') }}">{{ $time->format('H:i') }}</option>
-                                    @endforeach
-                                </select>
-
                             </div>
                         </div>
                         <div class="form-row">
@@ -215,6 +188,20 @@ Create Case Create - Admin Panel
                 }
             });
         });
+        $('#application_type').on('change', function(e) {
+            var selectedApplicationType = $(this).find("option:selected").text();
+            console.log(selectedApplicationType);
+            $('.name').addClass('d-none');
+            if (selectedApplicationType == 'Applicant/Co-Applicant') {
+                $(".co_applicant_name").removeClass('d-none');
+            } else {
+                $('.' + selectedApplicationType).removeClass('d-none');
+            }
+
+
+
+
+        });
 
 
         $(document).on('click', '.fytpe_checkbox', function() {
@@ -227,26 +214,7 @@ Create Case Create - Admin Panel
                 $('.' + relName + "_section").addClass('d-none');
             }
         });
-        singleAgentCheckBox();
 
-        $(document).on('click', '.singleAgentCheckBox', function() {
-            singleAgentCheckBox();
-        });
-
-
-        function singleAgentCheckBox() {
-            $(".singleAgentSection").addClass('d-none');
-            var isChecked = $(".singleAgentCheckBox").prop('checked');
-            var relName = $(".fytpe_checkbox").attr('rel-name');
-            // debugger
-            if (isChecked) {
-                $(".singleAgentSection").removeClass('d-none');
-                $(".multiAgentSection").addClass('d-none');
-            } else {
-                $(".singleAgentSection").addClass('d-none');
-                // $(".multiAgentSection").removeClass('d-none');
-            }
-        }
     });
 </script>
 @endsection
