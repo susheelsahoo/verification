@@ -46,13 +46,14 @@ class UsersController extends Controller
     {
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|max:100|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'name'      => 'required|max:50',
+            'username'  => 'required|max:100|unique:users',
+            'email'     => 'required|max:100',
+            'password'  => 'required|min:6|confirmed',
         ]);
-
         // Create New User
         $user = new User();
+        $user->username         = $request->username;
         $user->name         = $request->name;
         $user->email        = $request->email;
         $user->admin_id     = Auth::guard('admin')->user()->id;
@@ -105,9 +106,10 @@ class UsersController extends Controller
 
         // Validation Data
         $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|max:100|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6|confirmed',
+            'name'      => 'required|max:50',
+            'username'  => 'required|max:100|unique:users,username,' . $id,
+            'email'     => 'required|max:100',
+            'password'  => 'required|min:6|confirmed',
         ]);
 
 

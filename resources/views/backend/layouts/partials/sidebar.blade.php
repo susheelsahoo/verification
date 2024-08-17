@@ -143,16 +143,16 @@
                      @if ($usr->can('user.create') || $usr->can('user.view') || $usr->can('user.edit') || $usr->can('user.delete'))
                      <li>
                          <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
-                                 Users
+                                 Agent
                              </span></a>
                          <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
 
                              @if ($usr->can('user.view'))
-                             <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Users</a></li>
+                             <li class="{{ Route::is('admin.users.index')  || Route::is('admin.users.edit') ? 'active' : '' }}"><a href="{{ route('admin.users.index') }}">All Agent</a></li>
                              @endif
 
                              @if ($usr->can('user.create'))
-                             <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create User</a></li>
+                             <li class="{{ Route::is('admin.users.create')  ? 'active' : '' }}"><a href="{{ route('admin.users.create') }}">Create Agent</a></li>
                              @endif
                          </ul>
                      </li>

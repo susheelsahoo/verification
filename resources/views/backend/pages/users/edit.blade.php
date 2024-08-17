@@ -1,8 +1,7 @@
-
 @extends('backend.layouts.master')
 
 @section('title')
-User Edit - Admin Panel
+Agent Edit - Admin Panel
 @endsection
 
 @section('styles')
@@ -23,11 +22,11 @@ User Edit - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">User Create</h4>
+                <h4 class="page-title pull-left">Agent Create</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('admin.users.index') }}">All Users</a></li>
-                    <li><span>Edit User - {{ $user->name }}</span></li>
+                    <li><span>Edit Agent - {{ $user->name }}</span></li>
                 </ul>
             </div>
         </div>
@@ -44,19 +43,23 @@ User Edit - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Edit User - {{ $user->name }}</h4>
+                    <h4 class="header-title">Edit Agent - {{ $user->name }}</h4>
                     @include('backend.layouts.partials.messages')
-                    
+
                     <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                         @method('PUT')
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">User Name</label>
+                                <label for="username">User Name</label>
+                                <input type="text" class="form-control" id="username" name="username" readonly placeholder="Enter username" value="{{ $user->username }}">
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label for="name">Full Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="{{ $user->name }}">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="email">User Email</label>
+                                <label for="email">Agent Email</label>
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
                             </div>
                         </div>
@@ -71,25 +74,13 @@ User Edit - Admin Panel
                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
                             </div>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="password">Assign Roles</label>
-                                <select name="roles[]" id="roles" class="form-control select2" multiple>
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save User</button>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Agent</button>
                     </form>
                 </div>
             </div>
         </div>
         <!-- data table end -->
-        
+
     </div>
 </div>
 @endsection

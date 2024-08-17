@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Users - Admin Panel
+Agent - Admin Panel
 @endsection
 
 @section('styles')
@@ -20,10 +20,10 @@ Users - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Users</h4>
+                <h4 class="page-title pull-left">Agent</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><span>All Users</span></li>
+                    <li><span>All Agent</span></li>
                 </ul>
             </div>
         </div>
@@ -40,9 +40,9 @@ Users - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title float-left">Users List</h4>
+                    <h4 class="header-title float-left">Agent List</h4>
                     <p class="float-right mb-2">
-                        <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create New User</a>
+                        <a class="btn btn-primary text-white" href="{{ route('admin.users.create') }}">Create New Agent</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">
@@ -51,9 +51,10 @@ Users - Admin Panel
                             <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th width="5%">Sl</th>
+                                    <th width="25%">username</th>
                                     <th width="10%">Name</th>
-                                    <th width="10%">Email</th>
-                                    <th width="40%">Roles</th>
+                                    <th width="25%">Email</th>
+
                                     <th width="15%">Action</th>
                                 </tr>
                             </thead>
@@ -61,11 +62,10 @@ Users - Admin Panel
                                 @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $loop->index+1 }}</td>
+                                    <td>{{ $user->username }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>
 
-                                    </td>
                                     <td>
                                         <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
 
