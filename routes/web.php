@@ -34,6 +34,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/importExportView/{id}', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
+    Route::get('cases/unassigned/{id}', 'Backend\CasesController@unassigned')->name('admin.case.unassigned');
+
     Route::resource('reports', 'Backend\RolesController', ['names' => 'admin.reports']);
     Route::resource('fitypes', 'Backend\FITypesController', ['names' => 'admin.fitypes']);
     Route::resource('products', 'Backend\ProductsController', ['names' => 'admin.products']);

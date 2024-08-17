@@ -277,6 +277,32 @@ class CasesController extends Controller
         return redirect()->route('admin.cases.index');
     }
 
+
+    public function unassigned()
+    {
+
+        $banks  = Bank::all();
+        return view('backend.pages.cases.import', compact('banks'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private function importCSV($file)
     {
         if (($handle = fopen($file->getRealPath(), 'r')) !== FALSE) {
