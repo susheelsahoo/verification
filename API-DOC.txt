@@ -23,11 +23,80 @@ image_1
 image_9
 ------------------------------------------------------------
 
+Get Case details with cases_fi_types id 
+Method POST
+http://127.0.0.1:8000/api//cases/submit
+
+{
+    "case_fi_type_id": "aaa",
+    "address_confirmed": "aaa",
+    "address_confirmed_by": "aaa",
+    "person_met": "aaa",
+    "relationship": "aaa",
+    "no_of_residents_in_the_house": "aaa",
+    "years_at_current_residence": "aaa",
+    "no_of_earning_family_members": "aaa",
+    "residence_status": "aaa",
+    "name_of_employer": "aaa",
+    "employer_address": "aaa",
+    "telephone_no_residence": "aaa",
+    "scheduled_visit_date": "aaa",
+    "office": "aaa",
+    "approx_value": "aaa",
+    "approx_rent": "aaa",
+    "designation": "aaa",
+    "bank_name": "aaa",
+    "branch": "aaa",
+    "permanent_address": "aaa",
+    "vehicles": "aaa",
+    "make_and_type": "aaa",
+    "location": "aaa",
+    "locality": "aaa",
+    "accommodation_type": "aaa",
+    "interior_conditions": "aaa",
+    "assets_seen": "aaa",
+    "area": "aaa",
+    "standard_of_living": "aaa",
+    "nearest_landmark": "aaa",
+    "house_locked": "aaa",
+    "locked_person_met": "aaa",
+    "locked_relationship": "aaa",
+    "applicant_age": "aaa",
+    "years_lived_at_this_residence": "aaa",
+    "no_of_residents_in_house": "aaa",
+    "occupation": "aaa",
+    "untraceable": "aaa",
+    "verifiers_name": "aaa",
+    "verification_conducted_at": "aaa",
+    "proof_attached": "aaa",
+    "type_of_proof": "aaa",
+    "employment_details": "aaa",
+    "comments": "aaa",
+    "supervisor_remarks": "aaa",
+    "consolidated_remarks": "aaa",
+    "remarks": "aaa",
+    "recommended": "aaa",
+    "visit_conducted": "aaa",
+    "date_of_visit": "aaa",
+    "time_of_visit": "aaa",
+    "latitude": "aaa",
+    "longitude": "aaa",
+    "neighbour_check_1": "aaa",
+    "neighbour1_checked_with": "aaa"
+}
+-------------------------------------------------------------------------------------------------------
+
 ALTER TABLE `cases_fi_types` ADD `scheduled_visit_date` DATETIME NULL AFTER `status`;
 
 ALTER TABLE `cases` ADD `date_of_birth` DATE NULL AFTER `applicant_name`;
 
+ALTER TABLE `cases_fi_types` ADD `addres_confirmed` VARCHAR(255) NULL AFTER `user_id`, ADD `address_confirmed_by` VARCHAR(255) NULL AFTER `addres_confirmed`, ADD `person_met` VARCHAR(255) NULL AFTER `address_confirmed_by`, ADD `relationship` VARCHAR(255) NULL AFTER `person_met`, ADD `no_of_residents_in_the_house` VARCHAR(255) NULL AFTER `relationship`, ADD `years_at_current_residence` VARCHAR(255) NULL AFTER `no_of_residents_in_the_house`, ADD `no_of_earning_family_members` VARCHAR(255) NULL AFTER `years_at_current_residence`, ADD `residence_status` VARCHAR(255) NULL AFTER `no_of_earning_family_members`, ADD `name_of_employer` VARCHAR(255) NULL AFTER `residence_status`, ADD `employer_address` VARCHAR(255) NULL AFTER `name_of_employer`, ADD `telephone_no_residence` VARCHAR(255) NULL AFTER `employer_address`;
 
+ALTER TABLE `cases_fi_types` ADD `office` VARCHAR(255) NULL AFTER `scheduled_visit_date`, ADD `approx_value` VARCHAR(255) NULL AFTER `office`, ADD `approx_rent` VARCHAR(255) NULL AFTER `approx_value`, ADD `designation` VARCHAR(255) NULL AFTER `approx_rent`, ADD `bank_name` VARCHAR(255) NULL AFTER `designation`, ADD `branch` VARCHAR(255) NULL AFTER `bank_name`, ADD `permanent_address` VARCHAR(255) NULL AFTER `branch`, ADD `vehicles` VARCHAR(255) NULL AFTER `permanent_address`, ADD `make_and_type` VARCHAR(255) NULL AFTER `vehicles`, ADD `location` VARCHAR(255) NULL AFTER `make_and_type`, ADD `locality` VARCHAR(255) NULL AFTER `location`;
+
+ALTER TABLE `cases_fi_types` ADD `accomodation_type` VARCHAR(255) NULL AFTER `locality`, ADD `interior_conditions` VARCHAR(255) NULL AFTER `accomodation_type`, ADD `assets_seen` VARCHAR(255) NULL AFTER `interior_conditions`, ADD `area` VARCHAR(255) NULL AFTER `assets_seen`, ADD `standard_of_living` VARCHAR(255) NULL AFTER `area`, ADD `nearest_landmark` VARCHAR(255) NULL AFTER `standard_of_living`, ADD `house_locked` ENUM('0','1') NULL AFTER `nearest_landmark`, ADD `locked_person_met` VARCHAR(255) NULL AFTER `house_locked`, ADD `locked_relationship` VARCHAR(255) NULL AFTER `locked_person_met`, ADD `applicant_age` VARCHAR(255) NULL AFTER `locked_relationship`, ADD `no_of_residents_in_house` VARCHAR(255) NULL AFTER `applicant_age`;
+
+ALTER TABLE `cases_fi_types`  ADD `years_lived_at_this_residence` VARCHAR(255) NULL  AFTER `no_of_residents_in_house`,  ADD `occupation` VARCHAR(255) NULL  AFTER `years_lived_at_this_residence`,  ADD `untraceable` VARCHAR(255) NULL  AFTER `occupation`,  ADD `verifiers_name` VARCHAR(255) NULL  AFTER `untraceable`,  ADD `verification_conducted_at` VARCHAR(255) NULL  AFTER `verifiers_name`,  ADD `proof_attached` VARCHAR(255) NULL  AFTER `verification_conducted_at`,  ADD `type_of_proof` VARCHAR(255) NULL  AFTER `proof_attached`,  ADD `audit_check_remarks_by_agency_with_stamp` VARCHAR(255) NULL  AFTER `type_of_proof`,  ADD `signature_of_agency_supervisor` VARCHAR(255) NULL  AFTER `audit_check_remarks_by_agency_with_stamp`,  ADD `employement_details` VARCHAR(255) NULL  AFTER `signature_of_agency_supervisor`,  ADD `comments` TEXT NULL  AFTER `employement_details`,  ADD `supervisor_remarks` TEXT NULL  AFTER `comments`,  ADD `consolidated_remarks` TEXT NULL  AFTER `supervisor_remarks`,  ADD `remarks` TEXT NULL  AFTER `consolidated_remarks`,  ADD `recommended` VARCHAR(255) NULL  AFTER `remarks`,  ADD `visit_conducted` VARCHAR(255) NULL  AFTER `recommended`,  ADD `date_of_visit` DATE NULL  AFTER `visit_conducted`,  ADD `time_of_visit` TIMESTAMP NULL  AFTER `date_of_visit`,  ADD `latitude` VARCHAR(255) NULL  AFTER `time_of_visit`,  ADD `longitude` VARCHAR(255) NULL  AFTER `latitude`,  ADD `neighbour_check_1` VARCHAR(255) NULL  AFTER `longitude`,  ADD `neighbour1_checked_with` VARCHAR(255) NULL  AFTER `neighbour_check_1`;
 
 
 
