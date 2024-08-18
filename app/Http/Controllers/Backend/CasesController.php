@@ -106,7 +106,6 @@ class CasesController extends Controller
             $cases->applicant_name      = $request->seller_name;
         }
         $cases->refrence_number     = $request->refrence_number;
-        $cases->status              = '0';
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
         $cases->geo_limit           = $request->geo_limit;
@@ -269,6 +268,7 @@ class CasesController extends Controller
                 $casesFiType->address       = $row['8'];
                 $casesFiType->pincode       = $row['11'];
                 $casesFiType->land_mark     = $row['12'];
+                $casesFiType->status        = 0;
                 $casesFiType->user_id       = 1;
                 $casesFiType->save();
             }
@@ -281,11 +281,45 @@ class CasesController extends Controller
     public function unassigned()
     {
 
-        $banks  = Bank::all();
-        return view('backend.pages.cases.import', compact('banks'));
+        $cases  = DB::table('cases_fi_types as cft')
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
+            ->where('cft.user_id', '0')
+            ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
+            ->get();
+
+        return view('backend.pages.cases.unassigned', compact('cases'));
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function assignAgent(Request $request)
+    {
+        // Validation Data
+        $request->validate([
+            'user_id' => 'required|max:50|',
+        ]);
+        $user_id                = $request['user_id'];
+        $scheduled_visit_date   = $request['ScheduledVisitDate'];
+        $case_fi_type_ids       = $request['case_fi_type_id'];
 
+        $case_fi_type_ids = json_decode($case_fi_type_ids, true);
+        foreach ($case_fi_type_ids as $case_fi_type_id) {
+            $case_fi_type_id = (int) $case_fi_type_id;
 
+            $cases = casesFiType::find($case_fi_type_id);
+            $cases->user_id                 = $user_id;
+            $cases->scheduled_visit_date    = $scheduled_visit_date;
+            $cases->status                  = '1';
+            $cases->save();
+        }
+        session()->flash('success', 'User assign successfully !!');
+        return back();
+    }
 
 
 

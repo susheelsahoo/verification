@@ -23,6 +23,10 @@ image_1
 image_9
 ------------------------------------------------------------
 
+ALTER TABLE `cases_fi_types` ADD `scheduled_visit_date` DATETIME NULL AFTER `status`;
+
+ALTER TABLE `cases` ADD `date_of_birth` DATE NULL AFTER `applicant_name`;
+
 
 
 
