@@ -221,14 +221,14 @@ class CasesController extends Controller
             return response()->json(['error' => $validator->errors(), 400]);
         }
 
-
+        // dd($request->all());
 
         // Create the path to store the image
         $case_fi_type_id = $data['case_fi_type_id'];
 
 
         $cases = casesFiType::findOrFail($case_fi_type_id);
-        $cases->addres_confirmed                = $data['addres_confirmed'];
+        $cases->address_confirmed               = $data['address_confirmed'];
         $cases->address_confirmed_by            = $data['address_confirmed_by'];
         $cases->person_met                      = $data['person_met'];
         $cases->relationship                    = $data['relationship'];
@@ -239,7 +239,7 @@ class CasesController extends Controller
         $cases->name_of_employer                = $data['name_of_employer'];
         $cases->employer_address                = $data['employer_address'];
         $cases->telephone_no_residence          = $data['telephone_no_residence'];
-        $cases->scheduled_visit_date            = $data['scheduled_visit_date'];
+        // $cases->scheduled_visit_date            = $data['scheduled_visit_date'];
         $cases->office                          = $data['office'];
         $cases->approx_value                    = $data['approx_value'];
         $cases->approx_rent                     = $data['approx_rent'];
@@ -251,13 +251,13 @@ class CasesController extends Controller
         $cases->make_and_type                   = $data['make_and_type'];
         $cases->location                        = $data['location'];
         $cases->locality                        = $data['locality'];
-        $cases->accomodation_type               = $data['accomodation_type'];
+        // $cases->accomodation_type               = $data['accomodation_type'];
         $cases->interior_conditions             = $data['interior_conditions'];
         $cases->assets_seen                     = $data['assets_seen'];
         $cases->area                            = $data['area'];
         $cases->standard_of_living              = $data['standard_of_living'];
         $cases->nearest_landmark                = $data['nearest_landmark'];
-        $cases->house_locked                    = $data['house_locked'];
+        // $cases->house_locked                    = $data['house_locked'];
         $cases->locked_person_met               = $data['locked_person_met'];
         $cases->locked_relationship             = $data['locked_relationship'];
         $cases->applicant_age                   = $data['applicant_age'];
@@ -269,15 +269,15 @@ class CasesController extends Controller
         $cases->verification_conducted_at       = $data['verification_conducted_at'];
         $cases->proof_attached                  = $data['proof_attached'];
         $cases->type_of_proof                   = $data['type_of_proof'];
-        $cases->employement_details             = $data['employement_details'];
+        // $cases->employement_details             = $data['employement_details'];
         $cases->comments                        = $data['comments'];
         $cases->supervisor_remarks              = $data['supervisor_remarks'];
         $cases->consolidated_remarks            = $data['consolidated_remarks'];
         $cases->remarks                         = $data['remarks'];
         $cases->recommended                     = $data['recommended'];
         $cases->visit_conducted                 = $data['visit_conducted'];
-        $cases->date_of_visit                   = $data['date_of_visit'];
-        $cases->time_of_visit                   = $data['time_of_visit'];
+        // $cases->date_of_visit                   = $data['date_of_visit'];
+        // $cases->time_of_visit                   = $data['time_of_visit'];
         $cases->latitude                        = $data['latitude'];
         $cases->longitude                       = $data['longitude'];
         $cases->neighbour_check_1               = $data['neighbour_check_1'];
