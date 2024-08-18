@@ -16,4 +16,12 @@ class Cases extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getCreatedBy(){
+        return $this->hasOne('App\Models\User','id','created_by');
+    }
+
+    public function getUpdatedBy(){
+        return $this->hasOne('App\Models\User','id','created_by');
+    }
 }
