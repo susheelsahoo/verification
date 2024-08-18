@@ -42,6 +42,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('banks', 'Backend\BanksController', ['names' => 'admin.banks']);
     Route::resource('roles', 'Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
+    Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
+    Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
+    // Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
     Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);
 
     // Login Routes

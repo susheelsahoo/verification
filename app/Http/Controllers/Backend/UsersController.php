@@ -145,4 +145,14 @@ class UsersController extends Controller
         session()->flash('success', 'User has been deleted !!');
         return back();
     }
+    public function getAgent($bankId = null)
+    {
+        $users = User::where('admin_id', 1)->get()->toArray();
+
+        if ($bankId !== null) {
+            return response()->json(['users' => $users]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
 }
