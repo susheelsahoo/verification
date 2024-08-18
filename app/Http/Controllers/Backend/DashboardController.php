@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -33,7 +34,7 @@ class DashboardController extends Controller
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->get());
-
-        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_Unassigned'));
+        $agentLists = User::where('admin_id',$this->user->id)->get();
+        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_Unassigned','agentLists'));
     }
 }
