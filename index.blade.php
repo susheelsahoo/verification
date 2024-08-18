@@ -161,47 +161,36 @@ Dashboard Page - Admin Panel
                     <tr style="color: #0000FF ! Important;background-color: #00F000;">
                         <td>Total</td>
                         <td>0</td>
+                        <td>{{ $totalSum['inprogressTotal'] ?? 0 }}</td>
+                        <td>{{ $totalSum['resolveTotal'] ?? 0 }}</td>
                         <td>0</td>
+                        <td>{{ $totalSum['verifiedTotal'] ?? 0 }}</td>
                         <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
-                    </tr>
-
-                    <tr>
-                        <td>ABC</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
-                    </tr>
-                    <tr>
-                        <td>ABC1</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{{ $totalSum['rejectedTotal'] ?? 0 }}</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
                     </tr>
 
+                    @if($userCount)
+                        @foreach ($userCount as $value)
+                            <tr>
+                                <td>{{ $value->getCreatedBy->name ?? '' }}</td>
+                                <td>0</td>
+                                <td>{{ $value['inprogress'] ?? 0 }}</td>
+                                <td>{{ $value['resolve'] ?? 0 }}</td>
+                                <td>0</td>
+                                <td>{{ $value['verified'] ?? 0 }}</td>
+                                <td>0</td>
+                                <td>{{ $value['rejected'] ?? 0 }}</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
