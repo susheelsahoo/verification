@@ -10,6 +10,11 @@ class casesFiType extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'case_id', 'fi_type_id', 'mobile', 'address', 'pincode', 'land_mark',
+        'case_id', 'fi_type_id', 'mobile', 'user_id', 'address', 'pincode', 'land_mark',
     ];
+
+    public function getUser()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

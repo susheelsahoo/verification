@@ -24,9 +24,10 @@ class DashboardController extends Controller
         });
     }
 
-    public function _group_by($array, $key) {
+    public function _group_by($array, $key)
+    {
         $return = array();
-        foreach($array as $val) {
+        foreach ($array as $val) {
             $return[$val[$key]][] = $val;
         }
         return $return;
@@ -43,43 +44,49 @@ class DashboardController extends Controller
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->get());
-        $agentLists = User::where('admin_id',$this->user->id)->get();
-        $getCases = Cases::get();
+        $agentLists = User::where('admin_id', $this->user->id)->get();
+        $getCases = casesFiType::with('getuser')->get();
 
-        $userwise=[];
-        if($getCases){
+        $userwise = [];
+        if ($getCases) {
             $cases = $getCases->toArray();
-            $userwise = $this->_group_by($cases,'created_by');
+            $userwise = $this->_group_by($cases, 'user_id');
         }
 
         $userCount = [];
         $totalSum = [];
         $inprogressTotal = $resolveTotal = $verifiedTotal = $rejectedTotal = 0;
-        if($userwise){
-            foreach($userwise as $key=> $userData){
+
+        if ($userwise) {
+            foreach ($userwise as $key => $userData) {
                 $inprogress = $resolve = $verified = $rejected = 0;
-                foreach($userData as $data){
-                    switch($data->status){
+
+                $agentName = $userData['0']['getuser']['name'];
+
+                foreach ($userData as $i => $data) {
+                    switch ($data['status']) {
                         case 0:
                             $inprogress += 1;
-                        break;
+                            break;
 
                         case 1:
                             $resolve += 1;
-                        break;
+                            break;
 
                         case 2:
                             $verified += 1;
-                        break;
+                            break;
 
                         case 3:
                             $rejected += 1;
-                        break;
+                            break;
 
                         default:
                     }
                 }
-                $userCount[$key]['created_by'] = $key;
+
+                $userCount[$key]['user_id'] = $key;
+                $userCount[$key]['user_name'] = $agentName;
                 $userCount[$key]['inprogress'] = $inprogress;
                 $userCount[$key]['resolve'] = $resolve;
                 $userCount[$key]['verified'] = $verified;
@@ -91,8 +98,8 @@ class DashboardController extends Controller
             }
         }
 
-        $totalSum = ['inprogressTotal'=>$inprogressTotal,'resolveTotal'=>$resolveTotal,'verifiedTotal'=>$verifiedTotal,'rejectedTotal'=>$rejectedTotal];
+        $totalSum = ['inprogressTotal' => $inprogressTotal, 'resolveTotal' => $resolveTotal, 'verifiedTotal' => $verifiedTotal, 'rejectedTotal' => $rejectedTotal];
 
-        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_Unassigned','agentLists','userCount','totalSum'));
+        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_Unassigned', 'agentLists', 'userCount', 'totalSum'));
     }
 }
