@@ -45,7 +45,9 @@ class DashboardController extends Controller
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->get());
         $agentLists = User::where('admin_id', $this->user->id)->get();
-        $getCases = casesFiType::with('getuser')->get();
+        // $getCases = casesFiType::get();
+        $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
+
 
         $userwise = [];
         if ($getCases) {
@@ -56,14 +58,11 @@ class DashboardController extends Controller
         $userCount = [];
         $totalSum = [];
         $inprogressTotal = $resolveTotal = $verifiedTotal = $rejectedTotal = 0;
-
         if ($userwise) {
             foreach ($userwise as $key => $userData) {
                 $inprogress = $resolve = $verified = $rejected = 0;
-
                 $agentName = $userData['0']['getuser']['name'];
-
-                foreach ($userData as $i => $data) {
+                foreach ($userData as $data) {
                     switch ($data['status']) {
                         case 0:
                             $inprogress += 1;
@@ -84,9 +83,8 @@ class DashboardController extends Controller
                         default:
                     }
                 }
-
-                $userCount[$key]['user_id'] = $key;
-                $userCount[$key]['user_name'] = $agentName;
+                $userCount[$key]['created_by'] = $key;
+                $userCount[$key]['agentName'] = $agentName;
                 $userCount[$key]['inprogress'] = $inprogress;
                 $userCount[$key]['resolve'] = $resolve;
                 $userCount[$key]['verified'] = $verified;

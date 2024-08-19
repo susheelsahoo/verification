@@ -175,8 +175,11 @@ Dashboard Page - Admin Panel
 
                 @if($userCount)
                 @foreach ($userCount as $value)
+
+
+
                 <tr>
-                    <td>{{ $value['user_name'] ?? '' }}</td>
+                    <td>{{ $value['agentName'] ?? '' }}</td>
                     <td>0</td>
                     <td>{{ $value['inprogress'] ?? 0 }}</td>
                     <td>{{ $value['resolve'] ?? 0 }}</td>
