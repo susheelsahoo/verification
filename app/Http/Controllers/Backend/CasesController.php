@@ -291,6 +291,20 @@ class CasesController extends Controller
 
         return view('backend.pages.cases.unassigned', compact('cases'));
     }
+
+    public function assigned($status, $user_id = null)
+    {
+
+        $cases  = DB::table('cases_fi_types as cft')
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
+            ->where('cft.user_id', '0')
+            ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
+            ->get();
+
+        return view('backend.pages.cases.unassigned', compact('cases'));
+    }
     /**
      * Store a newly created resource in storage.
      *

@@ -57,47 +57,67 @@ class DashboardController extends Controller
 
         $userCount = [];
         $totalSum = [];
-        $inprogressTotal = $resolveTotal = $verifiedTotal = $rejectedTotal = 0;
+        $total = $inprogressTotal = $positive_resolvedTotal = $negative_resolvedTotal = $positive_verifiedTotal = $negative_verifiedTotal = $holdTotal = 0;
         if ($userwise) {
             foreach ($userwise as $key => $userData) {
-                $inprogress = $resolve = $verified = $rejected = 0;
-                $agentName = $userData['0']['getuser']['name'];
+                $inprogress = $positive_resolved = $negative_resolved = $positive_verified = $negative_verified = $hold = $close = 0;
+                $agentName  = $userData['0']['getuser']['name'];
+                $agentid    = $userData['0']['getuser']['id'];
                 foreach ($userData as $data) {
                     switch ($data['status']) {
-                        case 0:
+                        case 1:
                             $inprogress += 1;
                             break;
 
-                        case 1:
-                            $resolve += 1;
-                            break;
-
                         case 2:
-                            $verified += 1;
+                            $positive_resolved += 1;
                             break;
 
                         case 3:
-                            $rejected += 1;
+                            $negative_resolved += 1;
                             break;
+
+                        case 4:
+                            $positive_verified += 1;
+                            break;
+                        case 5:
+                            $negative_verified += 1;
+                            break;
+                        case 6:
+                            $hold += 1;
+                            break;
+                        case 7:
+                            $close += 1;
+                            break;
+
 
                         default:
                     }
                 }
-                $userCount[$key]['created_by'] = $key;
-                $userCount[$key]['agentName'] = $agentName;
-                $userCount[$key]['inprogress'] = $inprogress;
-                $userCount[$key]['resolve'] = $resolve;
-                $userCount[$key]['verified'] = $verified;
-                $userCount[$key]['rejected'] = $rejected;
-                $inprogressTotal += $inprogress;
-                $resolveTotal  += $resolve;
-                $verifiedTotal += $verified;
-                $rejectedTotal += $rejected;
+                $userCount[$key]['created_by']          = $key;
+                $userCount[$key]['agentid']             = $agentid;
+                $userCount[$key]['agentName']           = $agentName;
+                $userCount[$key]['inprogress']          = $inprogress;
+                $userCount[$key]['positive_resolved']   = $positive_resolved;
+                $userCount[$key]['negative_resolved']   = $negative_resolved;
+                $userCount[$key]['positive_verified']   = $positive_verified;
+                $userCount[$key]['negative_verified']   = $negative_verified;
+                $userCount[$key]['hold']                = $hold;
+                $userCount[$key]['total']               = $inprogress + $positive_resolved + $negative_resolved + $positive_verified + $negative_verified + $hold;
+
+                $total += $inprogress + $positive_resolved + $negative_resolved + $positive_verified + $negative_verified + $hold;
+                $inprogressTotal        += $inprogress;
+                $positive_resolvedTotal += $positive_resolved;
+                $negative_resolvedTotal += $negative_resolved;
+                $positive_verifiedTotal += $positive_verified;
+                $negative_verifiedTotal += $negative_verified;
+                $holdTotal              += $hold;
             }
         }
 
-        $totalSum = ['inprogressTotal' => $inprogressTotal, 'resolveTotal' => $resolveTotal, 'verifiedTotal' => $verifiedTotal, 'rejectedTotal' => $rejectedTotal];
+        $totalSum = ['total' => $total, 'inprogressTotal' => $inprogressTotal, 'positive_resolvedTotal' => $positive_resolvedTotal, 'negative_resolvedTotal' => $negative_resolvedTotal, 'positive_verifiedTotal' => $positive_verifiedTotal, 'negative_verifiedTotal' => $negative_verifiedTotal, 'holdTotal' => $holdTotal];
 
-        return view('backend.pages.dashboard.index', compact('total_admins', 'total_roles', 'total_permissions', 'total_Unassigned', 'agentLists', 'userCount', 'totalSum'));
+
+        return view('backend.pages.dashboard.index', compact('totalSum', 'userCount', 'agentLists', 'total_Unassigned'));
     }
 }
