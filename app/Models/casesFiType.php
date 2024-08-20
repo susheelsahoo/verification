@@ -17,4 +17,8 @@ class casesFiType extends Authenticatable
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
+    public function getCase()
+    {
+        return $this->belongsTo('App\Models\cases', 'case_id', 'id');
+    }
 }
