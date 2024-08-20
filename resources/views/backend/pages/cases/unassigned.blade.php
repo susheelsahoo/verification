@@ -87,8 +87,11 @@ Cases - Admin Panel
                                     <td>{{ $case->status }}</td>
                                     <td>{{ $case->agent_name }}</td>
                                     <td>
+                                        <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
+                                        <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a>
+                                        <a href="#" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}"></img></a>
 
-                                        <button type="button" data-row="{{ $case->id }}" class="btn btn-default btn-sm assignSingle py-1">Assign</button>
+
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $case->id) }}">Edit</a>
 
@@ -188,7 +191,7 @@ Cases - Admin Panel
 
             // Convert the array of selected IDs to JSON format
             var selectedIdsJson = JSON.stringify(selectedIds);
-            if (selectedIds.length == 0 || selectedIds.length == undefined || selectedIds.length == 'undefined' ) {
+            if (selectedIds.length == 0 || selectedIds.length == undefined || selectedIds.length == 'undefined') {
                 alert('No case selected.');
                 return false;
             }
@@ -230,7 +233,7 @@ Cases - Admin Panel
         //For Single Row POPUP
         $('.assignSingle').click(function() {
             var selectedIds = [];
-            let getRow= $(this).attr('data-row');
+            let getRow = $(this).attr('data-row');
             selectedIds.push(getRow);
             let customGetPath = "{{ route('admin.users.agent','1')}}";
             let selectedIdsJson = JSON.stringify(selectedIds);
