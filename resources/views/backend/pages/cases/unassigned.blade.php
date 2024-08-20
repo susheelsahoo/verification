@@ -43,9 +43,11 @@ Cases - Admin Panel
                     <h4 class="header-title float-left">Cases List</h4>
                     <p class="float-right mb-2">
 
-                        <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
+                        {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
                             Assign
-                        </button>
+                        </button> --}}
+
+                        <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds">Assign</button>
 
                     </p>
                     <div class="clearfix"></div>
@@ -85,6 +87,9 @@ Cases - Admin Panel
                                     <td>{{ $case->status }}</td>
                                     <td>{{ $case->agent_name }}</td>
                                     <td>
+
+                                        <button type="button" data-row="{{ $case->id }}" class="btn btn-default btn-sm assignSingle py-1">Assign</button>
+
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $case->id) }}">Edit</a>
 
                                         <a class="btn btn-danger text-white" href="{{ route('admin.cases.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
@@ -148,7 +153,7 @@ Cases - Admin Panel
 
 @section('scripts')
 <!-- Start datatable js -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> --}}
 
 <script>
     // Wait for the DOM to be ready
@@ -171,6 +176,7 @@ Cases - Admin Panel
             }
         });
 
+        //For Multiple Row POPUP
         // Handle the "Get Selected IDs" button click event
         $('#getSelectedIds').click(function() {
             // Create an array to store selected IDs
@@ -182,8 +188,13 @@ Cases - Admin Panel
 
             // Convert the array of selected IDs to JSON format
             var selectedIdsJson = JSON.stringify(selectedIds);
+            if (selectedIds.length == 0 || selectedIds.length == undefined || selectedIds.length == 'undefined' ) {
+                alert('No case selected.');
+                return false;
+            }
+
             if (selectedIds.length > 0) {
-                $("#case_fi_type_id").val(selectedIdsJson);
+                //$("#case_fi_type_id").val(selectedIdsJson);
                 var customGetPath = "{{ route('admin.users.agent','1')}}";
                 $.ajax({
                     url: customGetPath,
@@ -200,6 +211,9 @@ Cases - Admin Panel
                                     .text(user.name);
                                 select.append(option);
                             });
+
+                            $("#case_fi_type_id").val(selectedIdsJson);
+                            $('#exampleModal').modal('show');
                         });
                     },
                     error: function() {
@@ -211,6 +225,39 @@ Cases - Admin Panel
                 alert('No case selected.');
             }
 
+        });
+
+        //For Single Row POPUP
+        $('.assignSingle').click(function() {
+            var selectedIds = [];
+            let getRow= $(this).attr('data-row');
+            selectedIds.push(getRow);
+            let customGetPath = "{{ route('admin.users.agent','1')}}";
+            let selectedIdsJson = JSON.stringify(selectedIds);
+            $.ajax({
+                url: customGetPath,
+                type: 'GET',
+                success: function(response) {
+                    var select = $('#userSelect');
+                    select.empty(); // Clear any existing options
+                    select.append('<option value="">--Select Option--</option>'); // Add default option
+                    $.each(response, function(key, users) {
+                        $.each(users, function(index, user) {
+                            console.log(user);
+                            var option = $('<option></option>')
+                                .attr('value', user.id)
+                                .text(user.name);
+                            select.append(option);
+                        });
+
+                        $("#case_fi_type_id").val(selectedIdsJson);
+                        $('#exampleModal').modal('show');
+                    });
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
         });
 
     });
