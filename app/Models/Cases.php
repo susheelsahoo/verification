@@ -24,4 +24,8 @@ class Cases extends Authenticatable
     public function getUpdatedBy(){
         return $this->hasOne('App\Models\User','id','created_by');
     }
+
+    public function getCaseFiType(){
+        return $this->hasMany('App\Models\casesFiType','case_id');
+    }
 }

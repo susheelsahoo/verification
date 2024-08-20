@@ -29,7 +29,7 @@ Create Case Create - Admin Panel
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('admin.fitypes.index') }}">All Create Case</a></li>
-                    <li><span>Create Create Case</span></li>
+                    <li><span>Create Case</span></li>
                 </ul>
             </div>
         </div>
