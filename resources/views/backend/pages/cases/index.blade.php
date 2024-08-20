@@ -65,6 +65,8 @@ Cases - Admin Panel
                                     <td>{{ $user->applicant_name }}</td>
                                     <td>{{ $user->amount }}</td>
                                     <td>
+                                        <a class="btn btn-success text-white" href="{{ route('admin.cases.show', $user->id) }}">View</a>
+
                                         <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $user->id) }}">Edit</a>
 
                                         <a class="btn btn-danger text-white" href="{{ route('admin.cases.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">

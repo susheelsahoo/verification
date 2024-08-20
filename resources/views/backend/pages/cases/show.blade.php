@@ -1,7 +1,7 @@
 @extends('backend.layouts.master')
 
 @section('title')
-Case Edit - Admin Panel
+Case View - Admin Panel
 @endsection
 
 @section('styles')
@@ -22,11 +22,11 @@ Case Edit - Admin Panel
     <div class="row align-items-center">
         <div class="col-sm-6">
             <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Edit Case</h4>
+                <h4 class="page-title pull-left">View Case</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ route('admin.fitypes.index') }}">All Create Case</a></li>
-                    <li><span>Edit Case</span></li>
+                    <li><span>View Case</span></li>
                 </ul>
             </div>
         </div>
@@ -43,12 +43,9 @@ Case Edit - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Edit Case </h4>
+                    <h4 class="header-title">View Case </h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.cases.update',$cases->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Bank</label>
@@ -145,8 +142,7 @@ Case Edit - Admin Panel
                             </div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Update Case</button>
-                    </form>
+
                 </div>
             </div>
         </div>
