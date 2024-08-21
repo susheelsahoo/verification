@@ -43,7 +43,7 @@ Cases - Admin Panel
                     <h4 class="header-title float-left">Cases List</h4>
                     <p class="float-right mb-2">
 
-                        {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
+                        {{-- {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
                             Assign
                         </button> --}}
 
@@ -87,8 +87,18 @@ Cases - Admin Panel
                                     <td>{{ $case->status }}</td>
                                     <td>{{ $case->agent_name }}</td>
                                     <td>
+                                        @if(isset($assign) && !$assign)
+                                            <a href="{{ route('admin.case.viewCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
+                                        @endif
 
-                                        <button type="button" data-row="{{ $case->id }}" class="btn btn-default btn-sm assignSingle py-1">Assign</button>
+                                        @if(isset($assign) && $assign)
+                                            <a href="{{ route('admin.case.viewCaseAssign', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
+                                        @endif
+
+                                        <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a>
+                                        <a href="#" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}"></img></a>
+
+
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $case->id) }}">Edit</a>
 
@@ -188,7 +198,7 @@ Cases - Admin Panel
 
             // Convert the array of selected IDs to JSON format
             var selectedIdsJson = JSON.stringify(selectedIds);
-            if (selectedIds.length == 0 || selectedIds.length == undefined || selectedIds.length == 'undefined' ) {
+            if (selectedIds.length == 0 || selectedIds.length == undefined || selectedIds.length == 'undefined') {
                 alert('No case selected.');
                 return false;
             }
@@ -230,7 +240,7 @@ Cases - Admin Panel
         //For Single Row POPUP
         $('.assignSingle').click(function() {
             var selectedIds = [];
-            let getRow= $(this).attr('data-row');
+            let getRow = $(this).attr('data-row');
             selectedIds.push(getRow);
             let customGetPath = "{{ route('admin.users.agent','1')}}";
             let selectedIdsJson = JSON.stringify(selectedIds);

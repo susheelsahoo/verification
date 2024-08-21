@@ -452,7 +452,9 @@ class CasesController extends Controller
             ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
             ->get();
 
-        return view('backend.pages.cases.unassigned', compact('cases'));
+        $assign = false;
+
+        return view('backend.pages.cases.unassigned', compact('cases','assign'));
     }
 
     public function assigned($status, $user_id = null)
@@ -466,7 +468,9 @@ class CasesController extends Controller
             ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
             ->get();
 
-        return view('backend.pages.cases.unassigned', compact('cases'));
+        $assign = true;
+
+        return view('backend.pages.cases.unassigned', compact('cases','assign'));
     }
     /**
      * Store a newly created resource in storage.
@@ -541,5 +545,16 @@ class CasesController extends Controller
         // Excel::import(new UsersImport, request()->file('file'));
 
         return back();
+    }
+
+    public function viewCase($id){
+        $case = casesFiType::with(['getUser','getCase','getCaseFiType','getFiType','getCaseStatus'])->where('id',$id)->firstOrFail();
+        $assign = false;
+        return view('backend.pages.cases.view',compact('case','assign'));
+    }
+    public function viewCaseAssign($id){
+        $case = casesFiType::with(['getUser','getCase','getCaseFiType','getFiType','getCaseStatus'])->where('id',$id)->firstOrFail();
+        $assign = true;
+        return view('backend.pages.cases.view',compact('case','assign'));
     }
 }

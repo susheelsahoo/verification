@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
     Route::get('cases/unassigned/{id}', 'Backend\CasesController@unassigned')->name('admin.case.unassigned');
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
+    Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
+    Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');
 
     Route::resource('reports', 'Backend\RolesController', ['names' => 'admin.reports']);
     Route::resource('fitypes', 'Backend\FITypesController', ['names' => 'admin.fitypes']);

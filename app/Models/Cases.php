@@ -28,4 +28,16 @@ class Cases extends Authenticatable
     public function getCaseFiType(){
         return $this->hasMany('App\Models\casesFiType','case_id');
     }
+
+    public function getApplicationType(){
+        return $this->hasOne('App\Models\ApplicationType','id','application_type');
+    }
+
+    public function getBank(){
+        return $this->hasOne('App\Models\Bank','id','bank_id');
+    }
+
+    public function getProduct(){
+        return $this->hasOne('App\Models\Product','id','product_id');
+    }
 }
