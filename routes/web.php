@@ -35,7 +35,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
     Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
+    Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.cases.resolveCase');
+    Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.cases.verifiedCase');
     Route::get('cases/unassigned/{id}', 'Backend\CasesController@unassigned')->name('admin.case.unassigned');
+    Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.viewCase');
+    Route::get('cases/{id}/edit', 'Backend\CasesController@editCase')->name('admin.cases.editCase');
+    Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.updateCase');
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
     Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');
@@ -47,6 +52,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('roles', 'Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
     Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
+    Route::get('users/status/{id}', 'Backend\UsersController@getCaseStatus')->name('admin.users.subStatus');
 
     // Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
     Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);

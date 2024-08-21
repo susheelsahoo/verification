@@ -65,18 +65,8 @@ Cases - Admin Panel
                                     <td>{{ $user->applicant_name }}</td>
                                     <td>{{ $user->amount }}</td>
                                     <td>
-                                        <a class="btn btn-success text-white" href="{{ route('admin.cases.show', $user->id) }}">View</a>
-
-                                        <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $user->id) }}">Edit</a>
-
-                                        <a class="btn btn-danger text-white" href="{{ route('admin.cases.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
-                                            Delete
-                                        </a>
-
-                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.cases.destroy', $user->id) }}" method="POST" style="display: none;">
-                                            @method('DELETE')
-                                            @csrf
-                                        </form>
+                                        <a href="{{ route('admin.cases.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
+                                        <a href="{{ route('admin.cases.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a>
                                     </td>
                                 </tr>
                                 @endforeach

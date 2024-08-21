@@ -97,6 +97,8 @@ Cases - Admin Panel
 
                                         <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a>
                                         <a href="#" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}"></img></a>
+                                        <a href="#" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
+                                        <a href="#" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Resolve"></img></a>
 
 
 
@@ -139,7 +141,7 @@ Cases - Admin Panel
                 </div>
                 <div class="modal-body">
                     <div class="form-group col-md-12 col-sm-12">
-                        <input name="case_fi_type_id" id="case_fi_type_id" type="hidden">
+                        <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
                         <label for="name">Assign To</label>
                         <select id="userSelect" name="user_id" class="custom-select" required>
                             <option value="">--Select Option--</option>
@@ -153,6 +155,77 @@ Cases - Admin Panel
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Assign case</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resolveCaseModel" tabindex="-1" role="dialog" aria-labelledby="resolveCaseModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ route('admin.cases.resolveCase') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Resolve Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-md-12 col-sm-12">
+                        <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
+                        <label for="name">Sub Status</label>
+                        <select id="caseSubSelect" name="sub_status" class="custom-select" required>
+                            <option value="">--Select Option--</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label for="name">Remarks :</label>
+                        <textarea class="form-control" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Resolve Case</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verifiedCaseModel" tabindex="-1" role="dialog" aria-labelledby="verifiedCaseModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ route('admin.cases.verifiedCase') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Verified Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group col-md-12 col-sm-12">
+                        <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
+                        <label for="name">FeedBack Status</label>
+                        <select id="caseSubSelect" name="sub_status" class="custom-select" required>
+                            <option value="">--Select Option--</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label for="name">Sub Status</label>
+                        <select id="caseSubSelect" name="sub_status" class="custom-select" required>
+                            <option value="">--Select Option--</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label for="name">Remarks :</label>
+                        <textarea class="form-control" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Verified Case</button>
                 </div>
             </form>
         </div>
@@ -204,7 +277,7 @@ Cases - Admin Panel
             }
 
             if (selectedIds.length > 0) {
-                //$("#case_fi_type_id").val(selectedIdsJson);
+
                 var customGetPath = "{{ route('admin.users.agent','1')}}";
                 $.ajax({
                     url: customGetPath,
@@ -222,7 +295,7 @@ Cases - Admin Panel
                                 select.append(option);
                             });
 
-                            $("#case_fi_type_id").val(selectedIdsJson);
+                            $(".case_fi_type_id").val(selectedIdsJson);
                             $('#exampleModal').modal('show');
                         });
                     },
@@ -260,7 +333,7 @@ Cases - Admin Panel
                             select.append(option);
                         });
 
-                        $("#case_fi_type_id").val(selectedIdsJson);
+                        $(".case_fi_type_id").val(selectedIdsJson);
                         $('#exampleModal').modal('show');
                     });
                 },
@@ -269,6 +342,63 @@ Cases - Admin Panel
                 }
             });
         });
+
+        $('.resolveCase').click(function() {
+            let getRow = $(this).attr('data-row');
+            let customGetPath = "{{ route('admin.users.subStatus','1')}}";
+            $.ajax({
+                url: customGetPath,
+                type: 'GET',
+                success: function(response) {
+                    var select = $('#caseSubSelect');
+                    select.empty(); // Clear any existing options
+                    select.append('<option value="">--Select Option--</option>'); // Add default option
+                    $.each(response, function(key, users) {
+                        $.each(users, function(index, user) {
+                            console.log(user);
+                            var option = $('<option></option>')
+                                .attr('value', user.id)
+                                .text(user.name);
+                            select.append(option);
+                        });
+                        $(".case_fi_type_id").val(getRow);
+                        $('#resolveCaseModel').modal('show');
+                    });
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+        });
+
+        $('.verifiedCase').click(function() {
+            let getRow = $(this).attr('data-row');
+            let customGetPath = "{{ route('admin.users.subStatus','1')}}";
+            $.ajax({
+                url: customGetPath,
+                type: 'GET',
+                success: function(response) {
+                    var select = $('#caseSubSelect');
+                    select.empty(); // Clear any existing options
+                    select.append('<option value="">--Select Option--</option>'); // Add default option
+                    $.each(response, function(key, users) {
+                        $.each(users, function(index, user) {
+                            console.log(user);
+                            var option = $('<option></option>')
+                                .attr('value', user.id)
+                                .text(user.name);
+                            select.append(option);
+                        });
+                        $(".case_fi_type_id").val(getRow);
+                        $('#verifiedCaseModel').modal('show');
+                    });
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+        });
+
 
     });
 </script>

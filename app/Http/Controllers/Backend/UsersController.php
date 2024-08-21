@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\CaseStatus;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -151,6 +152,17 @@ class UsersController extends Controller
 
         if ($bankId !== null) {
             return response()->json(['users' => $users]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
+
+    public function getCaseStatus($bankId = null)
+    {
+
+        $caseSubStatus = CaseStatus::all();
+        if ($bankId !== null) {
+            return response()->json(['caseSubStatus' => $caseSubStatus]);
         } else {
             return response()->json(['error' => 'Bank ID not provided.'], 400);
         }
