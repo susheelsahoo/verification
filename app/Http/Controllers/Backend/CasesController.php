@@ -56,23 +56,23 @@ class CasesController extends Controller
         foreach ($fitypes as $key => $fitype) {
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
             $fitypesFeild .= '<label for="Address' . $fitype['id'] . '">' . $fitype['name'] . ' Address</label>';
-            $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="Address' . $fitype['id'] . '" placeholder="Address">';
-            //$fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[address]" value="Address' . $fitype['id'] . '" placeholder="Address">';
+            $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" placeholder="Address">';
+
             $fitypesFeild .= '</div>';
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
             $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
-            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="201301' . $fitype['id'] . '" placeholder="Pincode">';
-            //$fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[pincode]" value="201301' . $fitype['id'] . '" placeholder="Pincode">';
+            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" placeholder="Pincode">';
+
             $fitypesFeild .= '</div>';
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
             $fitypesFeild .= '<label for="phone number' . $fitype['id'] . '">' . $fitype['name'] . ' Phone Number</label>';
-            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="987654321' . $fitype['id'] . '" placeholder="Phone Number">';
-            //$fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[phone_number]" value="987654321' . $fitype['id'] . '" placeholder="Phone Number">';
+            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" placeholder="Phone Number">';
+
             $fitypesFeild .= '</div>';
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
             $fitypesFeild .= '<label for="landmark' . $fitype['id'] . '">' . $fitype['name'] . ' Land Mark</label>';
-            $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="Landmark' . $fitype['id'] . '" placeholder="landmark">';
-            //$fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[landmark]" value="Landmark' . $fitype['id'] . '" placeholder="landmark">';
+            $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" placeholder="landmark">';
+
             $fitypesFeild .= '</div>';
         }
 
@@ -660,20 +660,38 @@ class CasesController extends Controller
     }
 
 
-    public function unassigned()
+    public function caseStatus($status, $user_id = Null)
     {
-
-        $cases  = DB::table('cases_fi_types as cft')
+        $user_id = $user_id ?? 0;
+        $query = DB::table('cases_fi_types as cft')
+            ->select(
+                'cft.id',
+                'c.refrence_number',
+                'c.applicant_name',
+                'c.co_applicant_name',
+                'cft.mobile',
+                'cft.address',
+                'b.name as bank_name',
+                'p.name as product_name',
+                'ft.name as fi_type_name',
+                'cft.scheduled_visit_date',
+                'cft.status',
+                'u.name as agent_name'
+            )
             ->join('cases as c', 'c.id', '=', 'cft.case_id')
             ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->join('banks as b', 'b.id', '=', 'c.bank_id')
+            ->join('products as p', 'p.id', '=', 'c.product_id')
             ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
-            ->where('cft.user_id', '0')
-            ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
-            ->get();
-
+            ->where('cft.user_id', $user_id)
+            ->where('cft.status', '!=', '7');
+        if ($status != 'aaa') {
+            $query->where('cft.status', $status);
+        }
+        $cases = $query->get();
         $assign = false;
 
-        return view('backend.pages.cases.unassigned', compact('cases','assign'));
+        return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
 
     public function assigned($status, $user_id = null)
@@ -687,9 +705,7 @@ class CasesController extends Controller
             ->select('cft.id', 'c.refrence_number', 'c.applicant_name',  'c.co_applicant_name', 'cft.mobile', 'cft.address', 'ft.name',  'cft.scheduled_visit_date', 'cft.status', 'u.name as agent_name')
             ->get();
 
-        $assign = true;
-
-        return view('backend.pages.cases.unassigned', compact('cases','assign'));
+        return view('backend.pages.cases.caseList', compact('cases'));
     }
     /**
      * Store a newly created resource in storage.
@@ -781,14 +797,16 @@ class CasesController extends Controller
         return back();
     }
 
-    public function viewCase($id){
-        $case = casesFiType::with(['getUser','getCase','getCaseFiType','getFiType','getCaseStatus'])->where('id',$id)->firstOrFail();
+    public function viewCase($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
-        return view('backend.pages.cases.view',compact('case','assign'));
+        return view('backend.pages.cases.view', compact('case', 'assign'));
     }
-    public function viewCaseAssign($id){
-        $case = casesFiType::with(['getUser','getCase','getCaseFiType','getFiType','getCaseStatus'])->where('id',$id)->firstOrFail();
+    public function viewCaseAssign($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = true;
-        return view('backend.pages.cases.view',compact('case','assign'));
+        return view('backend.pages.cases.view', compact('case', 'assign'));
     }
 }

@@ -37,7 +37,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
     Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.cases.resolveCase');
     Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.cases.verifiedCase');
-    Route::get('cases/unassigned/{id}', 'Backend\CasesController@unassigned')->name('admin.case.unassigned');
+    Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.cases.caseStatus');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.viewCase');
     Route::get('cases/{id}/edit', 'Backend\CasesController@editCase')->name('admin.cases.editCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.updateCase');

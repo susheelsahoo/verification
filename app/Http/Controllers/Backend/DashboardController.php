@@ -43,9 +43,12 @@ class DashboardController extends Controller
         $total_roles = count(Role::select('id')->get());
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
-        $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->get());
+        $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->where('status', '0')->get());
         $agentLists = User::where('admin_id', $this->user->id)->get();
+<<<<<<< HEAD
          
+=======
+>>>>>>> refs/remotes/origin/master
         $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
 
 

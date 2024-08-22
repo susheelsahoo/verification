@@ -33,7 +33,7 @@ Dashboard Page - Admin Panel
                 <div class="col-md-6 mt-5 mb-3">
                     <div class="card">
                         <div class="seo-fact sbg1">
-                            <a href="{{ route('admin.case.unassigned', ['id' => '1']) }}">
+                            <a href="{{ route('admin.cases.caseStatus', ['id' => '1']) }}">
     <div class="p-4 d-flex justify-content-between align-items-center">
         <div class="seofct-icon"><i class="fa fa-users"></i> Total Unassigned</div>
         <h2>{{ $total_Unassigned }}</h2>
@@ -262,7 +262,7 @@ Dashboard Page - Admin Panel
         </form>
     </div>
     <div class="col-lg-2 col-md-2">
-        <p class="mt-3"><strong>Unassigned Cases</strong>: <a href="{{ route('admin.case.unassigned', ['id' => $total_Unassigned]) }}">{{ $total_Unassigned }} </a> </p>
+        <p class="mt-3"><strong>Unassigned Cases</strong>: <a href="{{ route('admin.cases.caseStatus', ['status' => '0']) }}">{{ $total_Unassigned }} </a> </p>
         <p><strong>Dedup Cases</strong>: {{ $total_Unassigned }} </p>
     </div>
 </div>
@@ -289,16 +289,16 @@ Dashboard Page - Admin Panel
                 <tr style="color: #0000FF ! Important;background-color: #00F000;">
                     <td>Total</td>
 
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 'aaa']) }}">{{ $totalSum['total'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ $totalSum['inprogressTotal'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 2]) }}">{{ $totalSum['positive_resolvedTotal'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 3]) }}">{{ $totalSum['negative_resolvedTotal'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 4]) }}">{{ $totalSum['positive_verifiedTotal'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 5]) }}">{{ $totalSum['negative_verifiedTotal'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 6]) }}">{{ $totalSum['holdTotal'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 'aaa']) }}">{{ $totalSum['total'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ $totalSum['inprogressTotal'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 2]) }}">{{ $totalSum['positive_resolvedTotal'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 3]) }}">{{ $totalSum['negative_resolvedTotal'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 4]) }}">{{ $totalSum['positive_verifiedTotal'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 5]) }}">{{ $totalSum['negative_verifiedTotal'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 6]) }}">{{ $totalSum['holdTotal'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ 0 }} </a></td>
                     <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
                 </tr>
 
@@ -306,16 +306,16 @@ Dashboard Page - Admin Panel
                 @foreach ($userCount as $userWise)
                 <tr>
                     <td><a href="#">{{ $userWise['agentName'] ?? '' }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 'aaa']) }}">{{ $userWise['total'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['inprogress'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 2, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['positive_resolved'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 3, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['negative_resolved'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 4, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['positive_verified'] ?? 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 5, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['negative_verified'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 6, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['hold'] ?? 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1, 'user_id' => $userWise['agentid']]) }}">{{ 0 }}</a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ 0 }} </a></td>
-                    <td><a href="{{ route('admin.case.assigned', ['status' => 1]) }}">{{ 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 'aaa', 'user_id' => $userWise['agentid']])  }}">{{ $userWise['total'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['inprogress'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 2, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['positive_resolved'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 3, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['negative_resolved'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 4, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['positive_verified'] ?? 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 5, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['negative_verified'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 6, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['hold'] ?? 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1, 'user_id' => $userWise['agentid']]) }}">{{ 0 }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ 0 }} </a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1]) }}">{{ 0 }} </a></td>
                     <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
                 </tr>
                 @endforeach

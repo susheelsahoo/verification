@@ -52,21 +52,21 @@ Case Edit - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Bank</label>
-                                <select class="custom-select selectBank" name="bank_id" id="selectBank">
+                                <select class="custom-select selectBank" name="bank_id" id="selectBank" disabled>
                                     <option value="">--Select Option--</option>
                                     @foreach ($banks as $bank)
-                                        <option value="{{ $bank['id'] }}" @if($cases->bank_id == $bank['id']) selected @endif  >{{ $bank['name'] }}</option>
+                                    <option value="{{ $bank['id'] }}" @if($cases->bank_id == $bank['id']) selected @endif >{{ $bank['name'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Product</label>
-                                <select id="productSelect" name="product_id" class="custom-select">
+                                <select id="productSelect" name="product_id" class="custom-select" disabled>
                                     <option value="">--Select Option--</option>
                                     @if($AvailbleProduct)
-                                        @foreach ($AvailbleProduct as $product)
-                                            <option value="{{ $product['id'] }}" @if($cases->product_id == $product['id']) selected @endif  >{{ $product['name'] }}</option>
-                                        @endforeach
+                                    @foreach ($AvailbleProduct as $product)
+                                    <option value="{{ $product['id'] }}" @if($cases->product_id == $product['id']) selected @endif >{{ $product['name'] }}</option>
+                                    @endforeach
                                     @endif
                                 </select>
                             </div>
@@ -75,10 +75,10 @@ Case Edit - Admin Panel
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">FI Type</label>
                                 @foreach ($fitypes as $fitype)
-                                    <div class="form-check">
-                                        <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}"   @if(isset($fi_type_ids) && in_array($fitype['id'],$fi_type_ids) )  checked   @endif>
-                                        <label class="form-check-label" for="fitype{{ $fitype['id'] }}"> {{ $fitype['name'] }} </label>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}" @if(isset($fi_type_ids) && in_array($fitype['id'],$fi_type_ids) ) checked @endif onclick="return false">
+                                    <label class="form-check-label" for="fitype{{ $fitype['id'] }}"> {{ $fitype['name'] }} </label>
+                                </div>
                                 @endforeach
                             </div>
                             {!! $fitypesFeild !!}
@@ -87,7 +87,7 @@ Case Edit - Admin Panel
                                 <select class="custom-select application_type" name="application_type" id="application_type">
                                     <option value="">--Select Option--</option>
                                     @foreach ($ApplicationTypes as $ApplicationType)
-                                        <option value="{{ $ApplicationType['id'] }}" @if($cases->application_type == $ApplicationType['id']) selected @endif>{{ $ApplicationType['name'] }}</option>
+                                    <option value="{{ $ApplicationType['id'] }}" @if($cases->application_type == $ApplicationType['id']) selected @endif>{{ $ApplicationType['name'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -164,7 +164,6 @@ Case Edit - Admin Panel
     })
 </script>
 <script>
-
     function appliCationType(selectedApplicationType) {
         $('.name').addClass('d-none');
         if (selectedApplicationType == 'Applicant/Co-Applicant') {
@@ -172,7 +171,7 @@ Case Edit - Admin Panel
         } else {
             $('.' + selectedApplicationType).removeClass('d-none');
         }
-        return  true;
+        return true;
     }
 
     $(document).ready(function() {
@@ -181,7 +180,7 @@ Case Edit - Admin Panel
         let selectedApplicationType = $('#application_type').find("option:selected").text();
         appliCationType(selectedApplicationType);
 
-        $('.fytpe_checkbox').each(function () {
+        $('.fytpe_checkbox').each(function() {
             var isChecked = $(this).prop('checked');
             var relName = $(this).attr('rel-name');
             if (isChecked) {
@@ -223,19 +222,6 @@ Case Edit - Admin Panel
             appliCationType(selectedApplicationType);
 
         });
-
-
-        $(document).on('click', '.fytpe_checkbox', function() {
-            var isChecked = $(this).prop('checked');
-            var relName = $(this).attr('rel-name');
-            if (isChecked) {
-                console.log();
-                $('.' + relName + "_section").removeClass('d-none');
-            } else {
-                $('.' + relName + "_section").addClass('d-none');
-            }
-        });
-
     });
 </script>
 @endsection
