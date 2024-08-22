@@ -88,8 +88,6 @@ class DashboardController extends Controller
                         case 7:
                             $close += 1;
                             break;
-
-
                         default:
                     }
                 }
