@@ -64,7 +64,7 @@ Dashboard Page - Admin Panel
         </div>
     </div> --}}
 
-    {{--  <div class="row mt-4">
+    {{-- <div class="row mt-4">
         <div class="col-lg-10 col-md-10">
             <form method="" action="" id="filterForm">
                 <div class="row">
@@ -111,86 +111,86 @@ Dashboard Page - Admin Panel
                             @if($agentLists)
                                 @foreach ($agentLists as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="FromDate">From Date</label>
-                        <input type="date" class="form-control" id="FromDate" name="FromDate">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="ToDate">To Date</label>
-                        <input type="date" class="form-control" id="ToDate" name="ToDate">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <input type="submit" class="form-control btn btn-sm btn-primary mt-4" id="submit" name="submit" value="Filter">
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-2 col-md-2">
-            <p class="mt-3"><strong>Unassigned Cases</strong>: <a href="{{ route('admin.case.unassigned', ['id' => $total_Unassigned]) }}">{{ $total_Unassigned }} </a> </p>
-            <p><strong>Dedup Cases</strong>: {{ $total_Unassigned }}  </p>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-12 col-lg-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th valign="middle">Agent</th>
-                        <th valign="middle">Total</th>
-                        <th valign="middle">Inprogress</th>
-                        <th valign="middle">Positive Resolved</th>
-                        <th valign="middle">Negative Resolved</th>
-                        <th valign="middle">Positive Verified</th>
-                        <th valign="middle">Negetive Verified</th>
-                        <th valign="middle">Hold</th>
-                        <th valign="middle">First Time</th>
-                        <th valign="middle">Last Time</th>
-                        <th valign="middle">#Visit Count</th>
-                        <th valign="middle">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="color: #0000FF ! Important;background-color: #00F000;">
-                        <td>Total</td>
-                        <td>0</td>
-                        <td>{{ $totalSum['inprogressTotal'] ?? 0 }}</td>
-                        <td>{{ $totalSum['resolveTotal'] ?? 0 }}</td>
-                        <td>0</td>
-                        <td>{{ $totalSum['verifiedTotal'] ?? 0 }}</td>
-                        <td>0</td>
-                        <td>{{ $totalSum['rejectedTotal'] ?? 0 }}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
-                    </tr>
+    @endforeach
+    @endif
+    </select>
+</div>
+<div class="form-group col-md-2">
+    <label for="FromDate">From Date</label>
+    <input type="date" class="form-control" id="FromDate" name="FromDate">
+</div>
+<div class="form-group col-md-2">
+    <label for="ToDate">To Date</label>
+    <input type="date" class="form-control" id="ToDate" name="ToDate">
+</div>
+<div class="form-group col-md-2">
+    <input type="submit" class="form-control btn btn-sm btn-primary mt-4" id="submit" name="submit" value="Filter">
+</div>
+</div>
+</form>
+</div>
+<div class="col-lg-2 col-md-2">
+    <p class="mt-3"><strong>Unassigned Cases</strong>: <a href="{{ route('admin.case.unassigned', ['id' => $total_Unassigned]) }}">{{ $total_Unassigned }} </a> </p>
+    <p><strong>Dedup Cases</strong>: {{ $total_Unassigned }} </p>
+</div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12 col-lg-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th valign="middle">Agent</th>
+                    <th valign="middle">Total</th>
+                    <th valign="middle">Inprogress</th>
+                    <th valign="middle">Positive Resolved</th>
+                    <th valign="middle">Negative Resolved</th>
+                    <th valign="middle">Positive Verified</th>
+                    <th valign="middle">Negetive Verified</th>
+                    <th valign="middle">Hold</th>
+                    <th valign="middle">First Time</th>
+                    <th valign="middle">Last Time</th>
+                    <th valign="middle">#Visit Count</th>
+                    <th valign="middle">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="color: #0000FF ! Important;background-color: #00F000;">
+                    <td>Total</td>
+                    <td>0</td>
+                    <td>{{ $totalSum['inprogressTotal'] ?? 0 }}</td>
+                    <td>{{ $totalSum['resolveTotal'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>{{ $totalSum['verifiedTotal'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>{{ $totalSum['rejectedTotal'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
+                </tr>
 
-                    @if($userCount)
-                        @foreach ($userCount as $value)
-                            <tr>
-                                <td>{{ $value->getCreatedBy->name ?? '' }}</td>
-                                <td>0</td>
-                                <td>{{ $value['inprogress'] ?? 0 }}</td>
-                                <td>{{ $value['resolve'] ?? 0 }}</td>
-                                <td>0</td>
-                                <td>{{ $value['verified'] ?? 0 }}</td>
-                                <td>0</td>
-                                <td>{{ $value['rejected'] ?? 0 }}</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
-                            </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                @if($userCount)
+                @foreach ($userCount as $value)
+                <tr>
+                    <td>{{ $value->getCreatedBy->name ?? '' }}</td>
+                    <td>0</td>
+                    <td>{{ $value['inprogress'] ?? 0 }}</td>
+                    <td>{{ $value['resolve'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>{{ $value['verified'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>{{ $value['rejected'] ?? 0 }}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><i class='fa fa-map-marker fa-2x' style='color:#9b479f;'></i></td>
+                </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
     </div>
+</div>
 </div>
 </div>
 </div>
@@ -305,7 +305,7 @@ Dashboard Page - Admin Panel
                 @if($userCount)
                 @foreach ($userCount as $userWise)
                 <tr>
-                    <td><a href="#">{{ $userWise['agentName'] ?? '' }}</a></td>
+                    <td><a href="{{ route('admin.cases.caseStatus', ['status' => 'aaa', 'user_id' => $userWise['agentid']])  }}">{{ $userWise['agentName'] ?? '' }}</a></td>
                     <td><a href="{{ route('admin.cases.caseStatus', ['status' => 'aaa', 'user_id' => $userWise['agentid']])  }}">{{ $userWise['total'] ?? 0 }}</a></td>
                     <td><a href="{{ route('admin.cases.caseStatus', ['status' => 1, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['inprogress'] ?? 0 }}</a></td>
                     <td><a href="{{ route('admin.cases.caseStatus', ['status' => 2, 'user_id' => $userWise['agentid']]) }}">{{ $userWise['positive_resolved'] ?? 0 }} </a></td>
