@@ -84,7 +84,7 @@ Cases - Admin Panel
                                     <td>{{ $case->bank_name .' '. $case->product_name .' '. $case->fi_type_name }}</td>
                                     <td>{{ $case->scheduled_visit_date }}</td>
                                     <td>{{ $case->agent_name }}</td>
-                                    <td>{{ $case->status }}</td>
+                                    <td>{{ get_status($case->status) }}</td>
                                     <td></td>
                                     <td>
                                         @if(isset($assign) && !$assign)
