@@ -662,8 +662,6 @@ class CasesController extends Controller
 
     public function caseStatus($status, $user_id = Null)
     {
-
-
         $user_id = $user_id ?? 0;
         $query = DB::table('cases_fi_types as cft')
             ->select(
@@ -691,7 +689,9 @@ class CasesController extends Controller
             $query->where('cft.status', $status);
         }
         $cases = $query->get();
-        return view('backend.pages.cases.caseList', compact('cases'));
+        $assign = false;
+
+        return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
 
     public function assigned($status, $user_id = null)
@@ -795,5 +795,18 @@ class CasesController extends Controller
         // Excel::import(new UsersImport, request()->file('file'));
 
         return back();
+    }
+
+    public function viewCase($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = false;
+        return view('backend.pages.cases.view', compact('case', 'assign'));
+    }
+    public function viewCaseAssign($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = true;
+        return view('backend.pages.cases.view', compact('case', 'assign'));
     }
 }

@@ -43,7 +43,7 @@ Cases - Admin Panel
                     <h4 class="header-title float-left">Cases List</h4>
                     <p class="float-right mb-2">
 
-                        {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
+                        {{-- {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
                             Assign
                         </button> --}}
 
@@ -85,13 +85,20 @@ Cases - Admin Panel
                                     <td>{{ $case->scheduled_visit_date }}</td>
                                     <td>{{ $case->agent_name }}</td>
                                     <td>{{ $case->status }}</td>
-                                    <td>{{ $case->agent_name }}</td>
+                                    <td></td>
                                     <td>
-                                        <!-- <a href="{{ route('admin.cases.viewCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
-                                        <a href="{{ route('admin.cases.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a> -->
-                                        <a href="#" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}"></img></a>
-                                        <a href="#" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
-                                        <a href="#" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Resolve"></img></a>
+                                        @if(isset($assign) && !$assign)
+                                        <a href="{{ route('admin.case.viewCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
+                                        @endif
+
+                                        @if(isset($assign) && $assign)
+                                        <a href="{{ route('admin.case.viewCaseAssign', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
+                                        @endif
+
+                                        <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}" title="Assign"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
 
 
 

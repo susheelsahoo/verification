@@ -41,7 +41,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.viewCase');
     Route::get('cases/{id}/edit', 'Backend\CasesController@editCase')->name('admin.cases.editCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.updateCase');
-    // Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
+    Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
+    Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
+    Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');
 
     Route::resource('reports', 'Backend\RolesController', ['names' => 'admin.reports']);
     Route::resource('fitypes', 'Backend\FITypesController', ['names' => 'admin.fitypes']);

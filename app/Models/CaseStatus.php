@@ -2,20 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class CaseStatus extends Authenticatable
+class CaseStatus extends Model
 {
-    use Notifiable;
-
     protected $table = 'case_status';
-
-    protected $fillable = [
-        'name', 'status',
-    ];
-
-    // protected $hidden = [
-    //     'password', 'remember_token',
-    // ];
+    protected $fillable = ['name', 'status', 'created_by', 'updated_by'];
 }

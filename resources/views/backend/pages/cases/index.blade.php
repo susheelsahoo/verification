@@ -65,8 +65,8 @@ Cases - Admin Panel
                                     <td>{{ $user->applicant_name }}</td>
                                     <td>{{ $user->amount }}</td>
                                     <td>
-                                        <a href="{{ route('admin.cases.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}"></img></a>
-                                        <a href="{{ route('admin.cases.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}"></img></a>
+                                        <a href="{{ route('admin.cases.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
+                                        <a href="{{ route('admin.cases.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
                                     </td>
                                 </tr>
                                 @endforeach
