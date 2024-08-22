@@ -36,3 +36,12 @@ if (!function_exists('get_status')) {
         return $statusValue;
     }
 }
+
+function humanReadableDate($date, $format = 'F j, Y, g:i a')
+{
+    // Convert the date to a DateTime object
+    $dateTime = new DateTime($date);
+
+    // Format the date in a human-readable format
+    return $dateTime->format($format);
+}
