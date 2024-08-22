@@ -358,7 +358,7 @@ class CasesController extends Controller
     public function viewCaseByCftId($id)
     {
 
-        $cases = casesFiType::where('id', $id)->with('getCase')->firstOrFail();
+        $cases              = casesFiType::where('id', $id)->with('getCase')->firstOrFail();
         $roles              = Role::all();
         $banks              = Bank::all();
         $fitypes            = FiType::all();
