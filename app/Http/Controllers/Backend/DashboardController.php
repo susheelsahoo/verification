@@ -45,7 +45,7 @@ class DashboardController extends Controller
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->get());
         $agentLists = User::where('admin_id', $this->user->id)->get();
-        // $getCases = casesFiType::get();
+         
         $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
 
 
