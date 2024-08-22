@@ -442,85 +442,90 @@ class CasesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function editCase($id)
+    // {
+    //     $cases = casesFiType::where('id', $id)->with('getCase')->firstOrFail();
+    //     $roles              = Role::all();
+    //     $banks              = Bank::all();
+    //     $fitypes            = FiType::all();
+    //     $ApplicationTypes   = ApplicationType::all();
+    //     $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+
+    //     $fi_type_ids = $fi_type_value = [];
+    //     if ($cases->getCase()) {
+    //         // dd($cases->getCase());
+    //         // $fi_type_ids = $cases->getCase()->pluck('fi_type_id')->toArray();
+    //         // foreach ($cases->getCaseFiType as $value) {
+    //         //     $fi_type_value[$value->fi_type_id] = $value;
+    //         // }
+    //     }
+
+    //     $AvailbleProduct = [];
+    //     if ($cases->bank_id) {
+    //         $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+    //             ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+    //             ->where('bpm.bank_id', $cases->bank_id)
+    //             ->where('products.status', '1')
+    //             ->get()
+    //             ->toArray();
+    //     }
+
+    //     $fitypesFeild = '';
+    //     $AgentsFeild = '';
+    //     foreach ($fitypes as $key => $fitype) {
+    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+    //         $fitypesFeild .= '<label for="Address' . $fitype['id'] . '">' . $fitype['name'] . ' Address</label>';
+
+    //         if (isset($fi_type_value[$fitype['id']])) {
+    //             $address = $fi_type_value[$fitype['id']]['address'];
+    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="' . $address . '" placeholder="Address">';
+    //         } else {
+    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="" placeholder="Address">';
+    //         }
+
+    //         $fitypesFeild .= '</div>';
+    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+    //         $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
+
+    //         if (isset($fi_type_value[$fitype['id']])) {
+    //             $pincode = $fi_type_value[$fitype['id']]['pincode'];
+    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="' . $pincode . '" placeholder="Pincode">';
+    //         } else {
+    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="" placeholder="Pincode">';
+    //         }
+
+    //         $fitypesFeild .= '</div>';
+    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+    //         $fitypesFeild .= '<label for="phone number' . $fitype['id'] . '">' . $fitype['name'] . ' Phone Number</label>';
+
+    //         if (isset($fi_type_value[$fitype['id']])) {
+    //             $phone = $fi_type_value[$fitype['id']]['mobile'];
+    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="' . $phone . '" placeholder="Phone Number">';
+    //         } else {
+    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="" placeholder="Phone Number">';
+    //         }
+
+    //         $fitypesFeild .= '</div>';
+    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+    //         $fitypesFeild .= '<label for="landmark' . $fitype['id'] . '">' . $fitype['name'] . ' Land Mark</label>';
+
+    //         if (isset($fi_type_value[$fitype['id']])) {
+    //             $landmark = $fi_type_value[$fitype['id']]['land_mark'];
+    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="' . $landmark . '" placeholder="landmark">';
+    //         } else {
+    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="" placeholder="landmark">';
+    //         }
+
+    //         $fitypesFeild .= '</div>';
+    //     }
+
+    //     return view('backend.pages.cases.view', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
+    // }
     public function editCase($id)
     {
-        dd($id);
-        $cases = casesFiType::where('id', $id)->with('getCase')->firstOrFail();
-        $roles              = Role::all();
-        $banks              = Bank::all();
-        $fitypes            = FiType::all();
-        $ApplicationTypes   = ApplicationType::all();
-        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-
-        $fi_type_ids = $fi_type_value = [];
-        if ($cases->getCase()) {
-            // dd($cases->getCase());
-            // $fi_type_ids = $cases->getCase()->pluck('fi_type_id')->toArray();
-            // foreach ($cases->getCaseFiType as $value) {
-            //     $fi_type_value[$value->fi_type_id] = $value;
-            // }
-        }
-
-        $AvailbleProduct = [];
-        if ($cases->bank_id) {
-            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
-                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
-                ->where('bpm.bank_id', $cases->bank_id)
-                ->where('products.status', '1')
-                ->get()
-                ->toArray();
-        }
-
-        $fitypesFeild = '';
-        $AgentsFeild = '';
-        foreach ($fitypes as $key => $fitype) {
-            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-            $fitypesFeild .= '<label for="Address' . $fitype['id'] . '">' . $fitype['name'] . ' Address</label>';
-
-            if (isset($fi_type_value[$fitype['id']])) {
-                $address = $fi_type_value[$fitype['id']]['address'];
-                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="' . $address . '" placeholder="Address">';
-            } else {
-                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="" placeholder="Address">';
-            }
-
-            $fitypesFeild .= '</div>';
-            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-            $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
-
-            if (isset($fi_type_value[$fitype['id']])) {
-                $pincode = $fi_type_value[$fitype['id']]['pincode'];
-                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="' . $pincode . '" placeholder="Pincode">';
-            } else {
-                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="" placeholder="Pincode">';
-            }
-
-            $fitypesFeild .= '</div>';
-            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-            $fitypesFeild .= '<label for="phone number' . $fitype['id'] . '">' . $fitype['name'] . ' Phone Number</label>';
-
-            if (isset($fi_type_value[$fitype['id']])) {
-                $phone = $fi_type_value[$fitype['id']]['mobile'];
-                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="' . $phone . '" placeholder="Phone Number">';
-            } else {
-                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="" placeholder="Phone Number">';
-            }
-
-            $fitypesFeild .= '</div>';
-            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-            $fitypesFeild .= '<label for="landmark' . $fitype['id'] . '">' . $fitype['name'] . ' Land Mark</label>';
-
-            if (isset($fi_type_value[$fitype['id']])) {
-                $landmark = $fi_type_value[$fitype['id']]['land_mark'];
-                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="' . $landmark . '" placeholder="landmark">';
-            } else {
-                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="" placeholder="landmark">';
-            }
-
-            $fitypesFeild .= '</div>';
-        }
-
-        return view('backend.pages.cases.edit', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = false;
+        return view('backend.pages.cases.view', compact('case', 'assign'));
     }
 
     /**

@@ -95,7 +95,7 @@ Cases - Admin Panel
                                         <a href="{{ route('admin.case.viewCaseAssign', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
                                         @endif
 
-                                        <a href="{{ route('admin.cases.edit', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <a href="{{ route('admin.cases.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}" title="Assign"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
