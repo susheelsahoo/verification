@@ -50,7 +50,7 @@ Create Case Create - Admin Panel
                     <h4 class="header-title">Create Case</h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.cases.store') }}" method="POST">
+                    <form action="{{ route('admin.case.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">

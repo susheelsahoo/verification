@@ -329,7 +329,7 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been created !!');
-        return redirect()->route('admin.cases.index');
+        return redirect()->route('admin.case.index');
     }
 
 

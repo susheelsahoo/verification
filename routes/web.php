@@ -29,21 +29,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Backend\DashboardController@index')->name('admin.dashboard');
-    Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.cases']);
+    Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.case']);
     Route::get('cases/getList/{id}', 'Backend\CasesController@getItem')->name('admin.case.item');
     Route::get('cases/getcase/{id}', 'Backend\CasesController@getCase')->name('admin.case.getCase');
     Route::get('cases/importExportView/{id}', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
-    Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
-    Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.cases.resolveCase');
-    Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.cases.verifiedCase');
-    Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.cases.updateConsolidated');
-    Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.cases.caseStatus');
-    Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.viewCase');
-    Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.updateCase');
+    Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCase')->name('admin.case.reinitatiateCase');
+    Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiate')->name('admin.case.reinitatiateCase');
+    Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.case.assignAgent');
+    Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.case.resolveCase');
+    Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.case.verifiedCase');
+    Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.case.updateConsolidated');
+    Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.case.caseStatus');
+    Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.viewCase');
+    Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.updateCase');
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
-    Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.cases.editCase');
+    Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.case.editCase');
 
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
     Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');

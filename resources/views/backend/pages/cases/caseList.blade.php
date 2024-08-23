@@ -95,7 +95,7 @@ Cases - Admin Panel
                                         <a href="{{ route('admin.case.viewCaseAssign', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
                                         @endif
 
-                                        <a href="{{ route('admin.cases.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <a href="{{ route('admin.case.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}" title="Assign"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
@@ -103,13 +103,13 @@ Cases - Admin Panel
 
 
 
-                                        <!-- <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $case->id) }}">Edit</a>
+                                        <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
 
-                                        <a class="btn btn-danger text-white" href="{{ route('admin.cases.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
+                                        <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
                                             Delete
                                         </a>
 
-                                        <form id="delete-form-{{ $case->id }}" action="{{ route('admin.cases.destroy', $case->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $case->id }}" action="{{ route('admin.case.destroy', $case->id) }}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             @csrf
                                         </form> -->
@@ -132,7 +132,7 @@ Cases - Admin Panel
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('admin.cases.assignAgent') }}" method="POST">
+            <form action="{{ route('admin.case.assignAgent') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Assign Case</h5>
@@ -165,7 +165,7 @@ Cases - Admin Panel
 <div class="modal fade" id="resolveCaseModel" tabindex="-1" role="dialog" aria-labelledby="resolveCaseModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('admin.cases.resolveCase') }}" method="POST">
+            <form action="{{ route('admin.case.resolveCase') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Resolve Case</h5>
@@ -197,7 +197,7 @@ Cases - Admin Panel
 <div class="modal fade" id="verifiedCaseModel" tabindex="-1" role="dialog" aria-labelledby="verifiedCaseModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{ route('admin.cases.verifiedCase') }}" method="POST">
+            <form action="{{ route('admin.case.verifiedCase') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Verified Case</h5>

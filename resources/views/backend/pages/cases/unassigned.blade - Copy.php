@@ -45,7 +45,7 @@ Cases - Admin Panel
                 <div class="card-body">
                     <h4 class="header-title float-left">Cases List</h4>
                     <p class="float-right mb-2">
-                        <a class="btn btn-primary text-white" href="{{ route('admin.cases.create') }}">Create New Cases</a>
+                        <a class="btn btn-primary text-white" href="{{ route('admin.case.create') }}">Create New Cases</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">
@@ -771,13 +771,13 @@ Cases - Admin Panel
                                     <td>{{ $user->applicant_name }}</td>
                                     <td>{{ $user->amount }}</td>
                                     <td>
-                                        <a class="btn btn-success text-white" href="{{ route('admin.cases.edit', $user->id) }}">Edit</a>
+                                        <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $user->id) }}">Edit</a>
 
-                                        <a class="btn btn-danger text-white" href="{{ route('admin.cases.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                        <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                             Delete
                                         </a>
 
-                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.cases.destroy', $user->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.case.destroy', $user->id) }}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             @csrf
                                         </form>

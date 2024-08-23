@@ -133,7 +133,7 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been created !!');
-        return redirect()->route('admin.cases.index');
+        return redirect()->route('admin.case.index');
     }
 
     /**
@@ -346,7 +346,143 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been updated !!');
-        return redirect()->route('admin.cases.index');
+        return redirect()->route('admin.case.index');
+    }
+    public function reinitatiateCase($id)
+    {
+        $cases = Cases::where('id', $id)->with('getCaseFiType')->firstOrFail();
+        $roles              = Role::all();
+        $banks              = Bank::all();
+        $fitypes            = FiType::all();
+        $ApplicationTypes   = ApplicationType::all();
+        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+
+        $fi_type_ids = $fi_type_value = [];
+        if ($cases->getCaseFiType()) {
+            $fi_type_ids = $cases->getCaseFiType()->pluck('fi_type_id')->toArray();
+            foreach ($cases->getCaseFiType as $value) {
+                $fi_type_value[$value->fi_type_id] = $value;
+            }
+        }
+
+        $AvailbleProduct = [];
+        if ($cases->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $cases->bank_id)
+                ->where('products.status', '1')
+                ->get()
+                ->toArray();
+        }
+
+        $fitypesFeild = '';
+        $AgentsFeild = '';
+        foreach ($fitypes as $key => $fitype) {
+            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+            $fitypesFeild .= '<label for="Address' . $fitype['id'] . '">' . $fitype['name'] . ' Address</label>';
+
+            if (isset($fi_type_value[$fitype['id']])) {
+                $address = $fi_type_value[$fitype['id']]['address'];
+                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="' . $address . '" placeholder="Address">';
+            } else {
+                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="" placeholder="Address">';
+            }
+
+            $fitypesFeild .= '</div>';
+            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+            $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
+
+            if (isset($fi_type_value[$fitype['id']])) {
+                $pincode = $fi_type_value[$fitype['id']]['pincode'];
+                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="' . $pincode . '" placeholder="Pincode">';
+            } else {
+                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="" placeholder="Pincode">';
+            }
+
+            $fitypesFeild .= '</div>';
+            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+            $fitypesFeild .= '<label for="phone number' . $fitype['id'] . '">' . $fitype['name'] . ' Phone Number</label>';
+
+            if (isset($fi_type_value[$fitype['id']])) {
+                $phone = $fi_type_value[$fitype['id']]['mobile'];
+                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="' . $phone . '" placeholder="Phone Number">';
+            } else {
+                $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="" placeholder="Phone Number">';
+            }
+
+            $fitypesFeild .= '</div>';
+            $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
+            $fitypesFeild .= '<label for="landmark' . $fitype['id'] . '">' . $fitype['name'] . ' Land Mark</label>';
+
+            if (isset($fi_type_value[$fitype['id']])) {
+                $landmark = $fi_type_value[$fitype['id']]['land_mark'];
+                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="' . $landmark . '" placeholder="landmark">';
+            } else {
+                $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="" placeholder="landmark">';
+            }
+
+            $fitypesFeild .= '</div>';
+        }
+
+        return view('backend.pages.cases.reinitatiate', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function reinitatiate(Request $request)
+    {
+        // dd($request->all());
+        // Validation Data
+        $request->validate([
+            'applicant_name' => 'required|max:50|',
+        ]);
+        // Create New cases
+        $cases = new Cases();
+        $cases->bank_id             = $request->bank_id;
+        $cases->product_id          = $request->product_id;
+        $cases->application_type    = $request->application_type;
+        if ($request->application_type == '1') {
+            $cases->applicant_name      = $request->applicant_name;
+        } elseif ($request->application_type == '2') {
+            $cases->applicant_name      = $request->applicant_name;
+            $cases->co_applicant_name   = $request->co_applicant_name;
+        } elseif ($request->application_type == '3') {
+            $cases->applicant_name      = $request->guarantee_name;
+        } elseif ($request->application_type == '4') {
+            $cases->applicant_name      = $request->seller_name;
+        }
+        $cases->refrence_number     = $request->refrence_number;
+        $cases->amount              = $request->amount;
+        $cases->vehicle             = $request->vehicle;
+        $cases->geo_limit           = $request->geo_limit;
+        $cases->remarks             = $request->remarks;
+        $cases->created_by          = Auth::guard('admin')->user()->id;
+        $cases->updated_by          = Auth::guard('admin')->user()->id;
+        // $cases->name         = $request->name;
+        $cases->save();
+        $cases_id = $cases->id;
+
+        foreach ($request->fi_type_id as $fi_type_id) {
+
+            if (!empty($fi_type_id['id'])) {
+                $casesFiType = new casesFiType;
+                $casesFiType->case_id       = $cases_id;
+                $casesFiType->fi_type_id    = $fi_type_id['id'];
+                $casesFiType->mobile        = $fi_type_id['phone_number'];
+                $casesFiType->address       = $fi_type_id['address'];
+                $casesFiType->pincode       = $fi_type_id['pincode'];
+                $casesFiType->land_mark     = $fi_type_id['landmark'];
+                $casesFiType->user_id       = '0';
+                $casesFiType->save();
+            }
+        }
+
+        session()->flash('success', 'Case has been created !!');
+        return redirect()->route('admin.case.index');
     }
 
     /**
@@ -578,7 +714,7 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been updated !!');
-        return redirect()->route('admin.cases.index');
+        return redirect()->route('admin.case.index');
     }
 
 
@@ -671,7 +807,7 @@ class CasesController extends Controller
             }
         }
         session()->flash('success', 'File imported successfully.');
-        return redirect()->route('admin.cases.index');
+        return redirect()->route('admin.case.index');
     }
 
 

@@ -46,13 +46,13 @@ Case Edit - Admin Panel
                     <h4 class="header-title">Edit Case </h4>
                     @include('backend.layouts.partials.messages')
 
-                    <form action="{{ route('admin.case.update',$cases->id) }}" method="POST">
+                    <form action="{{ route('admin.case.reinitatiateCase',$cases->id) }}" method="POST">
                         @csrf
-                        @method('PUT')
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Bank</label>
-                                <select class="custom-select selectBank" name="bank_id" id="selectBank" disabled>
+                                <input type="hidden" name="bank_id" value="{{ $cases->bank_id }}">
+                                <select class="custom-select selectBank" name="bank_id_disabled" id="selectBank" disabled>
                                     <option value="">--Select Option--</option>
                                     @foreach ($banks as $bank)
                                     <option value="{{ $bank['id'] }}" @if($cases->bank_id == $bank['id']) selected @endif >{{ $bank['name'] }}</option>
@@ -61,7 +61,8 @@ Case Edit - Admin Panel
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Product</label>
-                                <select id="productSelect" name="product_id" class="custom-select" disabled>
+                                <input type="hidden" name="product_id" value="{{ $cases->product_id }}">
+                                <select id="productSelect" name="product_id_hidden" class="custom-select" disabled>
                                     <option value="">--Select Option--</option>
                                     @if($AvailbleProduct)
                                     @foreach ($AvailbleProduct as $product)
@@ -145,7 +146,7 @@ Case Edit - Admin Panel
                             </div>
 
                         </div>
-                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Update Case</button>
+                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Reinitatiate Case</button>
                     </form>
                 </div>
             </div>

@@ -42,7 +42,7 @@ Cases - Admin Panel
                 <div class="card-body">
                     <h4 class="header-title float-left">Cases List</h4>
                     <p class="float-right mb-2">
-                        <a class="btn btn-primary text-white" href="{{ route('admin.cases.create') }}">Create New Cases</a>
+                        <a class="btn btn-primary text-white" href="{{ route('admin.case.create') }}">Create New Cases</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">
@@ -65,13 +65,14 @@ Cases - Admin Panel
                                     <td>{{ $user->applicant_name }}</td>
                                     <td>{{ $user->amount }}</td>
                                     <td>
-                                        <a href="{{ route('admin.cases.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
-                                        <a href="{{ route('admin.cases.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
-                                        <a href="{{ route('admin.cases.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+                                        <a href="{{ route('admin.case.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
+                                        <a href="{{ route('admin.case.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <a href="{{ route('admin.case.reinitatiateCase', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <a href="{{ route('admin.case.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                             <img src="{{URL::asset('backend/assets/images/icons/delete.png')}}" title="Edit"></img>
                                         </a>
 
-                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.cases.destroy', $user->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.case.destroy', $user->id) }}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             @csrf
                                         </form>

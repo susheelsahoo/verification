@@ -26,12 +26,12 @@
                          <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
                                  Cases
                              </span></a>
-                         <ul class="collapse {{ Route::is('admin.cases.create') || Route::is('admin.cases.index') || Route::is('admin.cases.edit') || Route::is('admin.cases.show') ? 'in' : '' }}">
+                         <ul class="collapse {{ Route::is('admin.case.create') || Route::is('admin.case.index') || Route::is('admin.case.edit') || Route::is('admin.case.show') ? 'in' : '' }}">
                              @if ($usr->can('case.view'))
-                             <li class="{{ Route::is('admin.cases.index')  || Route::is('admin.cases.edit') ? 'active' : '' }}"><a href="{{ route('admin.cases.index') }}">Search Cases</a></li>
+                             <li class="{{ Route::is('admin.case.index')  || Route::is('admin.case.edit') ? 'active' : '' }}"><a href="{{ route('admin.case.index') }}">Search Cases</a></li>
                              @endif
                              @if ($usr->can('case.create'))
-                             <li class="{{ Route::is('admin.cases.create')  ? 'active' : '' }}"><a href="{{ route('admin.cases.create') }}">Create Case</a></li>
+                             <li class="{{ Route::is('admin.case.create')  ? 'active' : '' }}"><a href="{{ route('admin.case.create') }}">Create Case</a></li>
                              <li class="{{ Route::currentRouteName() == 'admin.case.import.view' ? 'active' : '' }}">
                                  <a href="{{ route('admin.case.import.view', ['id' => '1']) }}">Import Case</a>
                              </li>
