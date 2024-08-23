@@ -99,6 +99,7 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}" title="Assign"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="consolidatedRemarks"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Consolidated remarks"></img></a>
 
 
 
@@ -182,7 +183,7 @@ Cases - Admin Panel
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="name">Remarks :</label>
-                        <textarea class="form-control" required></textarea>
+                        <textarea class="form-control" name="consolidated_remarks" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -208,19 +209,19 @@ Cases - Admin Panel
                     <div class="form-group col-md-12 col-sm-12">
                         <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
                         <label for="name">FeedBack Status</label>
-                        <select id="caseSubSelect" name="sub_status" class="custom-select" required>
+                        <select id="feedbackSelect" name="feedback_status" class="custom-select" required>
                             <option value="">--Select Option--</option>
                         </select>
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="name">Sub Status</label>
-                        <select id="caseSubSelect" name="sub_status" class="custom-select" required>
+                        <select id="verifiedCaseSubSelect" name="sub_status" class="custom-select" required>
                             <option value="">--Select Option--</option>
                         </select>
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="name">Remarks :</label>
-                        <textarea class="form-control" required></textarea>
+                        <textarea class="form-control" name="consolidated_remarks" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -228,6 +229,29 @@ Cases - Admin Panel
                     <button type="submit" class="btn btn-primary">Verified Case</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="consolidatedRemarksModel" tabindex="-1" role="dialog" aria-labelledby="consolidatedRemarksModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Consolidated remarks</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-md-12 col-sm-12">
+                    <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
+                    <label for="name">Consolidated remarks :</label>
+                    <textarea class="form-control consolidated_remarks" name="consolidated_remarks" readonly required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -345,7 +369,7 @@ Cases - Admin Panel
 
         $('.resolveCase').click(function() {
             let getRow = $(this).attr('data-row');
-            let customGetPath = "{{ route('admin.users.subStatus','1')}}";
+            let customGetPath = "{{ route('admin.users.caseStatus', ['type' => 1]) }}";
             $.ajax({
                 url: customGetPath,
                 type: 'GET',
@@ -373,12 +397,12 @@ Cases - Admin Panel
 
         $('.verifiedCase').click(function() {
             let getRow = $(this).attr('data-row');
-            let customGetPath = "{{ route('admin.users.subStatus','1')}}";
+            let customGetPath = "{{ route('admin.users.caseStatus', ['type' => 1, 'parent_id' => '0']) }}";
             $.ajax({
                 url: customGetPath,
                 type: 'GET',
                 success: function(response) {
-                    var select = $('#caseSubSelect');
+                    var select = $('#feedbackSelect');
                     select.empty(); // Clear any existing options
                     select.append('<option value="">--Select Option--</option>'); // Add default option
                     $.each(response, function(key, users) {
@@ -398,8 +422,58 @@ Cases - Admin Panel
                 }
             });
         });
+        $('#feedbackSelect').change(function() {
+            var parent_id = $(this).val();
+            if (parent_id.length > 0) {
+                var url = "{{ route('admin.users.caseStatus', ['type' => 1, 'parent_id' => 'PARENT_ID']) }}";
+                url = url.replace('PARENT_ID', parent_id);
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        var select = $('#verifiedCaseSubSelect');
+                        select.empty(); // Clear any existing options
+                        select.append('<option value="">--Select Option--</option>'); // Add default option
+                        $.each(response, function(key, users) {
+                            $.each(users, function(index, user) {
+                                console.log(user);
+                                var option = $('<option></option>')
+                                    .attr('value', user.id)
+                                    .text(user.name);
+                                select.append(option);
+                            });
+                        });
+                    },
+                    error: function() {
+                        alert('Request failed');
+                    }
+                });
 
+            } else {
+                alert('No case selected.');
+            }
 
+        });
+        $('.consolidatedRemarks').click(function() {
+            let case_id = $(this).attr('data-row');
+            var url = "{{ route('admin.case.getCase','CASE_ID')}}";
+            url = url.replace('CASE_ID', case_id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $(".consolidated_remarks").val(response.case_fi_type.consolidated_remarks);
+                    $(".case_fi_type_id").val(case_id);
+                    $('#consolidatedRemarksModel').modal('show');
+
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+
+        });
     });
 </script>
 @endsection

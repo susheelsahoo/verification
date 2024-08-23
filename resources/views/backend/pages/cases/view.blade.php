@@ -47,28 +47,16 @@ Cases - Admin Panel
                             <tr>
                                 <td align="left" valign="middle"><strong>Status :</strong></td>
                                 <td align="left" valign="middle">
-                                    @if($case->status == 0)
-                                    NEW
-                                    @elseif ($case->status == 1)
-                                    INPROGRESS
-                                    @elseif ($case->status == 2)
-                                    RESOLVED
-                                    @elseif ($case->status == 3)
-                                    VERIFIED
-                                    @elseif ($case->status == 4)
-                                    REJECTED
-                                    @else
-                                    -
-                                    @endif
+                                    {{ get_status($case->status) }}
                                 </td>
 
                                 <td align="left" valign="middle"><strong>Sub Status :</strong></td>
-                                <td align="left" valign="middle">{{ $case->getCaseStatus->name ?? '' }} </td>
+                                <td align="left" valign="middle">{{ $case->sub_status ?? '' }} </td>
 
                             </tr>
                             <tr>
                                 <td align="left" valign="middle"><strong>Field Survey Status :</strong></td>
-                                <td align="left" valign="middle"></td>
+                                <td align="left" valign="middle">{{ get_status($case->status) }}</td>
 
                                 <td align="left" valign="middle"><strong>Assign To :</strong></td>
                                 <td align="left" valign="middle">{{ $case->getCase->getCreatedBy->name ?? '' }} </td>

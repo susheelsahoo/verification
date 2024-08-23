@@ -157,11 +157,16 @@ class UsersController extends Controller
         }
     }
 
-    public function getCaseStatus($bankId = null)
+    public function getCaseStatus($type, $parent_id = null)
     {
+        if (is_null($parent_id)) {
+            $caseSubStatus = CaseStatus::where('type', $type)->orderBy('name', "ASC")->get();
+        } else {
+            $caseSubStatus = CaseStatus::where('parent_id', $parent_id)->where('type', $type)->orderBy('name', "ASC")->get();
+        }
 
-        $caseSubStatus = CaseStatus::all();
-        if ($bankId !== null) {
+
+        if ($caseSubStatus !== null) {
             return response()->json(['caseSubStatus' => $caseSubStatus]);
         } else {
             return response()->json(['error' => 'Bank ID not provided.'], 400);

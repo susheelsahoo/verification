@@ -107,6 +107,11 @@ ALTER TABLE `cases_fi_types` CHANGE `status` `status` ENUM('0','1','2','3','4','
 ALTER TABLE `cases_fi_types` ADD `sub_status` INT(11) NULL DEFAULT NULL AFTER `status`;
 
 
+ALTER TABLE `case_status` ADD `parent_id` INT(11) NOT NULL AFTER `updated_at`, ADD `type` INT(11) NOT NULL AFTER `parent_id`;
+ALTER TABLE `case_status` CHANGE `parent_id` `parent_id` INT(11) NOT NULL AFTER `id`, CHANGE `type` `type` INT(11) NOT NULL AFTER `name`
+ALTER TABLE `cases_fi_types` CHANGE `remarks` `remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `user_id`, CHANGE `supervisor_remarks` `supervisor_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `remarks`, CHANGE `consolidated_remarks` `consolidated_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `supervisor_remarks`
+
+
 Get Banks
 Method Get
 http://127.0.0.1:8000/api/getBank

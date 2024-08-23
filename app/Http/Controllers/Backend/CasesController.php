@@ -521,6 +521,16 @@ class CasesController extends Controller
 
     //     return view('backend.pages.cases.view', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
     // }
+    public function getCase($case_fi_type_id = null)
+    {
+        $case_fi_type = casesFiType::findOrFail($case_fi_type_id);
+
+        if ($case_fi_type !== null) {
+            return response()->json(['case_fi_type' => $case_fi_type]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
     public function editCase($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
@@ -745,15 +755,44 @@ class CasesController extends Controller
 
     public function resolveCase(Request $request)
     {
-        $case_fi_type_id    = $request['case_fi_type_id'];
-        $status             = '2';
-        $sub_status         = $request['sub_status'];
-        $cases = casesFiType::find($case_fi_type_id);
-        $cases->status       = $status;
-        $cases->sub_status   = $sub_status;
+        $case_fi_type_id                = $request['case_fi_type_id'];
+        $status                         = '2';
+        $sub_status                     = $request['sub_status'];
+        $consolidated_remarks           = $request['consolidated_remarks'];
+        $cases                          = casesFiType::find($case_fi_type_id);
+        $cases->status                  = $status;
+        $cases->sub_status              = $sub_status;
+        $cases->consolidated_remarks    = $consolidated_remarks;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        return back();
+        return redirect()->route('admin.dashboard');
+    }
+    public function verifiedCase(Request $request)
+    {
+
+        $case_fi_type_id                = $request['case_fi_type_id'];
+        $status                         = '4';
+        $sub_status                     = $request['sub_status'];
+        $consolidated_remarks           = $request['consolidated_remarks'];
+        $cases                          = casesFiType::find($case_fi_type_id);
+        $cases->status                  = $status;
+        $cases->sub_status              = $sub_status;
+        $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->save();
+        session()->flash('success', 'Case Resolve successfully !!');
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function updateConsolidated(Request $request)
+    {
+
+        $case_fi_type_id                = $request['case_fi_type_id'];
+        $consolidated_remarks           = $request['consolidated_remarks'];
+        $cases                          = casesFiType::find($case_fi_type_id);
+        $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->save();
+        session()->flash('success', 'Remark Update successfully !!');
+        return redirect()->route('admin.dashboard');
     }
 
     private function importCSV($file)

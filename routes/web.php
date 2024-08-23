@@ -31,12 +31,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Backend\DashboardController@index')->name('admin.dashboard');
     Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.cases']);
     Route::get('cases/getList/{id}', 'Backend\CasesController@getItem')->name('admin.case.item');
+    Route::get('cases/getcase/{id}', 'Backend\CasesController@getCase')->name('admin.case.getCase');
     Route::get('cases/importExportView/{id}', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
     Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.cases.assignAgent');
     Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.cases.resolveCase');
     Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.cases.verifiedCase');
+    Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.cases.updateConsolidated');
     Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.cases.caseStatus');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.viewCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.cases.updateCase');
@@ -53,7 +55,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('roles', 'Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
     Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
-    Route::get('users/status/{id}', 'Backend\UsersController@getCaseStatus')->name('admin.users.subStatus');
+    Route::get('users/status/{type}/{parent_id?}', 'Backend\UsersController@getCaseStatus')->name('admin.users.caseStatus');
 
     // Route::get('users/agent/{id}', 'Backend\UsersController@getAgent')->name('admin.users.agent');
     Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);
