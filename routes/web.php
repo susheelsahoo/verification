@@ -45,11 +45,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.case.resolveCase');
     Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.case.verifiedCase');
     Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.case.updateConsolidated');
+    Route::get('cases/caseClose/{id}', 'Backend\CasesController@closeCase')->name('admin.case.close');
     Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.case.caseStatus');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.viewCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.updateCase');
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
     Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.case.editCase');
+
 
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
     Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');

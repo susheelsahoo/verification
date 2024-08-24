@@ -980,6 +980,7 @@ class CasesController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+
     public function updateConsolidated(Request $request)
     {
 
@@ -990,6 +991,15 @@ class CasesController extends Controller
         $cases->save();
         session()->flash('success', 'Remark Update successfully !!');
         return redirect()->route('admin.dashboard');
+    }
+
+    public function closeCase($case_fi_type_id)
+    {
+
+        $cases             = casesFiType::find($case_fi_type_id);
+        $cases->status     = '7';
+        $cases->save();
+        return response()->json(['success' => 'Case Close successfully.'], 200);
     }
 
     public function deleteImage(Request $request, $image_number)

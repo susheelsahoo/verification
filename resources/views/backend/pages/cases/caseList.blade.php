@@ -100,7 +100,8 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="consolidatedRemarks"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Consolidated remarks"></img></a>
-                                        <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Upload"></img></a>
+                                        <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseClose"><img src="{{URL::asset('backend/assets/images/icons/Close.gif')}}" title="Case close"></img></a>
 
 
 
@@ -474,6 +475,33 @@ Cases - Admin Panel
                     alert('Request failed');
                 }
             });
+
+        });
+        $('.caseClose').click(function() {
+            if (confirm('Are you sure to close this case')) {
+                let case_id = $(this).attr('data-row');
+                var url = "{{ route('admin.case.close','CASE_ID')}}";
+                url = url.replace('CASE_ID', case_id);
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.success);
+                            window.location.href = "{{ route('admin.dashboard') }}";
+
+                        } else {
+                            alert('Unable to close the case.');
+                        }
+
+                    },
+                    error: function() {
+                        alert('Request failed');
+                    }
+                });
+
+            }
 
         });
     });
