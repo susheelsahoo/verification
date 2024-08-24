@@ -716,6 +716,67 @@ class CasesController extends Controller
         session()->flash('success', 'Case has been updated !!');
         return redirect()->route('admin.case.index');
     }
+    public function uploadCaseImage($case_fi_type_id)
+    {
+        $case_img = CasesFiType::findOrFail($case_fi_type_id);
+        return view('backend.pages.cases.uploadImage', compact('case_img', 'case_fi_type_id'));
+    }
+
+    public function uploadImage(Request $request, $case_fi_type_id)
+    {
+
+
+        // Validate the uploaded files
+        $request->validate([
+            'images.*' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', // max size 2MB per image
+        ]);
+
+        // Find the record by ID
+        $case = CasesFiType::findOrFail($case_fi_type_id);
+
+        $year = date('Y');
+        $month = date('m');
+        $path = "images/cases/{$year}/{$month}";
+
+        // Ensure the directory exists
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+
+        // Handle each uploaded file
+        foreach ($request->file('images') as $file) {
+            // Get the first available image slot
+            $imgField = $this->getAvailableImageField($case);
+
+            if ($imgField) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($path), $filename);
+
+                // Save the filename to the current image field
+                $case->$imgField = "{$path}/{$filename}";
+                $case->save();
+
+                session()->flash('success', 'Image uploaded successfully');
+            } else {
+                session()->flash('error', 'All image slots are filled');
+                break;
+            }
+        }
+
+        return back();
+    }
+
+
+    private function getAvailableImageField($case)
+    {
+        for ($i = 1; $i <= 9; $i++) {
+            $imgField = 'image_' . $i;
+            if (is_null($case->$imgField)) {
+                return $imgField;
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -929,6 +990,20 @@ class CasesController extends Controller
         $cases->save();
         session()->flash('success', 'Remark Update successfully !!');
         return redirect()->route('admin.dashboard');
+    }
+
+    public function deleteImage(Request $request, $image_number)
+    {
+
+        $case_fi_type_id = $request['case_fi_type_id'];
+        $imgNumber = 'image_' . $image_number;
+
+        $cases = casesFiType::findOrFail($case_fi_type_id);
+        $cases->$imgNumber     = NULL;
+        // $cases->updated_by     = Auth::guard('admin')->user()->id;
+        $cases->save();
+        // session()->flash('success', 'Image uploaded successfully');
+        return response()->json(['success' => 'Image delete successfully.'], 200);
     }
 
     private function importCSV($file)

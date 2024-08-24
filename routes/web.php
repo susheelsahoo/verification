@@ -37,6 +37,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
     Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCase')->name('admin.case.reinitatiateCase');
     Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiate')->name('admin.case.reinitatiateCase');
+    Route::get('cases/upload-image/{id}', 'Backend\CasesController@uploadCaseImage')->name('admin.case.upload.image');
+    Route::post('cases/upload-image/{id}', 'Backend\CasesController@uploadImage')->name('admin.case.upload.image');
+    Route::post('cases/delete-image/{id}', 'Backend\CasesController@deleteImage')->name('admin.case.delete.image');
+
     Route::post('cases/assignAgent', 'Backend\CasesController@assignAgent')->name('admin.case.assignAgent');
     Route::post('cases/resolveCase', 'Backend\CasesController@resolveCase')->name('admin.case.resolveCase');
     Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.case.verifiedCase');
