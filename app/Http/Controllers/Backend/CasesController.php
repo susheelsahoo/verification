@@ -1012,6 +1012,7 @@ class CasesController extends Controller
         $cases->$imgNumber     = NULL;
         // $cases->updated_by     = Auth::guard('admin')->user()->id;
         $cases->save();
+
         // session()->flash('success', 'Image uploaded successfully');
         return response()->json(['success' => 'Image delete successfully.'], 200);
     }
