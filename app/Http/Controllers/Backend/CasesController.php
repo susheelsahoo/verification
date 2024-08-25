@@ -1112,4 +1112,10 @@ class CasesController extends Controller
         // return redirect()->back();
 
     }
+
+    public function getForm($id=null){
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $view = view('backend.pages.cases.detail',compact('case'))->render();
+        return response()->json(['viewData'=>$view]);
+    }
 }

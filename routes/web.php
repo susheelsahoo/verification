@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
     Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.case.editCase');
     Route::post('cases/update-case/{id}', 'Backend\CasesController@modifyCase')->name('admin.case.modifyCase');
+    Route::get('cases/view-form/{id}', 'Backend\CasesController@getForm')->name('admin.case.viewForm');
 
 
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');

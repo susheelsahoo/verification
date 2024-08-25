@@ -103,8 +103,9 @@ Cases - Admin Panel
                                         <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseClose"><img src="{{URL::asset('backend/assets/images/icons/Close.gif')}}" title="Case close"></img></a>
 
+                                        {{-- <a href="{{ route('admin.case.viewForm', $case->id) }}" class="viewForm"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View"></img></a> --}}
 
-
+                                        <a href="javascript::void(0)" class="viewForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
 
@@ -255,6 +256,21 @@ Cases - Admin Panel
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewFormModel" tabindex="-1" role="dialog" aria-labelledby="viewFormModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
@@ -504,6 +520,29 @@ Cases - Admin Panel
             }
 
         });
+
+
+        $('.viewForm').click(function(e) {
+            e.preventDefault();
+            let case_id = $(this).attr('data-row');
+            var url = "{{ route('admin.case.viewForm','CASE_ID')}}";
+            url = url.replace('CASE_ID', case_id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $("#viewFormModel").find('.modal-body').html(response.viewData);
+                    $('#viewFormModel').modal('show');
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+
+        });
+
+
     });
 </script>
 @endsection
