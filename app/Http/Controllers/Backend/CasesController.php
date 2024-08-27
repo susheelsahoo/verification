@@ -862,7 +862,7 @@ class CasesController extends Controller
                 $casesFiType->address       = $row['8'];
                 $casesFiType->pincode       = $row['11'];
                 $casesFiType->land_mark     = $row['12'];
-                $casesFiType->status        = 0;
+                $casesFiType->status        = '0';
                 $casesFiType->user_id       = 1;
                 $casesFiType->save();
             }
