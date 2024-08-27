@@ -671,7 +671,9 @@ class CasesController extends Controller
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
-        return view('backend.pages.cases.view', compact('case', 'assign'));
+        $ApplicationTypes   = ApplicationType::all();
+        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+        return view('backend.pages.cases.editcase', compact('case', 'assign','ApplicationTypes','users'));
     }
 
     /**
@@ -1074,5 +1076,46 @@ class CasesController extends Controller
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = true;
         return view('backend.pages.cases.view', compact('case', 'assign'));
+    }
+
+    public  function modifyCase(Request $request ,$id){
+        /*
+        Array
+            (
+                [_token] => pWdO1L0EjF3R6i6VY9CtO0TvihOIHOQCfV83wDTl
+                [case_fy_id] => 6
+                [applicant_name] => susheel sahoo update
+                [address] => my address updateed
+                [city] =>
+                [pincode] => 2013011234
+                [company_name] =>
+                [reference_number] => 30
+                [internal_code] => EP1010
+                [application_type] => 1
+                [mobile] => 9876543211
+                [alternate_number] =>
+                [loan_amont] => 10000
+                [status_remark] =>
+                [created_by] => 1
+            )  */
+        $input = $request->all();
+        $case_fi_type_id = $input['case_fy_id'];
+        $cases           = casesFiType::findOrFail($case_fi_type_id);
+        $cases->remarks  = $input['status_remark'] ?? null;
+        $cases->address  = $input['address'] ?? null;
+        $cases->pincode  = $input['pincode'] ?? null;
+        $cases->save();
+
+        return response()->json(['success' => 'Case Update successfully !!'], 200);
+
+        // session()->flash('success', 'Case Update successfully !!');
+        // return redirect()->back();
+
+    }
+
+    public function getForm($id=null){
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $view = view('backend.pages.cases.detail',compact('case'))->render();
+        return response()->json(['viewData'=>$view]);
     }
 }
