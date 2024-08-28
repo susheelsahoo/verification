@@ -431,7 +431,7 @@ class CasesController extends Controller
     {
 
         $casesFiType = casesFiType::findOrFail($id);
-
+        dd();
         $htmlFormReinitatiateCase = '<div class="modal-body">                                          
                                         <div class="form-group">
                                             <label for="bvcustomer_name">Applicant Name:</label>
@@ -446,8 +446,8 @@ class CasesController extends Controller
                                             <input type="text" class="form-control" id="business_name" name="business_name" value="">
                                         </div>    
                                         <div class="form-group">
-                                            <label for="business_address">phone number:</label>
-                                            <input type="text" class="form-control" id="business_address" name="business_address" value="">
+                                            <label for="mobile">Phone Number:</label>
+                                            <input type="text" class="form-control" id="mobile" name="mobile" value="' . $casesFiType->mobile . '">
                                         </div>    
                                         <div class="form-group">
                                             <label for="distance">Landark:</label>
