@@ -102,11 +102,10 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="consolidatedRemarks"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Consolidated remarks"></img></a>
                                         <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseClose"><img src="{{URL::asset('backend/assets/images/icons/Close.gif')}}" title="Case close"></img></a>
-
                                         {{-- <a href="{{ route('admin.case.viewForm', $case->id) }}" class="viewForm"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View"></img></a> --}}
-
                                         <a href="javascript::void(0)" class="viewForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
-
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
 
                                         <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
@@ -259,7 +258,26 @@ Cases - Admin Panel
         </div>
     </div>
 </div>
+<div class="modal fade" id="caseReinitiatesModel" tabindex="-1" role="dialog" aria-labelledby="caseReinitiatesModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Case Reinitiates</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body htmlFormReinitatiateCaseSection">
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds">Reinitiates</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="viewFormModel" tabindex="-1" role="dialog" aria-labelledby="viewFormModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -542,7 +560,54 @@ Cases - Admin Panel
 
         });
 
+        $('.cloneCase').click(function() {
+            if (confirm('Are you sure to clone this case')) {
+                let case_id = $(this).attr('data-row');
+                var url = "{{ route('admin.case.clone','CASE_ID')}}";
+                url = url.replace('CASE_ID', case_id);
 
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.success);
+                            window.location.href = "{{ route('admin.dashboard') }}";
+
+                        } else {
+                            alert('Unable to close the case.');
+                        }
+
+                    },
+                    error: function() {
+                        alert('Request failed');
+                    }
+                });
+
+            }
+
+        });
+
+        $('.caseReinitiates').click(function() {
+            let case_id = $(this).attr('data-row');
+            var url = "{{ route('admin.case.reinitatiateCaseNew','CASE_ID')}}";
+            url = url.replace('CASE_ID', case_id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $(".htmlFormReinitatiateCaseSection").html('');
+                    $(".htmlFormReinitatiateCaseSection").html(response.htmlFormReinitatiateCase);
+                    $('#caseReinitiatesModel').modal('show');
+
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+
+        });
     });
 </script>
 @endsection

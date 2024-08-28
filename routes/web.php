@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
     Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCase')->name('admin.case.reinitatiateCase');
     Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiate')->name('admin.case.reinitatiateCase');
+    Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCaseNew')->name('admin.case.reinitatiateCaseNew');
+    Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateNew')->name('admin.case.reinitatiateCaseNew');
     Route::get('cases/upload-image/{id}', 'Backend\CasesController@uploadCaseImage')->name('admin.case.upload.image');
     Route::post('cases/upload-image/{id}', 'Backend\CasesController@uploadImage')->name('admin.case.upload.image');
     Route::post('cases/delete-image/{id}', 'Backend\CasesController@deleteImage')->name('admin.case.delete.image');
@@ -46,6 +48,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/verifiedCase', 'Backend\CasesController@verifiedCase')->name('admin.case.verifiedCase');
     Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.case.updateConsolidated');
     Route::get('cases/caseClose/{id}', 'Backend\CasesController@closeCase')->name('admin.case.close');
+    Route::get('cases/clone/{id}', 'Backend\CasesController@cloneCase')->name('admin.case.clone');
     Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.case.caseStatus');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.viewCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.updateCase');

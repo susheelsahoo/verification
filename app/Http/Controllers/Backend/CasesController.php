@@ -350,6 +350,7 @@ class CasesController extends Controller
     }
     public function reinitatiateCase($id)
     {
+
         $cases = Cases::where('id', $id)->with('getCaseFiType')->firstOrFail();
         $roles              = Role::all();
         $banks              = Bank::all();
@@ -425,6 +426,51 @@ class CasesController extends Controller
         }
 
         return view('backend.pages.cases.reinitatiate', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
+    }
+    public function reinitatiateCaseNew($id)
+    {
+
+        $casesFiType = casesFiType::findOrFail($id);
+
+        $htmlFormReinitatiateCase = '<div class="modal-body">                                          
+                                        <div class="form-group">
+                                            <label for="bvcustomer_name">Applicant Name:</label>
+                                            <input type="text" class="form-control" id="bvcustomer_name" name="bvcustomer_name" value="">
+                                        </div>                                          
+                                        <div class="form-group">
+                                            <label for="bvcustomer_name">Co Applicant Name:</label>
+                                            <input type="text" class="form-control" id="bvcustomer_name" name="bvcustomer_name" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="business_name">Address:</label>
+                                            <input type="text" class="form-control" id="business_name" name="business_name" value="">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="business_address">phone number:</label>
+                                            <input type="text" class="form-control" id="business_address" name="business_address" value="">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="distance">Landark:</label>
+                                            <input type="text" class="form-control" id="distance" name="distance" value="">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="city">amount:</label>
+                                            <input type="text" class="form-control" id="city" name="city" value="">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="pincode">Vehicle:</label>
+                                            <input type="text" class="form-control" id="pincode" name="pincode" value="">
+                                        </div>    
+                                                                                
+                                        <input type="hidden" id="case_fi_type_id" name="case_fi_type_id" value="' . $id . '">
+                                    </div>
+                                    ';
+
+        if ($casesFiType !== null) {
+            return response()->json(['htmlFormReinitatiateCase' => $htmlFormReinitatiateCase]);
+        } else {
+            return response()->json(['error' => 'Something went wrong.'], 400);
+        }
     }
 
     /**
@@ -572,91 +618,6 @@ class CasesController extends Controller
         return view('backend.pages.cases.show', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function editCase($id)
-    // {
-    //     $cases = casesFiType::where('id', $id)->with('getCase')->firstOrFail();
-    //     $roles              = Role::all();
-    //     $banks              = Bank::all();
-    //     $fitypes            = FiType::all();
-    //     $ApplicationTypes   = ApplicationType::all();
-    //     $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-
-    //     $fi_type_ids = $fi_type_value = [];
-    //     if ($cases->getCase()) {
-    //         // dd($cases->getCase());
-    //         // $fi_type_ids = $cases->getCase()->pluck('fi_type_id')->toArray();
-    //         // foreach ($cases->getCaseFiType as $value) {
-    //         //     $fi_type_value[$value->fi_type_id] = $value;
-    //         // }
-    //     }
-
-    //     $AvailbleProduct = [];
-    //     if ($cases->bank_id) {
-    //         $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
-    //             ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
-    //             ->where('bpm.bank_id', $cases->bank_id)
-    //             ->where('products.status', '1')
-    //             ->get()
-    //             ->toArray();
-    //     }
-
-    //     $fitypesFeild = '';
-    //     $AgentsFeild = '';
-    //     foreach ($fitypes as $key => $fitype) {
-    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-    //         $fitypesFeild .= '<label for="Address' . $fitype['id'] . '">' . $fitype['name'] . ' Address</label>';
-
-    //         if (isset($fi_type_value[$fitype['id']])) {
-    //             $address = $fi_type_value[$fitype['id']]['address'];
-    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="' . $address . '" placeholder="Address">';
-    //         } else {
-    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][address]" value="" placeholder="Address">';
-    //         }
-
-    //         $fitypesFeild .= '</div>';
-    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-    //         $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
-
-    //         if (isset($fi_type_value[$fitype['id']])) {
-    //             $pincode = $fi_type_value[$fitype['id']]['pincode'];
-    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="' . $pincode . '" placeholder="Pincode">';
-    //         } else {
-    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" value="" placeholder="Pincode">';
-    //         }
-
-    //         $fitypesFeild .= '</div>';
-    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-    //         $fitypesFeild .= '<label for="phone number' . $fitype['id'] . '">' . $fitype['name'] . ' Phone Number</label>';
-
-    //         if (isset($fi_type_value[$fitype['id']])) {
-    //             $phone = $fi_type_value[$fitype['id']]['mobile'];
-    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="' . $phone . '" placeholder="Phone Number">';
-    //         } else {
-    //             $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][phone_number]" value="" placeholder="Phone Number">';
-    //         }
-
-    //         $fitypesFeild .= '</div>';
-    //         $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
-    //         $fitypesFeild .= '<label for="landmark' . $fitype['id'] . '">' . $fitype['name'] . ' Land Mark</label>';
-
-    //         if (isset($fi_type_value[$fitype['id']])) {
-    //             $landmark = $fi_type_value[$fitype['id']]['land_mark'];
-    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="' . $landmark . '" placeholder="landmark">';
-    //         } else {
-    //             $fitypesFeild .= '<input type="text" class="form-control" name="fi_type_id[' . $key . '][landmark]" value="" placeholder="landmark">';
-    //         }
-
-    //         $fitypesFeild .= '</div>';
-    //     }
-
-    //     return view('backend.pages.cases.view', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
-    // }
     public function getCase($case_fi_type_id = null)
     {
         $case_fi_type = casesFiType::findOrFail($case_fi_type_id);
@@ -673,8 +634,9 @@ class CasesController extends Controller
         $assign = false;
         $ApplicationTypes   = ApplicationType::all();
         $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-        return view('backend.pages.cases.editcase', compact('case', 'assign','ApplicationTypes','users'));
+        return view('backend.pages.cases.editcase', compact('case', 'assign', 'ApplicationTypes', 'users'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -1003,6 +965,24 @@ class CasesController extends Controller
         $cases->save();
         return response()->json(['success' => 'Case Close successfully.'], 200);
     }
+    public function cloneCase($case_fi_type_id)
+    {
+        $originalCaseFiType  = casesFiType::findOrFail($case_fi_type_id);
+        $case_id = $originalCaseFiType->case_id;
+        $originalCaseData  = Cases::findOrFail($case_id);
+        $newCasedata = $originalCaseData->replicate();
+        $newCasedata->save();
+
+
+        $newCaseFiType = $originalCaseFiType->replicate();
+        $newCaseFiType->status = '0';
+        $newCaseFiType->case_id = $newCasedata->id;
+        $newCaseFiType->save();
+
+        // Duplicate related case_fi_types
+
+        return response()->json(['success' => 'Case Clone successfully.'], 200);
+    }
 
     public function deleteImage(Request $request, $image_number)
     {
@@ -1078,7 +1058,8 @@ class CasesController extends Controller
         return view('backend.pages.cases.view', compact('case', 'assign'));
     }
 
-    public  function modifyCase(Request $request ,$id){
+    public  function modifyCase(Request $request, $id)
+    {
         /*
         Array
             (
@@ -1113,9 +1094,10 @@ class CasesController extends Controller
 
     }
 
-    public function getForm($id=null){
+    public function getForm($id = null)
+    {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $view = view('backend.pages.cases.detail',compact('case'))->render();
-        return response()->json(['viewData'=>$view]);
+        $view = view('backend.pages.cases.detail', compact('case'))->render();
+        return response()->json(['viewData' => $view]);
     }
 }
