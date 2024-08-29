@@ -127,7 +127,7 @@ class CasesController extends Controller
         if ($cases !== null) {
             return response()->json(['CaseList' => $cases]);
         } else {
-            return response()->json(['error' => 'Bank ID not provided.'], 400);
+            return response()->json(['error' => 'Case Fi type id is not vaild.'], 400);
         }
     }
 

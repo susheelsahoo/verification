@@ -118,7 +118,7 @@ ALTER TABLE `case_status` CHANGE `parent_id` `parent_id` INT(11) NOT NULL AFTER 
 ALTER TABLE `cases_fi_types` CHANGE `remarks` `remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `user_id`, CHANGE `supervisor_remarks` `supervisor_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `remarks`, CHANGE `consolidated_remarks` `consolidated_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `supervisor_remarks`
 
 
-"ALTER TABLE `cases` DROP `guarantee_name`;"
+ALTER TABLE `cases` DROP `guarantee_name`;
 ALTER TABLE `cases` CHANGE `co_applicant_name` `co_applicant_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `applicant_name`
 ALTER TABLE `cases_fi_types` ADD `relationship_others` VARCHAR(255) NULL AFTER `updated_at`, ADD `years_at_current_residence_others` VARCHAR(255) NULL AFTER `relationship_others`, ADD `no_of_earning_family_members_others` VARCHAR(255) NULL AFTER `years_at_current_residence_others`, ADD `residence_status_others` VARCHAR(255) NULL AFTER `no_of_earning_family_members_others`, ADD `verification_conducted_at_others` VARCHAR(255) NULL AFTER `residence_status_others`;
 
