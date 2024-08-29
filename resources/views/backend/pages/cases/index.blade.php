@@ -67,7 +67,6 @@ Cases - Admin Panel
                                     <td>
                                         <a href="{{ route('admin.case.show', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
                                         <a href="{{ route('admin.case.edit', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
-                                        <a href="{{ route('admin.case.reinitatiateCase', $user->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
                                         <a href="{{ route('admin.case.edit', $user->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                             <img src="{{URL::asset('backend/assets/images/icons/delete.png')}}" title="Edit"></img>
                                         </a>
