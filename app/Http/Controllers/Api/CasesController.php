@@ -122,7 +122,7 @@ class CasesController extends Controller
                 'a.name as created_by'
             )
             ->where('cft.id', $cft_id)
-            ->first();
+            ->get();
 
         if ($cases !== null) {
             return response()->json(['CaseList' => $cases]);
