@@ -431,7 +431,7 @@ class CasesController extends Controller
     {
 
         $casesFiType = casesFiType::findOrFail($id);
-        dd();
+
         $htmlFormReinitatiateCase = '<div class="modal-body">                                          
                                         <div class="form-group">
                                             <label for="bvcustomer_name">Applicant Name:</label>
