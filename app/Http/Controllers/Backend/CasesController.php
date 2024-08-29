@@ -104,7 +104,7 @@ class CasesController extends Controller
         } elseif ($request->application_type == '3') {
             $cases->applicant_name      = $request->guarantee_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->seller_name;
+            $cases->applicant_name      = $request->applicant_name;
         }
         $cases->refrence_number     = $request->refrence_number;
         $cases->amount              = $request->amount;
@@ -327,7 +327,7 @@ class CasesController extends Controller
         } elseif ($request->application_type == '3') {
             $cases->applicant_name      = $request->guarantee_name ?? $cases->applicant_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->seller_name ??  $cases->applicant_name;
+            $cases->applicant_name      = $request->applicant_name ??  $cases->applicant_name;
         }
         $cases->refrence_number     = $request->refrence_number ??  $cases->refrence_number;
         $cases->amount              = $request->amount ??   $cases->amount;
@@ -427,52 +427,6 @@ class CasesController extends Controller
 
         return view('backend.pages.cases.reinitatiate', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
     }
-    public function reinitatiateCaseNew($id)
-    {
-
-        $casesFiType = casesFiType::with('getCase')->findOrFail($id);
-        // dd($casesFiType->getCase['refrence_number']);
-        $htmlFormReinitatiateCase = '<div class="modal-body">                                          
-                                        <div class="form-group">
-                                            <label for="bvcustomer_name">Applicant Name:</label>
-                                            <input type="text" class="form-control" id="bvcustomer_name" name="bvcustomer_name" value="">
-                                        </div>                                          
-                                        <div class="form-group">
-                                            <label for="bvcustomer_name">Co Applicant Name:</label>
-                                            <input type="text" class="form-control" id="bvcustomer_name" name="bvcustomer_name" value="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="business_name">Address:</label>
-                                            <input type="text" class="form-control" id="business_name" name="business_name" value="' . $casesFiType->mobile . '">
-                                        </div>    
-                                        <div class="form-group">
-                                            <label for="mobile">Phone Number:</label>
-                                            <input type="text" class="form-control" id="mobile" name="mobile" value="' . $casesFiType->mobile . '">
-                                        </div>    
-                                        <div class="form-group">
-                                            <label for="distance">Landark:</label>
-                                            <input type="text" class="form-control" id="distance" name="distance" value="' . $casesFiType->mobile . '">
-                                        </div>    
-                                        <div class="form-group">
-                                            <label for="city">amount:</label>
-                                            <input type="text" class="form-control" id="city" name="city" value="' . $casesFiType->mobile . '">
-                                        </div>    
-                                        <div class="form-group">
-                                            <label for="pincode">Vehicle:</label>
-                                            <input type="text" class="form-control" id="pincode" name="pincode" value="' . $casesFiType->mobile . '">
-                                        </div>    
-                                                                                
-                                        <input type="hidden" id="case_fi_type_id" name="case_fi_type_id" value="' . $id . '">
-                                    </div>
-                                    ';
-
-        if ($casesFiType !== null) {
-            return response()->json(['htmlFormReinitatiateCase' => $htmlFormReinitatiateCase]);
-        } else {
-            return response()->json(['error' => 'Something went wrong.'], 400);
-        }
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -499,7 +453,7 @@ class CasesController extends Controller
         } elseif ($request->application_type == '3') {
             $cases->applicant_name      = $request->guarantee_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->seller_name;
+            $cases->applicant_name      = $request->applicant_name;
         }
         $cases->refrence_number     = $request->refrence_number;
         $cases->amount              = $request->amount;
@@ -530,6 +484,101 @@ class CasesController extends Controller
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.case.index');
     }
+
+    public function reinitatiateCaseNew($id)
+    {
+
+        $casesFiType = casesFiType::with('getCase')->findOrFail($id);
+        $applicentHtml = '';
+        if ($casesFiType->getCase['application_type'] == '1') {
+            $applicentHtml = '<div class="form-group">
+                            <label for="applicant_name">Applicant Name:</label>
+                            <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
+                        </div> ';
+        } elseif ($casesFiType->getCase['application_type'] == '2') {
+            $applicentHtml = '<div class="form-group">
+                            <label for="applicant_name">Applicant Name:</label>
+                            <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
+                        </div> 
+                        <div class="form-group">
+                            <label for="applicant_name">Co-Applicant Name:</label>
+                            <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
+                        </div> ';
+        } elseif ($casesFiType->getCase['application_type'] == '3') {
+            $applicentHtml = '<div class="form-group">
+                            <label for="applicant_name">Guranter Name:</label>
+                            <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
+                        </div> ';
+        } elseif ($casesFiType->getCase['application_type'] == '4') {
+            $applicentHtml = '<div class="form-group">
+                            <label for="applicant_name">Seller Name:</label>
+                            <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
+                        </div> ';
+        }
+
+        $htmlFormReinitatiateCase = '<div class="modal-body">                                          
+                                        ' . $applicentHtml . '
+                                        <div class="form-group">
+                                            <label for="address">Address:</label>
+                                            <input type="text" class="form-control" id="address" name="address" value="' . $casesFiType->address . '">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="mobile">Phone Number:</label>
+                                            <input type="text" class="form-control" id="mobile" name="mobile" value="' . $casesFiType->mobile . '">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="land_mark">Landark:</label>
+                                            <input type="text" class="form-control" id="land_mark" name="land_mark" value="' . $casesFiType->land_mark . '">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pincode">PinCode:</label>
+                                            <input type="text" class="form-control" id="pincode" name="pincode" value="' . $casesFiType->pincode . '">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="amount">Amount:</label>
+                                            <input type="text" class="form-control" id="amount" name="amount" value="' . $casesFiType->getCase['amount'] . '">
+                                        </div>    
+                                        <div class="form-group">
+                                            <label for="vehicle">Vehicle:</label>
+                                            <input type="text" class="form-control" id="vehicle" name="vehicle" value="' . $casesFiType->getCase['vehicle'] . '">
+                                        </div>    
+                                                                                
+                                        <input type="hidden" id="case_fi_type_id" name="case_fi_type_id" value="' . $id . '">
+                                    </div>
+                                    ';
+
+        if ($casesFiType !== null) {
+            return response()->json(['htmlFormReinitatiateCase' => $htmlFormReinitatiateCase]);
+        } else {
+            return response()->json(['error' => 'Something went wrong.'], 400);
+        }
+    }
+    public function reinitatiateNew(Request $request)
+    {
+        $case_fi_type_id = $request['case_fi_type_id'];
+        $originalCaseFiType  = casesFiType::findOrFail($case_fi_type_id);
+        $case_id = $originalCaseFiType->case_id;
+        $originalCaseData  = Cases::findOrFail($case_id);
+        $newCasedata = $originalCaseData->replicate();
+        $newCasedata->applicant_name = $request['applicant_name'];
+        $newCasedata->amount = $request['amount'];
+        $newCasedata->vehicle = $request['vehicle'];
+        $newCasedata->save();
+
+        $newCaseFiType = $originalCaseFiType->replicate();
+        $newCaseFiType->address     = $request['address'];
+        $newCaseFiType->mobile      = $request['mobile'];
+        $newCaseFiType->land_mark   = $request['land_mark'];
+        $newCaseFiType->pincode     = $request['pincode'];
+        $newCaseFiType->user_id     = '0';
+        $newCaseFiType->status      = '0';
+        $newCaseFiType->case_id     = $newCasedata->id;
+        $newCaseFiType->save();
+
+        session()->flash('success', 'Case Reinitatiate Successfully.');
+        return back();
+    }
+
 
     /**
      * Display the specified resource.
@@ -659,7 +708,7 @@ class CasesController extends Controller
         } elseif ($request->application_type == '3') {
             $cases->applicant_name      = $request->guarantee_name ?? $cases->applicant_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->seller_name ??  $cases->applicant_name;
+            $cases->applicant_name      = $request->applicant_name ??  $cases->applicant_name;
         }
         $cases->refrence_number     = $request->refrence_number ??  $cases->refrence_number;
         $cases->amount              = $request->amount ??   $cases->amount;

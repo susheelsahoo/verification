@@ -46,102 +46,102 @@ Case View - Admin Panel
                     <h4 class="header-title">View Case </h4>
                     @include('backend.layouts.partials.messages')
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Bank</label>
-                                <select class="custom-select selectBank" name="bank_id" id="selectBank">
-                                    <option value="">--Select Option--</option>
-                                    @foreach ($banks as $bank)
-                                        <option value="{{ $bank['id'] }}" @if($cases->bank_id == $bank['id']) selected @endif  >{{ $bank['name'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Product</label>
-                                <select id="productSelect" name="product_id" class="custom-select">
-                                    <option value="">--Select Option--</option>
-                                    @if($AvailbleProduct)
-                                        @foreach ($AvailbleProduct as $product)
-                                            <option value="{{ $product['id'] }}" @if($cases->product_id == $product['id']) selected @endif  >{{ $product['name'] }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">FI Type</label>
-                                @foreach ($fitypes as $fitype)
-                                    <div class="form-check">
-                                        <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}"   @if(isset($fi_type_ids) && in_array($fitype['id'],$fi_type_ids) )  checked   @endif>
-                                        <label class="form-check-label" for="fitype{{ $fitype['id'] }}"> {{ $fitype['name'] }} </label>
-                                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Bank</label>
+                            <select class="custom-select selectBank" name="bank_id" id="selectBank">
+                                <option value="">--Select Option--</option>
+                                @foreach ($banks as $bank)
+                                <option value="{{ $bank['id'] }}" @if($cases->bank_id == $bank['id']) selected @endif >{{ $bank['name'] }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Product</label>
+                            <select id="productSelect" name="product_id" class="custom-select">
+                                <option value="">--Select Option--</option>
+                                @if($AvailbleProduct)
+                                @foreach ($AvailbleProduct as $product)
+                                <option value="{{ $product['id'] }}" @if($cases->product_id == $product['id']) selected @endif >{{ $product['name'] }}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">FI Type</label>
+                            @foreach ($fitypes as $fitype)
+                            <div class="form-check">
+                                <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}" @if(isset($fi_type_ids) && in_array($fitype['id'],$fi_type_ids) ) checked @endif>
+                                <label class="form-check-label" for="fitype{{ $fitype['id'] }}"> {{ $fitype['name'] }} </label>
                             </div>
-                            {!! $fitypesFeild !!}
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="application_type">Application Type</label>
-                                <select class="custom-select application_type" name="application_type" id="application_type">
-                                    <option value="">--Select Option--</option>
-                                    @foreach ($ApplicationTypes as $ApplicationType)
-                                        <option value="{{ $ApplicationType['id'] }}" @if($cases->application_type == $ApplicationType['id']) selected @endif>{{ $ApplicationType['name'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            @endforeach
+                        </div>
+                        {!! $fitypesFeild !!}
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="application_type">Application Type</label>
+                            <select class="custom-select application_type" name="application_type" id="application_type">
+                                <option value="">--Select Option--</option>
+                                @foreach ($ApplicationTypes as $ApplicationType)
+                                <option value="{{ $ApplicationType['id'] }}" @if($cases->application_type == $ApplicationType['id']) selected @endif>{{ $ApplicationType['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Reference Number</label>
+                            <input type="text" class="form-control" id="refrence_number" name="refrence_number" placeholder="Enter Reference Number" value="{{ $cases->refrence_number ?? '' }}">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Amount" value="{{ $cases->amount ?? '' }}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-12 name Applicant co_applicant_name d-none">
+                            <label for="name">Applicant Name</label>
+                            <input type="text" class="form-control" name="applicant_name" placeholder="Enter Applicant Name" value="{{ $cases->applicant_name ?? '' }}">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 name co_applicant_name d-none">
+                            <label for="name">Co-Applicant Name</label>
+                            <input type="text" class="form-control" name="co_applicant_name" placeholder="Enter Co-Applicant Name" value="{{ $cases->co_applicant_name ?? '' }}">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 name Guranter d-none">
+                            <label for="name">Guarantee Name</label>
+                            <input type="text" class="form-control" name="guarantee_name" placeholder="Enter Guarantee Name" value="{{ $cases->guarantee_name ?? '' }}">
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Reference Number</label>
-                                <input type="text" class="form-control" id="refrence_number" name="refrence_number" placeholder="Enter Reference Number" value="{{ $cases->refrence_number ?? '' }}">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Amount" value="{{ $cases->amount ?? '' }}">
-                            </div>
+                        <div class="form-group col-md-6 col-sm-12 name Seller d-none">
+                            <label for="name">Seller Name</label>
+                            <input type="text" class="form-control" name="applicant_name" placeholder="Enter Seller Name" value="{{ $cases->applicant_name ?? '' }}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Vehicle</label>
+                            <input type="text" class="form-control" id="vehicle" name="vehicle" placeholder="Enter Vehicle" value="{{ $cases->vehicle ?? '' }}">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="geo_limit">Geo Limit *</label>
+                            <select id="geo_limit" name="geo_limit" class="custom-select">
+                                <option value="">--Select Option--</option>
+                                <option value="Local" @if($cases->geo_limit == 'Local') selected @endif>Local</option>
+                                <option value="Outstation" @if($cases->geo_limit == 'Outstation') selected @endif>Outstation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Remarks</label>
+                            <textarea name="remarks" rows="2" cols="20" id="remarks" class="form-control" placeholder="Remarks">{{ $cases->remarks ?? '' }}</textarea>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12 name Applicant co_applicant_name d-none">
-                                <label for="name">Applicant Name</label>
-                                <input type="text" class="form-control" name="applicant_name" placeholder="Enter Applicant Name" value="{{ $cases->applicant_name ?? '' }}">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 name co_applicant_name d-none">
-                                <label for="name">Co-Applicant Name</label>
-                                <input type="text" class="form-control" name="co_applicant_name" placeholder="Enter Co-Applicant Name" value="{{ $cases->co_applicant_name ?? '' }}">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 name Guranter d-none">
-                                <label for="name">Guarantee Name</label>
-                                <input type="text" class="form-control" name="guarantee_name" placeholder="Enter Guarantee Name" value="{{ $cases->guarantee_name ?? '' }}">
-                            </div>
-
-                            <div class="form-group col-md-6 col-sm-12 name Seller d-none">
-                                <label for="name">Seller Name</label>
-                                <input type="text" class="form-control" name="seller_name" placeholder="Enter Seller Name" value="{{ $cases->applicant_name ?? '' }}">
-                            </div>
-                        </div>
-                        <div class="form-row">
-
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Vehicle</label>
-                                <input type="text" class="form-control" id="vehicle" name="vehicle" placeholder="Enter Vehicle" value="{{ $cases->vehicle ?? '' }}">
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="geo_limit">Geo Limit *</label>
-                                <select id="geo_limit" name="geo_limit" class="custom-select">
-                                    <option value="">--Select Option--</option>
-                                    <option value="Local" @if($cases->geo_limit == 'Local') selected @endif>Local</option>
-                                    <option value="Outstation" @if($cases->geo_limit == 'Outstation') selected @endif>Outstation</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Remarks</label>
-                                <textarea name="remarks" rows="2" cols="20" id="remarks" class="form-control" placeholder="Remarks">{{ $cases->remarks ?? '' }}</textarea>
-                            </div>
-
-                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -160,7 +160,6 @@ Case View - Admin Panel
     })
 </script>
 <script>
-
     function appliCationType(selectedApplicationType) {
         $('.name').addClass('d-none');
         if (selectedApplicationType == 'Applicant/Co-Applicant') {
@@ -168,7 +167,7 @@ Case View - Admin Panel
         } else {
             $('.' + selectedApplicationType).removeClass('d-none');
         }
-        return  true;
+        return true;
     }
 
     $(document).ready(function() {
@@ -177,7 +176,7 @@ Case View - Admin Panel
         let selectedApplicationType = $('#application_type').find("option:selected").text();
         appliCationType(selectedApplicationType);
 
-        $('.fytpe_checkbox').each(function () {
+        $('.fytpe_checkbox').each(function() {
             var isChecked = $(this).prop('checked');
             var relName = $(this).attr('rel-name');
             if (isChecked) {

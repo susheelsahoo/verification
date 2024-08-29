@@ -96,38 +96,38 @@ Create Case Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Reference Number</label>
-                                <input type="text" class="form-control" id="refrence_number" name="refrence_number" placeholder="Enter Reference Number">
+                                <input type="text" class="form-control" id="refrence_number" name="refrence_number" value="{{ old('refrence_number') }}" placeholder=" Enter Reference Number">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter Amount">
+                                <input type="number" class="form-control" id="amount" name="amount" value="{{ old('amount') }}" placeholder=" Enter Amount">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12 name Applicant co_applicant_name d-none">
-                                <label for="name">Applicant Name</label>
-                                <input type="text" class="form-control" name="applicant_name" placeholder="Enter Applicant Name">
+                                <label for="applicant_name">Applicant Name</label>
+                                <input type="text" class="form-control" name="applicant_name" value="{{ old('applicant_name') }}" placeholder=" Enter Applicant Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12 name co_applicant_name d-none">
-                                <label for="name">Co-Applicant Name</label>
-                                <input type="text" class="form-control" name="co_applicant_name" placeholder="Enter Co-Applicant Name">
+                                <label for="co_applicant_name">Co-Applicant Name</label>
+                                <input type="text" class="form-control" name="co_applicant_name" value="{{ old('co_applicant_name') }}" placeholder=" Enter Co-Applicant Name">
                             </div>
                             <div class="form-group col-md-6 col-sm-12 name Guranter d-none">
-                                <label for="name">Guarantee Name</label>
-                                <input type="text" class="form-control" name="guarantee_name" placeholder="Enter Guarantee Name">
+                                <label for="applicant_name">Guarantee Name</label>
+                                <input type="text" class="form-control" name="guarantee_name" value="{{ old('guarantee_name') }}" placeholder=" Enter Guarantee Name">
                             </div>
 
                             <div class="form-group col-md-6 col-sm-12 name Seller d-none">
-                                <label for="name">Seller Name</label>
-                                <input type="text" class="form-control" name="seller_name" placeholder="Enter Seller Name">
+                                <label for="applicant_name">Seller Name</label>
+                                <input type="text" class="form-control" name="seller_name" value="{{ old('seller_name') }}" placeholder=" Enter Seller Name">
                             </div>
                         </div>
                         <div class="form-row">
 
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Vehicle</label>
-                                <input type="text" class="form-control" id="vehicle" name="vehicle" placeholder="Enter Vehicle">
+                                <input type="text" class="form-control" id="vehicle" name="vehicle" value="{{ old('vehicle') }}" placeholder="Enter Vehicle">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="geo_limit">Geo Limit *</label>

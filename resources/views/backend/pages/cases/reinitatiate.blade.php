@@ -121,7 +121,7 @@ Case Edit - Admin Panel
 
                             <div class="form-group col-md-6 col-sm-12 name Seller d-none">
                                 <label for="name">Seller Name</label>
-                                <input type="text" class="form-control" name="seller_name" placeholder="Enter Seller Name" value="{{ $cases->applicant_name ?? '' }}">
+                                <input type="text" class="form-control" name="applicant_name" placeholder="Enter Seller Name" value="{{ $cases->applicant_name ?? '' }}">
                             </div>
                         </div>
                         <div class="form-row">

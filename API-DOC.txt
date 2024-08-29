@@ -112,6 +112,11 @@ ALTER TABLE `case_status` CHANGE `parent_id` `parent_id` INT(11) NOT NULL AFTER 
 ALTER TABLE `cases_fi_types` CHANGE `remarks` `remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `user_id`, CHANGE `supervisor_remarks` `supervisor_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `remarks`, CHANGE `consolidated_remarks` `consolidated_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `supervisor_remarks`
 
 
+"ALTER TABLE `cases` DROP `guarantee_name`;"
+ALTER TABLE `cases` CHANGE `co_applicant_name` `co_applicant_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `applicant_name`
+
+
+
 Get Banks
 Method Get
 http://127.0.0.1:8000/api/getBank

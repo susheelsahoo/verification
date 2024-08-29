@@ -35,10 +35,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/importExportView/{id}', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
-    Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCase')->name('admin.case.reinitatiateCase');
-    Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiate')->name('admin.case.reinitatiateCase');
     Route::get('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateCaseNew')->name('admin.case.reinitatiateCaseNew');
-    Route::post('cases/reinitatiate-case/{id}', 'Backend\CasesController@reinitatiateNew')->name('admin.case.reinitatiateCaseNew');
+    Route::post('cases/reinitatiate-case/store', 'Backend\CasesController@reinitatiateNew')->name('admin.case.reinitatiate.store');
     Route::get('cases/upload-image/{id}', 'Backend\CasesController@uploadCaseImage')->name('admin.case.upload.image');
     Route::post('cases/upload-image/{id}', 'Backend\CasesController@uploadImage')->name('admin.case.upload.image');
     Route::post('cases/delete-image/{id}', 'Backend\CasesController@deleteImage')->name('admin.case.delete.image');
