@@ -111,7 +111,7 @@ class CasesController extends Controller
         // WHERE cft.id = 2
         $cases = DB::table('cases_fi_types as cft')
             ->join('cases as c', 'c.id', '=', 'cft.case_id')
-            ->join('admins as a', 'a.id', '=', 'c.created_by')
+            ->leftJoin('admins as a', 'a.id', '=', 'c.created_by')
             ->select(
                 'cft.id as case_fi_type_id',
                 'c.*',
