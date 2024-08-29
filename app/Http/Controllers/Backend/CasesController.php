@@ -975,7 +975,7 @@ class CasesController extends Controller
 
 
         $newCaseFiType = $originalCaseFiType->replicate();
-        $newCaseFiType->status = '0';
+        // $newCaseFiType->status = '0';
         $newCaseFiType->case_id = $newCasedata->id;
         $newCaseFiType->save();
 
