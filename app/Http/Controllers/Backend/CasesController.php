@@ -88,9 +88,29 @@ class CasesController extends Controller
     public function store(Request $request)
     {
         // Validation Data
-        $request->validate([
-            'applicant_name' => 'required|max:50|',
-        ]);
+
+        $rules = [
+            'applicant_name' => 'required|max:50',
+        ];
+        if ($request['application_type'] == '1' || $request['application_type'] == '2') {
+            $messages = [
+                'applicant_name.required' => 'The applicant name is required.',
+
+            ];
+        } elseif ($request['application_type'] == '3') {
+            $messages = [
+                'applicant_name.required' => 'The guranter name is required.',
+
+            ];
+        } elseif ($request['application_type'] == '4') {
+            $messages = [
+                'applicant_name.required' => 'The seller name is required.',
+
+            ];
+        }
+        $request->validate($rules, $messages);
+
+
         // Create New cases
         $cases = new Cases();
         $cases->bank_id             = $request->bank_id;
@@ -868,6 +888,14 @@ class CasesController extends Controller
                     $fitype->save();
                     $fitype_id = $fitype->id;
                 }
+                $fitype_data    = $row[14];
+                $user_id        = '0';
+                $status         = '0';
+                $agent_details = User::where('username', '=', $fitype_data)->first();
+                if ($agent_details) {
+                    $user_id = $agent_details['id'];
+                    $status = '1';
+                }
                 $casesFiType = new casesFiType;
                 $casesFiType->case_id       = $cases_id;
                 $casesFiType->fi_type_id    = $fitype_id;
@@ -875,8 +903,8 @@ class CasesController extends Controller
                 $casesFiType->address       = $row['8'];
                 $casesFiType->pincode       = $row['11'];
                 $casesFiType->land_mark     = $row['12'];
-                $casesFiType->status        = '1';
-                $casesFiType->user_id       = 1;
+                $casesFiType->status        = $status;
+                $casesFiType->user_id       = $user_id;
                 $casesFiType->save();
             }
         }
