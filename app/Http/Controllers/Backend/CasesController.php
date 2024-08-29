@@ -430,8 +430,8 @@ class CasesController extends Controller
     public function reinitatiateCaseNew($id)
     {
 
-        $casesFiType = casesFiType::findOrFail($id);
-
+        $casesFiType = casesFiType::with('getCase')->findOrFail($id);
+        // dd($casesFiType->getCase['refrence_number']);
         $htmlFormReinitatiateCase = '<div class="modal-body">                                          
                                         <div class="form-group">
                                             <label for="bvcustomer_name">Applicant Name:</label>
@@ -443,7 +443,7 @@ class CasesController extends Controller
                                         </div>
                                         <div class="form-group">
                                             <label for="business_name">Address:</label>
-                                            <input type="text" class="form-control" id="business_name" name="business_name" value="">
+                                            <input type="text" class="form-control" id="business_name" name="business_name" value="' . $casesFiType->mobile . '">
                                         </div>    
                                         <div class="form-group">
                                             <label for="mobile">Phone Number:</label>
@@ -451,15 +451,15 @@ class CasesController extends Controller
                                         </div>    
                                         <div class="form-group">
                                             <label for="distance">Landark:</label>
-                                            <input type="text" class="form-control" id="distance" name="distance" value="">
+                                            <input type="text" class="form-control" id="distance" name="distance" value="' . $casesFiType->mobile . '">
                                         </div>    
                                         <div class="form-group">
                                             <label for="city">amount:</label>
-                                            <input type="text" class="form-control" id="city" name="city" value="">
+                                            <input type="text" class="form-control" id="city" name="city" value="' . $casesFiType->mobile . '">
                                         </div>    
                                         <div class="form-group">
                                             <label for="pincode">Vehicle:</label>
-                                            <input type="text" class="form-control" id="pincode" name="pincode" value="">
+                                            <input type="text" class="form-control" id="pincode" name="pincode" value="' . $casesFiType->mobile . '">
                                         </div>    
                                                                                 
                                         <input type="hidden" id="case_fi_type_id" name="case_fi_type_id" value="' . $id . '">
@@ -826,7 +826,7 @@ class CasesController extends Controller
                 $casesFiType->address       = $row['8'];
                 $casesFiType->pincode       = $row['11'];
                 $casesFiType->land_mark     = $row['12'];
-                $casesFiType->status        = '0';
+                $casesFiType->status        = '1';
                 $casesFiType->user_id       = 1;
                 $casesFiType->save();
             }
@@ -972,7 +972,6 @@ class CasesController extends Controller
         $originalCaseData  = Cases::findOrFail($case_id);
         $newCasedata = $originalCaseData->replicate();
         $newCasedata->save();
-
 
         $newCaseFiType = $originalCaseFiType->replicate();
         // $newCaseFiType->status = '0';
