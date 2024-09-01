@@ -25,7 +25,7 @@ image_9
 
 Get Case details with cases_fi_types id 
 Method POST
-http://127.0.0.1:8000/api//cases/submit
+http://127.0.0.1:8000/api/cases/submit
 
 {
     "case_fi_type_id": "aaa",
