@@ -343,7 +343,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="4" align="center"><input type="submit" value="Upate" class="btn btn-primary updateBtn"></td>
+                    <td colspan="4" align="center"><input type="submit" value="Upate" class="btn btn-primary updateBtn btn-sm"></td>
                 </tr>
             </tbody>
         </table>

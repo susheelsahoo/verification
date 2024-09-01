@@ -916,6 +916,8 @@ class CasesController extends Controller
     public function caseStatus($status, $user_id = Null)
     {
         $user_id = $user_id ?? 0;
+
+        /*
         $query = DB::table('cases_fi_types as cft')
             ->select(
                 'cft.id',
@@ -941,8 +943,17 @@ class CasesController extends Controller
         if ($status != 'aaa') {
             $query->where('cft.status', $status);
         }
-        $cases = $query->get();
+        $cases = $query->get(); */
+
         $assign = false;
+
+        if ($status != 'aaa') {
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status',$status)->get();
+        }else{
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
+        }
+
+        //echo '<pre>'; print_r($case); die;
 
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }

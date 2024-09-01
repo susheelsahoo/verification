@@ -77,15 +77,15 @@ Cases - Admin Panel
                                 <tr>
                                     <td class="text-center"><input type="checkbox" class="selectRow" value="{{ $case->id }}"></td>
                                     <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $case->refrence_number }}</td>
-                                    <td>{{ $case->applicant_name }}</td>
-                                    <td>{{ $case->mobile }}</td>
-                                    <td>{{ $case->address }}</td>
-                                    <td>{{ $case->bank_name .' '. $case->product_name .' '. $case->fi_type_name }}</td>
+                                    <td>{{ $case->getCase->refrence_number ?? '' }}</td>
+                                    <td>{{ $case->getCase->applicant_name ?? '' }}</td>
+                                    <td>{{ $case->mobile ?? '' }}</td>
+                                    <td>{{ $case->address ?? '' }}</td>
+                                    <td>{{ $case->getCase->getBank->name ?? '' .' '. $case->getCase->getProduct->name ?? '' .' '. $case->getCase->getFiType->name ?? '' }}</td>
                                     <td>{{ humanReadableDate($case->scheduled_visit_date) }}</td>
-                                    <td>{{ $case->agent_name }}</td>
+                                    <td>{{ $case->getUser->name ?? '' }}</td>
                                     <td>{{ get_status($case->status) }}</td>
-                                    <td></td>
+                                    <td>{{ $case->getCaseStatus->name ?? '' }} </td>
                                     <td>
                                         @if(isset($assign) && !$assign)
                                         <a href="{{ route('admin.case.viewCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
