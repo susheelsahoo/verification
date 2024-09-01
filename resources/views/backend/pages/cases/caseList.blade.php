@@ -106,6 +106,8 @@ Cases - Admin Panel
                                         <a href="javascript::void(0)" class="viewForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/verified_cases.png')}}" title="View Form"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
+                                        <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
+
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
 
                                         <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
@@ -294,6 +296,24 @@ Cases - Admin Panel
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="viewFormEditModel" tabindex="-1" role="dialog" aria-labelledby="viewFormEditModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Form Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 
@@ -560,6 +580,25 @@ Cases - Admin Panel
                 }
             });
 
+        });
+
+
+        $('.viewFormEdit').click(function(e) {
+            e.preventDefault();
+            let case_id = $(this).attr('data-row');
+            var url = "{{ route('admin.case.viewForm.modify','CASE_ID')}}";
+            url = url.replace('CASE_ID', case_id);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $("#viewFormEditModel").find('.modal-body').html(response.viewData);
+                    $('#viewFormEditModel').modal('show');
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
         });
 
         $('.cloneCase').click(function() {

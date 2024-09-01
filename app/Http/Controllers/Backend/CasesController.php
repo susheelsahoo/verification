@@ -519,7 +519,7 @@ class CasesController extends Controller
             $applicentHtml = '<div class="form-group">
                             <label for="applicant_name">Applicant Name:</label>
                             <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
-                        </div> 
+                        </div>
                         <div class="form-group">
                             <label for="applicant_name">Co-Applicant Name:</label>
                             <input type="text" class="form-control" id="applicant_name" name="applicant_name" value="' . $casesFiType->getCase['applicant_name'] . '">
@@ -536,16 +536,16 @@ class CasesController extends Controller
                         </div> ';
         }
 
-        $htmlFormReinitatiateCase = '<div class="modal-body">                                          
+        $htmlFormReinitatiateCase = '<div class="modal-body">
                                         ' . $applicentHtml . '
                                         <div class="form-group">
                                             <label for="address">Address:</label>
                                             <input type="text" class="form-control" id="address" name="address" value="' . $casesFiType->address . '">
-                                        </div>    
+                                        </div>
                                         <div class="form-group">
                                             <label for="mobile">Phone Number:</label>
                                             <input type="text" class="form-control" id="mobile" name="mobile" value="' . $casesFiType->mobile . '">
-                                        </div>    
+                                        </div>
                                         <div class="form-group">
                                             <label for="land_mark">Landark:</label>
                                             <input type="text" class="form-control" id="land_mark" name="land_mark" value="' . $casesFiType->land_mark . '">
@@ -553,16 +553,16 @@ class CasesController extends Controller
                                         <div class="form-group">
                                             <label for="pincode">PinCode:</label>
                                             <input type="text" class="form-control" id="pincode" name="pincode" value="' . $casesFiType->pincode . '">
-                                        </div>    
+                                        </div>
                                         <div class="form-group">
                                             <label for="amount">Amount:</label>
                                             <input type="text" class="form-control" id="amount" name="amount" value="' . $casesFiType->getCase['amount'] . '">
-                                        </div>    
+                                        </div>
                                         <div class="form-group">
                                             <label for="vehicle">Vehicle:</label>
                                             <input type="text" class="form-control" id="vehicle" name="vehicle" value="' . $casesFiType->getCase['vehicle'] . '">
-                                        </div>    
-                                                                                
+                                        </div>
+
                                         <input type="hidden" id="case_fi_type_id" name="case_fi_type_id" value="' . $id . '">
                                     </div>
                                     ';
@@ -1164,7 +1164,6 @@ class CasesController extends Controller
         $cases->save();
 
         return response()->json(['success' => 'Case Update successfully !!'], 200);
-
         // session()->flash('success', 'Case Update successfully !!');
         // return redirect()->back();
 
@@ -1175,5 +1174,108 @@ class CasesController extends Controller
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $view = view('backend.pages.cases.detail', compact('case'))->render();
         return response()->json(['viewData' => $view]);
+    }
+
+    public function modifyForm($id = null)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $AvailbleProduct = [];
+        if ($case->getCase->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $case->getCase->bank_id)
+                ->where('products.status', '1')
+                ->get();
+        }
+        $view = view('backend.pages.cases.modify', compact('case','AvailbleProduct'))->render();
+        return response()->json(['viewData' => $view]);
+    }
+
+    public function modifyViewCase(Request $request,$id){
+
+        // $input = $request->all();
+        // echo '<pre>';
+        // print_r($input);
+        // die;
+        /*
+        Array
+        (
+            [_token] => FGwvN02rzIhZgWSZ5utZpc8qEcsQGgvEVK8UxpZB
+            [case_fy_id] => 6
+            [refrence_number] => EP1010
+            [applicant_name] => susheel sahoo update
+            [product_id] => 1
+            [amount] => 10000
+            [mobile] => 9876543211
+            [address] => my address updateed
+            [address_confirmed] => aaa
+            [employer_address] => aaa
+            [type_of_proof] => aaa
+            [address_confirmed_by] => aaa
+            [name_of_employer] => aaa
+            [person_met] => aaa
+            [telephone_no_residence] => aaa
+            [applicant_age] => aaa
+            [designation] => aaa
+            [area] => aaa
+            [nearest_landmark] => aaa
+            [latitude] => aaa
+            [longitude] => aaa
+        )  */
+
+        $rules=[
+            'case_fy_id'=>'required',
+            'refrence_number'=>'required',
+            'applicant_name'=>'required',
+            'product_id'=>'required',
+            'amount'=>'required',
+            'mobile'=>'required',
+            'address'=>'required',
+            'address_confirmed'=>'required',
+            'employer_address'=>'required',
+            'type_of_proof'=>'required',
+            'address_confirmed_by'=>'required',
+            'name_of_employer'=>'required',
+            'person_met'=>'required',
+            'telephone_no_residence'=>'required',
+            'applicant_age'=>'required',
+            'designation'=>'required',
+            'area'=>'required',
+            'nearest_landmark'=>'required',
+            'latitude'=>'required',
+            'longitude'=>'required',
+        ];
+        $request->validate($rules);
+
+        $input = $request->all();
+        $case_fi_type_id = $input['case_fy_id'];
+        $caseFi = casesFiType::findOrFail($case_fi_type_id);
+        $case =  Cases::find($caseFi->case_id);
+
+        $case->refrence_number = $input['refrence_number'] ?? null;
+        $case->applicant_name = $input['applicant_name'] ?? null;
+        $case->product_id = $input['product_id'] ?? null;
+        $case->amount = $input['amount'] ?? null;
+        $case->save();
+
+        $caseFi->mobile =  $input['mobile'] ?? null;
+        $caseFi->address = $input['address'] ?? null;
+        $caseFi->address_confirmed = $input['address_confirmed'] ?? null;
+        $caseFi->employer_address = $input['employer_address'] ?? null;
+        $caseFi->type_of_proof = $input['type_of_proof'] ?? null;
+        $caseFi->address_confirmed_by = $input['address_confirmed_by'] ?? null;
+        $caseFi->name_of_employer = $input['name_of_employer'] ?? null;
+        $caseFi->person_met = $input['person_met'] ?? null;
+        $caseFi->telephone_no_residence = $input['telephone_no_residence'] ?? null;
+        $caseFi->applicant_age = $input['applicant_age'] ?? null;
+        $caseFi->designation = $input['designation'] ?? null;
+        $caseFi->area = $input['area'] ?? null;
+        $caseFi->nearest_landmark = $input['nearest_landmark'] ?? null;
+        $caseFi->latitude = $input['latitude'] ?? null;
+        $caseFi->longitude = $input['longitude'] ?? null;
+        $caseFi->save();
+
+        session()->flash('success', 'Case Update successfully !!');
+        return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 }
