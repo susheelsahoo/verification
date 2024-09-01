@@ -948,8 +948,8 @@ class CasesController extends Controller
         $assign = false;
 
         if ($status != 'aaa') {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status',$status)->get();
-        }else{
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status', $status)->get();
+        } else {
             $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
         }
 
@@ -1183,7 +1183,15 @@ class CasesController extends Controller
     public function getForm($id = null)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $view = view('backend.pages.cases.detail', compact('case'))->render();
+        $fi_type_id = $case['fi_type_id'];
+
+        $fi_type_details = FiType::find($fi_type_id);
+        if ($fi_type_details['name'] == 'BV') {
+            $view = view('backend.pages.cases.details-bv', compact('case'))->render();
+        } else {
+            $view = view('backend.pages.cases.details-rv', compact('case'))->render();
+        }
+
         return response()->json(['viewData' => $view]);
     }
 
@@ -1198,11 +1206,12 @@ class CasesController extends Controller
                 ->where('products.status', '1')
                 ->get();
         }
-        $view = view('backend.pages.cases.modify', compact('case','AvailbleProduct'))->render();
+        $view = view('backend.pages.cases.modify', compact('case', 'AvailbleProduct'))->render();
         return response()->json(['viewData' => $view]);
     }
 
-    public function modifyViewCase(Request $request,$id){
+    public function modifyViewCase(Request $request, $id)
+    {
 
         // $input = $request->all();
         // echo '<pre>';
@@ -1234,27 +1243,27 @@ class CasesController extends Controller
             [longitude] => aaa
         )  */
 
-        $rules=[
-            'case_fy_id'=>'required',
-            'refrence_number'=>'required',
-            'applicant_name'=>'required',
-            'product_id'=>'required',
-            'amount'=>'required',
-            'mobile'=>'required',
-            'address'=>'required',
-            'address_confirmed'=>'required',
-            'employer_address'=>'required',
-            'type_of_proof'=>'required',
-            'address_confirmed_by'=>'required',
-            'name_of_employer'=>'required',
-            'person_met'=>'required',
-            'telephone_no_residence'=>'required',
-            'applicant_age'=>'required',
-            'designation'=>'required',
-            'area'=>'required',
-            'nearest_landmark'=>'required',
-            'latitude'=>'required',
-            'longitude'=>'required',
+        $rules = [
+            'case_fy_id' => 'required',
+            'refrence_number' => 'required',
+            'applicant_name' => 'required',
+            'product_id' => 'required',
+            'amount' => 'required',
+            'mobile' => 'required',
+            'address' => 'required',
+            'address_confirmed' => 'required',
+            'employer_address' => 'required',
+            'type_of_proof' => 'required',
+            'address_confirmed_by' => 'required',
+            'name_of_employer' => 'required',
+            'person_met' => 'required',
+            'telephone_no_residence' => 'required',
+            'applicant_age' => 'required',
+            'designation' => 'required',
+            'area' => 'required',
+            'nearest_landmark' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ];
         $request->validate($rules);
 

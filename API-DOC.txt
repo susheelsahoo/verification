@@ -124,6 +124,21 @@ ALTER TABLE `cases_fi_types` ADD `relationship_others` VARCHAR(255) NULL AFTER `
 
 
 
+ALTER TABLE `cases_fi_types`
+  DROP `neighbour_check_1`,
+  DROP `neighbour1_checked_with`;
+
+ALTER TABLE `cases_fi_types` ADD `tcp1_name` VARCHAR(255) NULL DEFAULT NULL AFTER `residence_status_others`, ADD `tcp1_checked_with` VARCHAR(255) NULL DEFAULT NULL AFTER `tcp1_name`, ADD `tcp1_negative_comments` VARCHAR(255) NULL DEFAULT NULL AFTER `tcp1_checked_with`, ADD `tcp2_name` VARCHAR(255) NULL DEFAULT NULL AFTER `tcp1_negative_comments`, ADD `tcp2_checked_with` VARCHAR(255) NULL DEFAULT NULL AFTER `tcp2_name`, ADD `tcp2_negative_comments` VARCHAR(255) NULL DEFAULT NULL AFTER `tcp2_checked_with`;
+ALTER TABLE `cases_fi_types` ADD `website_ of_employer` VARCHAR(255) NULL DEFAULT NULL AFTER `verification_conducted_at_others`, ADD `email_of_employer` VARCHAR(255) NULL DEFAULT NULL AFTER `website_ of_employer`, ADD `co_board_outside_bldg_office` VARCHAR(255) NULL DEFAULT NULL AFTER `email_of_employer`, ADD `line_of_business` VARCHAR(255) NULL DEFAULT NULL AFTER `co_board_outside_bldg_office`, ADD `year_of_establishment` VARCHAR(255) NULL DEFAULT NULL AFTER `line_of_business`, ADD `level_of_business_activity` VARCHAR(255) NULL DEFAULT NULL AFTER `year_of_establishment`, ADD `no_of_employees` VARCHAR(255) NULL DEFAULT NULL AFTER `level_of_business_activity`, ADD `no_of_branches_offices` VARCHAR(255) NULL DEFAULT NULL AFTER `no_of_employees`, ADD `office_ambience_look` VARCHAR(255) NULL DEFAULT NULL AFTER `no_of_branches_offices`, ADD `type_of_locality` VARCHAR(255) NULL DEFAULT NULL AFTER `office_ambience_look`, ADD `nearest_landmark` VARCHAR(255) NULL DEFAULT NULL AFTER `type_of_locality`, ADD `ease_of_locating` VARCHAR(255) NULL DEFAULT NULL AFTER `nearest_landmark`, ADD `terms_of_employment` VARCHAR(255) NULL DEFAULT NULL AFTER `ease_of_locating`, ADD `grade` VARCHAR(255) NULL DEFAULT NULL AFTER `terms_of_employment`, ADD `name_of_employer_co` VARCHAR(255) NULL DEFAULT NULL AFTER `grade`, ADD `established` VARCHAR(255) NULL DEFAULT NULL AFTER `name_of_employer_co`, ADD `telephono_no_office` VARCHAR(255) NULL DEFAULT NULL AFTER `established`, ADD `ext` VARCHAR(255) NULL DEFAULT NULL AFTER `telephono_no_office`, ADD `type_of_employer` VARCHAR(255) NULL DEFAULT NULL AFTER `ext`, ADD `nature_of_employer` VARCHAR(255) NULL DEFAULT NULL AFTER `type_of_employer`, ADD `no_of_employees` VARCHAR(255) NULL DEFAULT NULL AFTER `nature_of_employer`, ADD `no_of_branches` VARCHAR(255) NULL DEFAULT NULL AFTER `no_of_employees`, ADD `applicant_age` VARCHAR(255) NULL DEFAULT NULL AFTER `no_of_branches`, ADD `nearest_landmark` VARCHAR(255) NULL DEFAULT NULL AFTER `applicant_age`, ADD `not_recommended` VARCHAR(255) NULL DEFAULT NULL AFTER `nearest_landmark`, ADD `nature_of_business` VARCHAR(255) NULL DEFAULT NULL AFTER `not_recommended`, ADD `type_of_employer_co` VARCHAR(255) NULL DEFAULT NULL AFTER `nature_of_business`;
+
+
+
+
+
+
+
+
+
 Get Banks
 Method Get
 http://127.0.0.1:8000/api/getBank
