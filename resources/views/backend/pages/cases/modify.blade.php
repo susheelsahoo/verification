@@ -33,7 +33,7 @@
                             <option value="">--Select Option--</option>
                             @if($AvailbleProduct)
                                 @foreach ($AvailbleProduct as $product)
-                                    <option value="{{ $product->id }}" @if($case->getCase->getProduct->id == $product->id) selected @endif >{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" @if(($case->getCase->getProduct->id) && ($case->getCase->getProduct->id == $product->id)) selected @endif >{{ $product->name }}</option>
                                 @endforeach
                             @endif
                         </select>
