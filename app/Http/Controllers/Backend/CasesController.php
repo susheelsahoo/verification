@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use ZipArchive;
+use ZipStream\File;
+use Illuminate\Support\Facades\Storage;
 
 class CasesController extends Controller
 {
@@ -1288,5 +1291,24 @@ class CasesController extends Controller
 
         session()->flash('success', 'Case Update successfully !!');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
+    }
+
+    public function zipDownload(Request $request)
+    {
+
+      if($request->has('download')) {
+            $zip      = new ZipArchive;
+            $fileName = 'attachment.zip';
+            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+              $files = File::files(public_path('uploads'));
+              foreach ($files as $key => $value) {
+                $relativeName = basename($value);
+                $zip->addFile($value, $relativeName);
+              }
+              $zip->close();
+            }
+            return response()->download(public_path($fileName));
+        }
+
     }
 }
