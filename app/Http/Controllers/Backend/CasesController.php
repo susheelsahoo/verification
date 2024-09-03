@@ -1416,22 +1416,72 @@ class CasesController extends Controller
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
-    public function zipDownload(Request $request)
+    public function zipDownload($case_fy_id=null)
     {
-
-      if($request->has('download')) {
+        if($case_fy_id){
+            $caseFi = casesFiType::findOrFail($case_fy_id);
             $zip      = new ZipArchive;
             $fileName = 'attachment.zip';
             if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-              $files = File::files(public_path('uploads'));
-              foreach ($files as $key => $value) {
-                $relativeName = basename($value);
-                $zip->addFile($value, $relativeName);
-              }
-              $zip->close();
+                if(isset($caseFi->image_1) &&  $caseFi->image_1){
+                    if(file_exists(public_path($caseFi->image_1))){
+                        $relativeName = basename($caseFi->image_1);
+                        $zip->addFile(public_path($caseFi->image_1), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_2) &&  $caseFi->image_2){
+                    if(file_exists(public_path($caseFi->image_2))){
+                        $relativeName = basename($caseFi->image_2);
+                        $zip->addFile(public_path($caseFi->image_2), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_3) &&  $caseFi->image_3){
+                    if(file_exists(public_path($caseFi->image_3))){
+                        $relativeName = basename($caseFi->image_3);
+                        $zip->addFile(public_path($caseFi->image_3), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_4) &&  $caseFi->image_4){
+                    if(file_exists(public_path($caseFi->image_4))){
+                        $relativeName = basename($caseFi->image_4);
+                        $zip->addFile(public_path($caseFi->image_4), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_5) &&  $caseFi->image_5){
+                    if(file_exists(public_path($caseFi->image_5))){
+                        $relativeName = basename($caseFi->image_5);
+                        $zip->addFile(public_path($caseFi->image_5), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_6) &&  $caseFi->image_6){
+                    if(file_exists(public_path($caseFi->image_6))){
+                        $relativeName = basename($caseFi->image_6);
+                        $zip->addFile(public_path($caseFi->image_6), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_7) &&  $caseFi->image_7){
+                    if(file_exists(public_path($caseFi->image_7))){
+                        $relativeName = basename($caseFi->image_7);
+                        $zip->addFile(public_path($caseFi->image_7), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_8) &&  $caseFi->image_8){
+                    if(file_exists(public_path($caseFi->image_8))){
+                        $relativeName = basename($caseFi->image_8);
+                        $zip->addFile(public_path($caseFi->image_8), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_9) &&  $caseFi->image_9){
+                    if(file_exists(public_path($caseFi->image_9))){
+                        $relativeName = basename($caseFi->image_9);
+                        $zip->addFile(public_path($caseFi->image_9), $relativeName);
+                    }
+                }
+                $zip->close();
             }
             return response()->download(public_path($fileName));
+        }else{
+            return false;
         }
-
     }
 }
