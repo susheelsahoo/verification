@@ -540,6 +540,10 @@ class CasesController extends Controller
         }
 
         $htmlFormReinitatiateCase = '<div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="refrence_number">Refrence number:</label>
+                                            <input type="text" class="form-control" id="refrence_number" name="refrence_number" value="' . $casesFiType->getCase->refrence_number . '">
+                                        </div>
                                         ' . $applicentHtml . '
                                         <div class="form-group">
                                             <label for="address">Address:</label>
@@ -583,6 +587,7 @@ class CasesController extends Controller
         $case_id = $originalCaseFiType->case_id;
         $originalCaseData  = Cases::findOrFail($case_id);
         $newCasedata = $originalCaseData->replicate();
+        $newCasedata->refrence_number = $request['refrence_number'];
         $newCasedata->applicant_name = $request['applicant_name'];
         $newCasedata->amount = $request['amount'];
         $newCasedata->vehicle = $request['vehicle'];

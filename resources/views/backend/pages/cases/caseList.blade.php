@@ -84,7 +84,7 @@ Cases - Admin Panel
                                     <td>{{ $case->address ?? '' }}</td>
 
                                     @php
-                                        $fiType = $case->getCase->getFiType->name ?? null;
+                                        $fiType = $case->getFiType->name ?? null;
                                         $bank =  $case->getCase->getBank->name ?? null;
                                         $product = $case->getCase->getProduct->name ?? null;
 
