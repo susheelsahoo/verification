@@ -152,59 +152,45 @@ class CasesController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors(), 400]);
         }
-
-
-        // Get the current year and month
-        $year = Carbon::now()->format('Y');
-        $month = Carbon::now()->format('m');
-
-        // Create the path to store the image
-        $image_1 = $image_2 = $image_3 = $image_4 = $image_5 = $image_6 = $image_7 = $image_8 = $image_9 = NULL;
-        if ($request->hasFile('image_1')) {
-            $image_1 = $request->file('image_1')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_2')) {
-            $image_2 = $request->file('image_2')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_3')) {
-            $image_3 = $request->file('image_3')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_4')) {
-            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_4')) {
-            $image_4 = $request->file('image_4')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_5')) {
-            $image_5 = $request->file('image_5')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_6')) {
-            $image_6 = $request->file('image_6')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_7')) {
-            $image_7 = $request->file('image_7')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_8')) {
-            $image_8 = $request->file('image_8')->store("images/cases/{$year}/{$month}", 'public');
-        }
-        if ($request->hasFile('image_9')) {
-            $image_9 = $request->file('image_9')->store("images/cases/{$year}/{$month}", 'public');
-        }
         $case_fi_type_id = $data['case_fi_type_id'];
 
+        $case = CasesFiType::findOrFail($case_fi_type_id);
 
-        $cases = casesFiType::findOrFail($case_fi_type_id);
-        $cases->image_1 = $image_1;
-        $cases->image_2 = $image_2;
-        $cases->image_3 = $image_3;
-        $cases->image_4 = $image_4;
-        $cases->image_5 = $image_5;
-        $cases->image_6 = $image_6;
-        $cases->image_7 = $image_7;
-        $cases->image_8 = $image_8;
-        $cases->image_9 = $image_9;
-        $cases->save();
-        return response()->json(['message' => 'Image uploaded successfully'], 200);
+        $year = date('Y');
+        $month = date('m');
+        $path = "images/cases/{$year}/{$month}";
+
+        // Ensure the directory exists
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+        // Handle each uploaded file
+        foreach ($request->file('images') as $file) {
+            // Get the first available image slot
+            $imgField = $this->getAvailableImageField($case);
+
+            if ($imgField) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($path), $filename);
+
+                // Save the filename to the current image field
+                $case->$imgField = "{$path}/{$filename}";
+                $case->save();
+                return response()->json(['message' => 'Image uploaded successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Image Not uploaded'], 500);
+            }
+        }
+    }
+    private function getAvailableImageField($case)
+    {
+        for ($i = 1; $i <= 9; $i++) {
+            $imgField = 'image_' . $i;
+            if (is_null($case->$imgField)) {
+                return $imgField;
+            }
+        }
+        return null;
     }
     public function caseSubmit(Request $request)
     {

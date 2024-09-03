@@ -765,8 +765,6 @@ class CasesController extends Controller
 
     public function uploadImage(Request $request, $case_fi_type_id)
     {
-
-
         // Validate the uploaded files
         $request->validate([
             'images.*' => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048', // max size 2MB per image
@@ -1417,76 +1415,77 @@ class CasesController extends Controller
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
-    public function zipDownload($case_fy_id=null){
-        if($case_fy_id){
+    public function zipDownload($case_fy_id = null)
+    {
+        if ($case_fy_id) {
             $caseFi = casesFiType::findOrFail($case_fy_id);
             $zip      = new ZipArchive;
             $path = storage_path('app/public/');
-            $fileName = 'attachment'.$caseFi->id.'.zip';
-            $zipFile = $path.$fileName;
+            $fileName = 'attachment' . $caseFi->id . '.zip';
+            $zipFile = $path . $fileName;
             if ($zip->open($zipFile, ZipArchive::CREATE) === TRUE) {
-                if(isset($caseFi->image_1) &&  $caseFi->image_1){
-                    if(file_exists(public_path($caseFi->image_1))){
+                if (isset($caseFi->image_1) &&  $caseFi->image_1) {
+                    if (file_exists(public_path($caseFi->image_1))) {
                         $relativeName = basename($caseFi->image_1);
                         $zip->addFile(public_path($caseFi->image_1), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_2) &&  $caseFi->image_2){
-                    if(file_exists(public_path($caseFi->image_2))){
+                if (isset($caseFi->image_2) &&  $caseFi->image_2) {
+                    if (file_exists(public_path($caseFi->image_2))) {
                         $relativeName = basename($caseFi->image_2);
                         $zip->addFile(public_path($caseFi->image_2), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_3) &&  $caseFi->image_3){
-                    if(file_exists(public_path($caseFi->image_3))){
+                if (isset($caseFi->image_3) &&  $caseFi->image_3) {
+                    if (file_exists(public_path($caseFi->image_3))) {
                         $relativeName = basename($caseFi->image_3);
                         $zip->addFile(public_path($caseFi->image_3), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_4) &&  $caseFi->image_4){
-                    if(file_exists(public_path($caseFi->image_4))){
+                if (isset($caseFi->image_4) &&  $caseFi->image_4) {
+                    if (file_exists(public_path($caseFi->image_4))) {
                         $relativeName = basename($caseFi->image_4);
                         $zip->addFile(public_path($caseFi->image_4), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_5) &&  $caseFi->image_5){
-                    if(file_exists(public_path($caseFi->image_5))){
+                if (isset($caseFi->image_5) &&  $caseFi->image_5) {
+                    if (file_exists(public_path($caseFi->image_5))) {
                         $relativeName = basename($caseFi->image_5);
                         $zip->addFile(public_path($caseFi->image_5), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_6) &&  $caseFi->image_6){
-                    if(file_exists(public_path($caseFi->image_6))){
+                if (isset($caseFi->image_6) &&  $caseFi->image_6) {
+                    if (file_exists(public_path($caseFi->image_6))) {
                         $relativeName = basename($caseFi->image_6);
                         $zip->addFile(public_path($caseFi->image_6), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_7) &&  $caseFi->image_7){
-                    if(file_exists(public_path($caseFi->image_7))){
+                if (isset($caseFi->image_7) &&  $caseFi->image_7) {
+                    if (file_exists(public_path($caseFi->image_7))) {
                         $relativeName = basename($caseFi->image_7);
                         $zip->addFile(public_path($caseFi->image_7), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_8) &&  $caseFi->image_8){
-                    if(file_exists(public_path($caseFi->image_8))){
+                if (isset($caseFi->image_8) &&  $caseFi->image_8) {
+                    if (file_exists(public_path($caseFi->image_8))) {
                         $relativeName = basename($caseFi->image_8);
                         $zip->addFile(public_path($caseFi->image_8), $relativeName);
                     }
                 }
-                if(isset($caseFi->image_9) &&  $caseFi->image_9){
-                    if(file_exists(public_path($caseFi->image_9))){
+                if (isset($caseFi->image_9) &&  $caseFi->image_9) {
+                    if (file_exists(public_path($caseFi->image_9))) {
                         $relativeName = basename($caseFi->image_9);
                         $zip->addFile(public_path($caseFi->image_9), $relativeName);
                     }
                 }
                 $zip->close();
             }
-            if(file_exists($zipFile)){
+            if (file_exists($zipFile)) {
                 return response()->download($zipFile);
-            }else{
+            } else {
                 return redirect()->back();
             }
-        }else{
+        } else {
             return redirect()->back();
         }
     }
