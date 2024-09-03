@@ -84,29 +84,29 @@ Cases - Admin Panel
                                     <td>{{ $case->address ?? '' }}</td>
 
                                     @php
-                                        $fiType = $case->getFiType->name ?? null;
-                                        $bank =  $case->getCase->getBank->name ?? null;
-                                        $product = $case->getCase->getProduct->name ?? null;
+                                    $fiType = $case->getFiType->name ?? null;
+                                    $bank = $case->getCase->getBank->name ?? null;
+                                    $product = $case->getCase->getProduct->name ?? null;
 
-                                        $columnValue = null;
+                                    $columnValue = null;
 
-                                        if($bank){
-                                            $columnValue = $bank;
-                                        }
+                                    if($bank){
+                                    $columnValue = $bank;
+                                    }
 
-                                        if($product){
-                                            if($columnValue){
-                                                $columnValue .= ' ';
-                                            }
-                                            $columnValue .= $product;
-                                        }
+                                    if($product){
+                                    if($columnValue){
+                                    $columnValue .= ' ';
+                                    }
+                                    $columnValue .= $product;
+                                    }
 
-                                        if($fiType){
-                                            if($columnValue){
-                                                $columnValue .= ' ';
-                                            }
-                                            $columnValue .= $fiType;
-                                        }
+                                    if($fiType){
+                                    if($columnValue){
+                                    $columnValue .= ' ';
+                                    }
+                                    $columnValue .= $fiType;
+                                    }
                                     @endphp
 
                                     <td>{{ $columnValue  }} </td>
@@ -135,7 +135,9 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
-                                        <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a>
+
+
+                                        <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
 
 
 
