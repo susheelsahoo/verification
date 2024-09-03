@@ -1262,14 +1262,10 @@ class CasesController extends Controller
         $case->amount           = $input['amount'] ?? null;
         $case->save();
 
-
-
-
         $caseFi->mobile                             = $input['mobile'] ?? null;
         $caseFi->address                            = $input['address'] ?? null;
         $caseFi->address_confirmed                  = $input['address_confirmed'] ?? null;
         $caseFi->address_confirmed_by               = $input['address_confirmed_by'] ?? null;
-
         $caseFi->person_met                         = $input['person_met'] ?? null;
         $caseFi->relationship                       = $input['relationship'] ?? null;
         $caseFi->no_of_residents_in_house           = $input['no_of_residents_in_house'] ?? null;
