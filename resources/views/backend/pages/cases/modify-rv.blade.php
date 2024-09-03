@@ -243,7 +243,7 @@
                 <tr>
                     <td>Applicant Name</td>
                     <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="applicant_name" class="form-control" value="{{ $case->applicant_name ?? '' }}" />
+                        <input type="text" name="applicant_name1" class="form-control" value="{{ $case->applicant_name ?? '' }}" />
 
                     </td>
                     <td>Person Met</td>
@@ -357,15 +357,9 @@
                 </tr>
                 <tr>
                     <td>Address</td>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <td>Type of Proof</td>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <td>Type of Proof</td>
-                    <td colspan="3"></td>
+                    <td colspan="3">
+                        <input type="text" name="address" class="form-control" value="{{ $case->address ?? '' }}" />
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
@@ -416,46 +410,69 @@
                 <tr>
                     <td>Neighbour Check 1</td>
                     <td class="BVstyle ng-binding">
-                        <input type="text" name="visit_conducted" class="form-control" value="{{ $case->visit_conducted ?? '' }}" />
-                        {{ $case->tcp1_name ?? 'NA' }}
+                        <input type="text" name="tcp1_name" class="form-control" value="{{ $case->tcp1_name ?? '' }}" />
+
                     </td>
                     <td>Neighbour1 Checked With</td>
-                    <td class="BVstyle ng-binding">{{ $case->tcp1_checked_with ?? 'NA' }}</td>
+                    <td class="BVstyle ng-binding">
+                        <input type="text" name="tcp1_checked_with" class="form-control" value="{{ $case->tcp1_checked_with ?? '' }}" />
+
+                    </td>
                 </tr>
                 <tr>
                     <td>TCP1 Negative Comments</td>
-                    <td colspan="3">{{ $case->tcp1_negative_comments ?? 'NA' }} </td>
+                    <td colspan="3">
+                        <input type="text" name="tcp1_negative_comments" class="form-control" value="{{ $case->tcp1_negative_comments ?? '' }}" />
+
+                    </td>
                 </tr>
                 <tr>
                     <td>Neighbour Check 2</td>
-                    <td class="BVstyle ng-binding">{{ $case->tcp2_name ?? 'NA' }} </td>
+                    <td class="BVstyle ng-binding">
+                        <input type="text" name="tcp2_name" class="form-control" value="{{ $case->tcp2_name ?? '' }}" />
+
+                    </td>
                     <td>Neighbour2 Checked With</td>
-                    <td class="BVstyle ng-binding">{{ $case->tcp2_checked_with ?? 'NA' }}</td>
+                    <td class="BVstyle ng-binding">
+                        <input type="text" name="tcp2_checked_with" class="form-control" value="{{ $case->tcp2_checked_with ?? '' }}" />
+
+                    </td>
+
                 </tr>
                 <tr>
                     <td>TCP2 Negative Comments</td>
-                    <td colspan="3">{{ $case->tcp2_negative_comments ?? 'NA' }} </td>
+                    <td colspan="3">
+                        <input type="text" name="tcp2_negative_comments" class="form-control" value="{{ $case->tcp2_negative_comments ?? '' }}" />
+                    </td>
                 </tr>
 
                 <tr>
                     <td>Visited By </td>
-                    <td class="BVstyle ng-binding ng-hide">{{ $case->visited_by ?? 'NA' }}</td>
+                    <td class="BVstyle ng-binding ng-hide">
+                        <input type="text" name="visited_by" class="form-control" value="{{ $case->visited_by ?? '' }}" />
+                    </td>
                     <td>Verified By </td>
-                    <td class="BVstyle ng-binding ng-hide">{{ $case->verified_by ?? 'NA' }}</td>
+                    <td class="BVstyle ng-binding ng-hide">
+                        <input type="text" name="verified_by" class="form-control" value="{{ $case->verified_by ?? '' }}" />
+
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align:center">
-                        <!-- <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200"> -->
+                    <!-- <td colspan="2" style="text-align:center">
+                         <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200"> 
                         {{ $case->signature_of_agency_supervisor ?? 'NA' }}
                         <br>
                         Signature of Agency Supervisor (With agency Seal)
                     </td>
                     <td colspan="2" style="text-align:center">
-                        <!-- <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200"> -->
-                        {{ $case->audit_check_remarks_by_agency_with_stamp ?? 'NA' }}
-                        <br>
-                        Audit Check Remarks by Agency With Stamp &amp; Sign
-                    </td>
+                     <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200">
+                    {{ $case->audit_check_remarks_by_agency_with_stamp ?? 'NA' }}
+                    <br>
+                    Audit Check Remarks by Agency With Stamp &amp; Sign
+                    </td> -->
+                </tr>
+                <tr>
+                    <td colspan="4" align="center"><input type="submit" value="Upate RV Case" class="btn btn-primary updateBtn btn-sm"></td>
                 </tr>
             </tbody>
         </table>
