@@ -1416,13 +1416,14 @@ class CasesController extends Controller
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
-    public function zipDownload($case_fy_id=null)
-    {
+    public function zipDownload($case_fy_id=null){
         if($case_fy_id){
             $caseFi = casesFiType::findOrFail($case_fy_id);
             $zip      = new ZipArchive;
-            $fileName = 'attachment.zip';
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+            $path = storage_path('app/public/');
+            $fileName = 'attachment'.$caseFi->id.'.zip';
+            $zipFile = $path.$fileName;
+            if ($zip->open($zipFile, ZipArchive::CREATE) === TRUE) {
                 if(isset($caseFi->image_1) &&  $caseFi->image_1){
                     if(file_exists(public_path($caseFi->image_1))){
                         $relativeName = basename($caseFi->image_1);
@@ -1479,9 +1480,13 @@ class CasesController extends Controller
                 }
                 $zip->close();
             }
-            return response()->download(public_path($fileName));
+            if(file_exists($zipFile)){
+                return response()->download($zipFile);
+            }else{
+                return redirect()->back();
+            }
         }else{
-            return false;
+            return redirect()->back();
         }
     }
 }
