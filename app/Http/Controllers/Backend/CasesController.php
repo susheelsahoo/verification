@@ -1206,7 +1206,14 @@ class CasesController extends Controller
                 ->where('products.status', '1')
                 ->get();
         }
-        $view = view('backend.pages.cases.modify', compact('case', 'AvailbleProduct'))->render();
+        $fi_type_id = $case['fi_type_id'];
+
+        $fi_type_details = FiType::find($fi_type_id);
+        if ($fi_type_details['name'] == 'BV') {
+            $view = view('backend.pages.cases.modify-bv',  compact('case', 'AvailbleProduct'))->render();
+        } else {
+            $view = view('backend.pages.cases.modify-rv',  compact('case', 'AvailbleProduct'))->render();
+        }
         return response()->json(['viewData' => $view]);
     }
 
