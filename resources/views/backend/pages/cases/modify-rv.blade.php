@@ -10,12 +10,6 @@
         <table class="table table-bordered">
             <tbody>
                 <tr>
-                    <td colspan="4" align="right" height="30px;">
-                        <a href="javascript:Print()">Click here to print</a>
-                    </td>
-                </tr>
-
-                <tr>
                     <td style="border:none;font-size:22px;color:#0094ff" align="center" colspan="1">
                         <img alt="State Bank of India" src="{{ asset('images/sbi.jpg') }}">
                     </td>
