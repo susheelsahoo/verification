@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use ZipArchive;
+use ZipStream\File;
+use Illuminate\Support\Facades\Storage;
 
 class CasesController extends Controller
 {
@@ -1407,5 +1410,79 @@ class CasesController extends Controller
 
         session()->flash('success', 'Case Update successfully !!');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
+    }
+
+    public function zipDownload($case_fy_id=null){
+        if($case_fy_id){
+            $caseFi = casesFiType::findOrFail($case_fy_id);
+            $zip      = new ZipArchive;
+            $path = storage_path('app/public/');
+            $fileName = 'attachment'.$caseFi->id.'.zip';
+            $zipFile = $path.$fileName;
+            if ($zip->open($zipFile, ZipArchive::CREATE) === TRUE) {
+                if(isset($caseFi->image_1) &&  $caseFi->image_1){
+                    if(file_exists(public_path($caseFi->image_1))){
+                        $relativeName = basename($caseFi->image_1);
+                        $zip->addFile(public_path($caseFi->image_1), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_2) &&  $caseFi->image_2){
+                    if(file_exists(public_path($caseFi->image_2))){
+                        $relativeName = basename($caseFi->image_2);
+                        $zip->addFile(public_path($caseFi->image_2), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_3) &&  $caseFi->image_3){
+                    if(file_exists(public_path($caseFi->image_3))){
+                        $relativeName = basename($caseFi->image_3);
+                        $zip->addFile(public_path($caseFi->image_3), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_4) &&  $caseFi->image_4){
+                    if(file_exists(public_path($caseFi->image_4))){
+                        $relativeName = basename($caseFi->image_4);
+                        $zip->addFile(public_path($caseFi->image_4), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_5) &&  $caseFi->image_5){
+                    if(file_exists(public_path($caseFi->image_5))){
+                        $relativeName = basename($caseFi->image_5);
+                        $zip->addFile(public_path($caseFi->image_5), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_6) &&  $caseFi->image_6){
+                    if(file_exists(public_path($caseFi->image_6))){
+                        $relativeName = basename($caseFi->image_6);
+                        $zip->addFile(public_path($caseFi->image_6), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_7) &&  $caseFi->image_7){
+                    if(file_exists(public_path($caseFi->image_7))){
+                        $relativeName = basename($caseFi->image_7);
+                        $zip->addFile(public_path($caseFi->image_7), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_8) &&  $caseFi->image_8){
+                    if(file_exists(public_path($caseFi->image_8))){
+                        $relativeName = basename($caseFi->image_8);
+                        $zip->addFile(public_path($caseFi->image_8), $relativeName);
+                    }
+                }
+                if(isset($caseFi->image_9) &&  $caseFi->image_9){
+                    if(file_exists(public_path($caseFi->image_9))){
+                        $relativeName = basename($caseFi->image_9);
+                        $zip->addFile(public_path($caseFi->image_9), $relativeName);
+                    }
+                }
+                $zip->close();
+            }
+            if(file_exists($zipFile)){
+                return response()->download($zipFile);
+            }else{
+                return redirect()->back();
+            }
+        }else{
+            return redirect()->back();
+        }
     }
 }

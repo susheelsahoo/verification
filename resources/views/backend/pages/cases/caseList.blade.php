@@ -82,7 +82,34 @@ Cases - Admin Panel
                                     <td>{{ $case->getCase->applicant_name ?? '' }}</td>
                                     <td>{{ $case->mobile ?? '' }}</td>
                                     <td>{{ $case->address ?? '' }}</td>
-                                    <td>{{ ($case->getCase->getBank->name ?? '') . ' ' . ($case->getCase->getProduct->name ?? '') . ' ' . ($case->getCase->getFiType->name ?? '') }} </td>
+
+                                    @php
+                                        $fiType = $case->getCase->getFiType->name ?? null;
+                                        $bank =  $case->getCase->getBank->name ?? null;
+                                        $product = $case->getCase->getProduct->name ?? null;
+
+                                        $columnValue = null;
+
+                                        if($bank){
+                                            $columnValue = $bank;
+                                        }
+
+                                        if($product){
+                                            if($columnValue){
+                                                $columnValue .= ' ';
+                                            }
+                                            $columnValue .= $product;
+                                        }
+
+                                        if($fiType){
+                                            if($columnValue){
+                                                $columnValue .= ' ';
+                                            }
+                                            $columnValue .= $fiType;
+                                        }
+                                    @endphp
+
+                                    <td>{{ $columnValue  }} </td>
                                     <td>{{ humanReadableDate($case->scheduled_visit_date) }}</td>
                                     <td>{{ $case->getUser->name ?? '' }}</td>
                                     <td>{{ get_status($case->status) }}</td>
@@ -108,6 +135,10 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
+                                        <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a>
+
+
+
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
 
