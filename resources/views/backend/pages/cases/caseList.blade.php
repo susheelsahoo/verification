@@ -74,6 +74,7 @@ Cases - Admin Panel
                             </thead>
                             <tbody>
                                 @foreach ($cases as $case)
+
                                 <tr>
                                     <td class="text-center"><input type="checkbox" class="selectRow" value="{{ $case->id }}"></td>
                                     <td>{{ $loop->index+1 }}</td>
@@ -81,7 +82,7 @@ Cases - Admin Panel
                                     <td>{{ $case->getCase->applicant_name ?? '' }}</td>
                                     <td>{{ $case->mobile ?? '' }}</td>
                                     <td>{{ $case->address ?? '' }}</td>
-                                    <td>{{ $case->getCase->getBank->name ?? '' .' '. $case->getCase->getProduct->name ?? '' .' '. $case->getCase->getFiType->name ?? '' }}</td>
+                                    <td>{{ ($case->getCase->getBank->name ?? '') . ' ' . ($case->getCase->getProduct->name ?? '') . ' ' . ($case->getCase->getFiType->name ?? '') }} </td>
                                     <td>{{ humanReadableDate($case->scheduled_visit_date) }}</td>
                                     <td>{{ $case->getUser->name ?? '' }}</td>
                                     <td>{{ get_status($case->status) }}</td>

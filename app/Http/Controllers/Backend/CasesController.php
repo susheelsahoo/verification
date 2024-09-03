@@ -951,8 +951,8 @@ class CasesController extends Controller
         $assign = false;
 
         if ($status != 'aaa') {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status',$status)->get();
-        }else{
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status', $status)->get();
+        } else {
             $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
         }
 
@@ -1186,7 +1186,15 @@ class CasesController extends Controller
     public function getForm($id = null)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $view = view('backend.pages.cases.detail', compact('case'))->render();
+        $fi_type_id = $case['fi_type_id'];
+
+        $fi_type_details = FiType::find($fi_type_id);
+        if ($fi_type_details['name'] == 'BV') {
+            $view = view('backend.pages.cases.details-bv', compact('case'))->render();
+        } else {
+            $view = view('backend.pages.cases.details-rv', compact('case'))->render();
+        }
+
         return response()->json(['viewData' => $view]);
     }
 
@@ -1201,11 +1209,126 @@ class CasesController extends Controller
                 ->where('products.status', '1')
                 ->get();
         }
-        $view = view('backend.pages.cases.modify', compact('case','AvailbleProduct'))->render();
+        $fi_type_id = $case['fi_type_id'];
+
+        $fi_type_details = FiType::find($fi_type_id);
+        if ($fi_type_details['name'] == 'BV') {
+            $view = view('backend.pages.cases.modify-bv',  compact('case', 'AvailbleProduct'))->render();
+        } else {
+            $view = view('backend.pages.cases.modify-rv',  compact('case', 'AvailbleProduct'))->render();
+        }
         return response()->json(['viewData' => $view]);
     }
 
-    public function modifyViewCase(Request $request,$id){
+    public function modifyRVCase(Request $request, $id)
+    {
+
+        $input = $request->all();
+        // echo '<pre>';
+        // print_r($input);
+        // die;
+
+
+        // $rules = [
+        //     'case_fy_id'                => 'required',
+        //     'refrence_number'           => 'required',
+        //     'applicant_name'            => 'required',
+        //     'product_id'                => 'required',
+        //     'amount'                    => 'required',
+        //     'mobile'                    => 'required',
+        //     'address'                   => 'required',
+        //     'address_confirmed'         => 'required',
+        //     'employer_address'          => 'required',
+        //     'type_of_proof'             => 'required',
+        //     'address_confirmed_by'      => 'required',
+        //     'name_of_employer'          => 'required',
+        //     'person_met'                => 'required',
+        //     'telephone_no_residence'    => 'required',
+        //     'applicant_age'             => 'required',
+        //     'designation'               => 'required',
+        //     'area'                      => 'required',
+        //     'nearest_landmark'          => 'required',
+        //     'latitude'                  => 'required',
+        //     'longitude'                 => 'required',
+        // ];
+        // $request->validate($rules);
+
+        $input = $request->all();
+        $case_fi_type_id = $input['case_fy_id'];
+        $caseFi = casesFiType::findOrFail($case_fi_type_id);
+        $case =  Cases::find($caseFi->case_id);
+
+        $case->refrence_number  = $input['refrence_number'] ?? null;
+        $case->applicant_name   = $input['applicant_name'] ?? null;
+        $case->product_id       = $input['product_id'] ?? null;
+        $case->date_of_birth    = $input['date_of_birth'] ?? null;
+        $case->amount           = $input['amount'] ?? null;
+        $case->save();
+
+
+
+
+        $caseFi->mobile                             = $input['mobile'] ?? null;
+        $caseFi->address                            = $input['address'] ?? null;
+        $caseFi->address_confirmed                  = $input['address_confirmed'] ?? null;
+        $caseFi->address_confirmed_by               = $input['address_confirmed_by'] ?? null;
+
+        $caseFi->person_met                         = $input['person_met'] ?? null;
+        $caseFi->relationship                       = $input['relationship'] ?? null;
+        $caseFi->no_of_residents_in_house           = $input['no_of_residents_in_house'] ?? null;
+        $caseFi->years_lived_at_this_residence      = $input['years_lived_at_this_residence'] ?? null;
+        $caseFi->no_of_earning_family_members       = $input['no_of_earning_family_members'] ?? null;
+        $caseFi->residence_status                   = $input['residence_status'] ?? null;
+        $caseFi->name_of_employer                   = $input['name_of_employer'] ?? null;
+        $caseFi->employer_address                   = $input['employer_address'] ?? null;
+        $caseFi->telephone_no_residence             = $input['telephone_no_residence'] ?? null;
+        $caseFi->office                             = $input['office'] ?? null;
+        $caseFi->designation                        = $input['designation'] ?? null;
+        $caseFi->approx_rent                        = $input['approx_rent'] ?? null;
+        $caseFi->approx_value                       = $input['approx_value'] ?? null;
+        $caseFi->bank_name                          = $input['bank_name'] ?? null;
+        $caseFi->branch                             = $input['branch'] ?? null;
+        $caseFi->permanent_address                  = $input['permanent_address'] ?? null;
+        $caseFi->vehicles                           = $input['vehicles'] ?? null;
+        $caseFi->make_and_type                      = $input['make_and_type'] ?? null;
+        $caseFi->location                           = $input['location'] ?? null;
+        $caseFi->locality                           = $input['locality'] ?? null;
+        $caseFi->accommodation_type                 = $input['accommodation_type'] ?? null;
+        $caseFi->interior_conditions                = $input['interior_conditions'] ?? null;
+        $caseFi->assets_seen                        = $input['assets_seen'] ?? null;
+        $caseFi->area                               = $input['area'] ?? null;
+        $caseFi->standard_of_living                 = $input['standard_of_living'] ?? null;
+        $caseFi->nearest_landmark                   = $input['nearest_landmark'] ?? null;
+        $caseFi->relationship_others                = $input['relationship_others'] ?? null;
+        $caseFi->applicant_age                      = $input['applicant_age'] ?? null;
+        $caseFi->residence_status_others            = $input['residence_status_others'] ?? null;
+        $caseFi->years_at_current_residence_others  = $input['years_at_current_residence_others'] ?? null;
+        $caseFi->occupation                         = $input['occupation'] ?? null;
+        $caseFi->verifiers_name                     = $input['verifiers_name'] ?? null;
+        $caseFi->verification_conducted_at          = $input['verification_conducted_at'] ?? null;
+        $caseFi->proof_attached                     = $input['proof_attached'] ?? null;
+        $caseFi->type_of_proof                      = $input['type_of_proof'] ?? null;
+        $caseFi->date_of_visit                      = $input['date_of_visit'] ?? null;
+        $caseFi->time_of_visit                      = $input['time_of_visit'] ?? null;
+        $caseFi->supervisor_remarks                 = $input['supervisor_remarks'] ?? null;
+        $caseFi->visit_conducted                    = $input['visit_conducted'] ?? null;
+        $caseFi->tcp1_name                          = $input['tcp1_name'] ?? null;
+        $caseFi->tcp1_checked_with                  = $input['tcp1_checked_with'] ?? null;
+        $caseFi->tcp1_negative_comments             = $input['tcp1_negative_comments'] ?? null;
+        $caseFi->tcp2_name                          = $input['tcp2_name'] ?? null;
+        $caseFi->tcp2_checked_with                  = $input['tcp2_checked_with'] ?? null;
+        $caseFi->tcp2_negative_comments             = $input['tcp2_negative_comments'] ?? null;
+        $caseFi->visited_by                         = $input['visited_by'] ?? null;
+        $caseFi->verified_by                        = $input['verified_by'] ?? null;
+
+        // Save the model
+        $caseFi->save();
+        session()->flash('success', 'Case Update successfully !!');
+        return response()->json(['success' => 'Case Update successfully !!'], 200);
+    }
+
+    public function modifyBVCase(Request $request, $id)
+    {
 
         // $input = $request->all();
         // echo '<pre>';
@@ -1237,27 +1360,27 @@ class CasesController extends Controller
             [longitude] => aaa
         )  */
 
-        $rules=[
-            'case_fy_id'=>'required',
-            'refrence_number'=>'required',
-            'applicant_name'=>'required',
-            'product_id'=>'required',
-            'amount'=>'required',
-            'mobile'=>'required',
-            'address'=>'required',
-            'address_confirmed'=>'required',
-            'employer_address'=>'required',
-            'type_of_proof'=>'required',
-            'address_confirmed_by'=>'required',
-            'name_of_employer'=>'required',
-            'person_met'=>'required',
-            'telephone_no_residence'=>'required',
-            'applicant_age'=>'required',
-            'designation'=>'required',
-            'area'=>'required',
-            'nearest_landmark'=>'required',
-            'latitude'=>'required',
-            'longitude'=>'required',
+        $rules = [
+            'case_fy_id' => 'required',
+            'refrence_number' => 'required',
+            'applicant_name' => 'required',
+            'product_id' => 'required',
+            'amount' => 'required',
+            'mobile' => 'required',
+            'address' => 'required',
+            'address_confirmed' => 'required',
+            'employer_address' => 'required',
+            'type_of_proof' => 'required',
+            'address_confirmed_by' => 'required',
+            'name_of_employer' => 'required',
+            'person_met' => 'required',
+            'telephone_no_residence' => 'required',
+            'applicant_age' => 'required',
+            'designation' => 'required',
+            'area' => 'required',
+            'nearest_landmark' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ];
         $request->validate($rules);
 
