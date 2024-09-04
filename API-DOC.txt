@@ -83,8 +83,12 @@ http://127.0.0.1:8000/api/cases/submit
     'time_of_visit':'aaaaaaaaaa',
     'latitude':'aaaaaaaaaa',
     'longitude':'aaaaaaaaaa',
-    'neighbour_check_1':'aaaaaaaaaa',
-    'neighbour1_checked_with':'aaaaaaaaaa',
+    'tcp1_name':'aaa',
+    'tcp1_checked_with':'aaa',
+    'tcp1_negative_comments':'aaa',
+    'tcp2_name':'aaa',
+    'tcp2_checked_with':'aaa',
+    'tcp2_negative_comments':'aaa',
        
 }
 -------------------------------------------------------------------------------------------------------

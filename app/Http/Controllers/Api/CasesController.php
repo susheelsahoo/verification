@@ -270,8 +270,13 @@ class CasesController extends Controller
         // $cases->time_of_visit                    = $data['time_of_visit'];
         $cases->latitude                            = $data['latitude'];
         $cases->longitude                           = $data['longitude'];
-        $cases->neighbour_check_1                   = $data['neighbour_check_1'];
-        $cases->neighbour1_checked_with             = $data['neighbour1_checked_with'];
+        $cases->tcp1_name                           = $data['tcp1_name'];
+        $cases->tcp1_checked_with                   = $data['tcp1_checked_with'];
+        $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
+        $cases->tcp2_name                           = $data['tcp2_name'];
+        $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
+        $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
+
         $cases->save();
         return response()->json(['message' => 'Case Submit Successfully'], 200);
     }
