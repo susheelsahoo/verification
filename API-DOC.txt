@@ -32,7 +32,8 @@ http://127.0.0.1:8000/api/cases/submit
     "address_confirmed_by": "aaa",
     "person_met": "aaa",
     "relationship": "aaa",
-    "no_of_residents_in_the_house": "aaa",
+    "person_met" : "aaa"
+    "no_of_residents_in_house": "aaa",
     "years_at_current_residence": "aaa",
     "no_of_earning_family_members": "aaa",
     "residence_status": "aaa",

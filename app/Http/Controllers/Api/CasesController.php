@@ -218,8 +218,8 @@ class CasesController extends Controller
         $cases->address_confirmed_by                = $data['address_confirmed_by'];
         $cases->person_met                          = $data['person_met'];
         $cases->relationship                        = $data['relationship'];
-        $cases->no_of_residents_in_the_house        = $data['no_of_residents_in_the_house'];
-        $cases->years_at_current_residence          = $data['years_at_current_residence'];
+        $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
+        $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
         $cases->no_of_earning_family_members        = $data['no_of_earning_family_members'];
         $cases->residence_status                    = $data['residence_status'];
         $cases->name_of_employer                    = $data['name_of_employer'];

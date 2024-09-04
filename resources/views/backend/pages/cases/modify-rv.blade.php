@@ -4,7 +4,7 @@
     }
 </style>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <form action="{{ route('admin.case.modifyCase.viewCase', $case->id) }}" method="POST">
+    <form action="{{ route('admin.case.modifyRVCase', $case->id) }}" method="POST">
         @csrf
         <input type="hidden" name="case_fy_id" value="{{ $case->id }}" />
         <table class="table table-bordered">
@@ -439,7 +439,6 @@
                         <input type="text" name="tcp2_negative_comments" class="form-control" value="{{ $case->tcp2_negative_comments ?? '' }}" />
                     </td>
                 </tr>
-
                 <tr>
                     <td>Visited By </td>
                     <td class="BVstyle ng-binding ng-hide">
@@ -448,7 +447,6 @@
                     <td>Verified By </td>
                     <td class="BVstyle ng-binding ng-hide">
                         <input type="text" name="verified_by" class="form-control" value="{{ $case->verified_by ?? '' }}" />
-
                     </td>
                 </tr>
                 <tr>
@@ -546,7 +544,7 @@
             });
             let formData = form.serializeArray();
             let rowId = form.find('input[name="case_fy_id"]').val();
-            let actionPath = "{{ route('admin.case.modifyCase.viewCase','ID')}}";
+            let actionPath = "{{ route('admin.case.modifyRVCase','ID')}}";
             actionPath = actionPath.replace('ID', rowId);
             $.ajax({
                 url: actionPath,

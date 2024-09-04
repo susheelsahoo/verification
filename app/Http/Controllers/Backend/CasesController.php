@@ -1227,9 +1227,9 @@ class CasesController extends Controller
     {
 
         $input = $request->all();
-        // echo '<pre>';
-        // print_r($input);
-        // die;
+        echo '<pre>RVVVVV';
+        print_r($input);
+        die;
 
 
         // $rules = [
@@ -1329,10 +1329,10 @@ class CasesController extends Controller
     public function modifyBVCase(Request $request, $id)
     {
 
-        // $input = $request->all();
-        // echo '<pre>';
-        // print_r($input);
-        // die;
+        $input = $request->all();
+        echo '<pre>BVVVVVV';
+        print_r($input);
+        die;
         /*
         Array
         (
