@@ -45,7 +45,7 @@
                         </select>
                     </td>
                     <td>Loan Amount</td>
-                    <td class="BVstyle ng-binding"><input type="text" name="amount" class="form-control" value="{{ $case->getCase->amount ?? 'NA' }}" /></td>
+                    <td class="BVstyle ng-binding"><input type="text" name="loan_amount" class="form-control" value="{{ $case->getCase->amount ?? 'NA' }}" /></td>
                 </tr>
                 <tr>
                     <td>Contact No.</td>

@@ -34,7 +34,14 @@
                 <tr>
                     <td>Product Name</td>
                     <td class="BVstyle">
-                        <input type="text" name="product_name" class="form-control" value="{{ $case->getCase->getProduct->name ?? '' }}">
+                        <select id="productSelect" name="product_id" class="custom-select">
+                            <option value="">--Select Option--</option>
+                            @if($AvailbleProduct)
+                            @foreach ($AvailbleProduct as $product)
+                            <option value="{{ $product->id }}" @if(($case->getCase->getProduct->id) && ($case->getCase->getProduct->id == $product->id)) selected @endif >{{ $product->name }}</option>
+                            @endforeach
+                            @endif
+                        </select>
                     </td>
                     <td>Loan Amount</td>
                     <td class="BVstyle">

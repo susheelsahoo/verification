@@ -1226,10 +1226,10 @@ class CasesController extends Controller
     public function modifyRVCase(Request $request, $id)
     {
 
-        $input = $request->all();
-        echo '<pre>RVVVVV';
-        print_r($input);
-        die;
+        // $input = $request->all();
+        // echo '<pre>RVVVVV';
+        // print_r($input);
+        // die;
 
 
         // $rules = [
@@ -1265,7 +1265,7 @@ class CasesController extends Controller
         $case->applicant_name   = $input['applicant_name'] ?? null;
         $case->product_id       = $input['product_id'] ?? null;
         $case->date_of_birth    = $input['date_of_birth'] ?? null;
-        $case->amount           = $input['amount'] ?? null;
+        $case->amount           = $input['loan_amount'] ?? null;
         $case->save();
 
         $caseFi->mobile                             = $input['mobile'] ?? null;
@@ -1329,10 +1329,10 @@ class CasesController extends Controller
     public function modifyBVCase(Request $request, $id)
     {
 
-        $input = $request->all();
-        echo '<pre>BVVVVVV';
-        print_r($input);
-        die;
+        // $input = $request->all();
+        // echo '<pre>BVVVVVV';
+        // print_r($input);
+        // die;
         /*
         Array
         (
@@ -1359,29 +1359,29 @@ class CasesController extends Controller
             [longitude] => aaa
         )  */
 
-        $rules = [
-            'case_fy_id' => 'required',
-            'refrence_number' => 'required',
-            'applicant_name' => 'required',
-            'product_id' => 'required',
-            'amount' => 'required',
-            'mobile' => 'required',
-            'address' => 'required',
-            'address_confirmed' => 'required',
-            'employer_address' => 'required',
-            'type_of_proof' => 'required',
-            'address_confirmed_by' => 'required',
-            'name_of_employer' => 'required',
-            'person_met' => 'required',
-            'telephone_no_residence' => 'required',
-            'applicant_age' => 'required',
-            'designation' => 'required',
-            'area' => 'required',
-            'nearest_landmark' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-        ];
-        $request->validate($rules);
+        // $rules = [
+        //     'case_fy_id' => 'required',
+        //     'refrence_number' => 'required',
+        //     'applicant_name' => 'required',
+        //     'product_id' => 'required',
+        //     'amount' => 'required',
+        //     'mobile' => 'required',
+        //     'address' => 'required',
+        //     'address_confirmed' => 'required',
+        //     'employer_address' => 'required',
+        //     'type_of_proof' => 'required',
+        //     'address_confirmed_by' => 'required',
+        //     'name_of_employer' => 'required',
+        //     'person_met' => 'required',
+        //     'telephone_no_residence' => 'required',
+        //     'applicant_age' => 'required',
+        //     'designation' => 'required',
+        //     'area' => 'required',
+        //     'nearest_landmark' => 'required',
+        //     'latitude' => 'required',
+        //     'longitude' => 'required',
+        // ];
+        // $request->validate($rules);
 
         $input = $request->all();
         $case_fi_type_id = $input['case_fy_id'];
@@ -1391,24 +1391,54 @@ class CasesController extends Controller
         $case->refrence_number = $input['refrence_number'] ?? null;
         $case->applicant_name = $input['applicant_name'] ?? null;
         $case->product_id = $input['product_id'] ?? null;
-        $case->amount = $input['amount'] ?? null;
+        $case->amount = $input['loan_amount'] ?? null;
         $case->save();
 
-        $caseFi->mobile =  $input['mobile'] ?? null;
-        $caseFi->address = $input['address'] ?? null;
-        $caseFi->address_confirmed = $input['address_confirmed'] ?? null;
-        $caseFi->employer_address = $input['employer_address'] ?? null;
-        $caseFi->type_of_proof = $input['type_of_proof'] ?? null;
-        $caseFi->address_confirmed_by = $input['address_confirmed_by'] ?? null;
-        $caseFi->name_of_employer = $input['name_of_employer'] ?? null;
-        $caseFi->person_met = $input['person_met'] ?? null;
-        $caseFi->telephone_no_residence = $input['telephone_no_residence'] ?? null;
-        $caseFi->applicant_age = $input['applicant_age'] ?? null;
-        $caseFi->designation = $input['designation'] ?? null;
-        $caseFi->area = $input['area'] ?? null;
-        $caseFi->nearest_landmark = $input['nearest_landmark'] ?? null;
-        $caseFi->latitude = $input['latitude'] ?? null;
-        $caseFi->longitude = $input['longitude'] ?? null;
+        $caseFi->mobile                         = $input['mobile'] ?? null;
+        $caseFi->address                        = $input['address'] ?? null;
+        $caseFi->address_confirmed              = $input['address_confirmed'] ?? null;
+        $caseFi->employer_address               = $input['employer_address'] ?? null;
+        $caseFi->type_of_proof                  = $input['type_of_proof'] ?? null;
+        $caseFi->address_confirmed_by           = $input['address_confirmed_by'] ?? null;
+        $caseFi->name_of_employer               = $input['name_of_employer'] ?? null;
+        $caseFi->person_met                     = $input['person_met'] ?? null;
+        $caseFi->website_of_employer            = $input['website_of_employer'] ?? null;
+        $caseFi->email_of_employer              = $input['email_of_employer'] ?? null;
+        $caseFi->telephono_no_office            = $input['telephono_no_office'] ?? null;
+        $caseFi->ext                            = $input['ext'] ?? null;
+        $caseFi->telephone_no_residence         = $input['telephone_no_residence'] ?? null;
+        $caseFi->co_board_outside_bldg_office   = $input['co_board_outside_bldg_office'] ?? null;
+        $caseFi->type_of_employer               = $input['type_of_employer'] ?? null;
+        $caseFi->nature_of_employer             = $input['nature_of_employer'] ?? null;
+        $caseFi->line_of_business               = $input['line_of_business'] ?? null;
+        $caseFi->year_of_establishment          = $input['year_of_establishment'] ?? null;
+        $caseFi->level_of_business_activity     = $input['level_of_business_activity'] ?? null;
+        $caseFi->no_of_employees                = $input['no_of_employees'] ?? null;
+        $caseFi->no_of_branches                 = $input['no_of_branches'] ?? null;
+        $caseFi->interior_conditions            = $input['office_ambience'] ?? null;
+        $caseFi->type_of_locality               = $input['type_of_locality'] ?? null;
+        $caseFi->area                           = $input['area'] ?? null;
+        $caseFi->nearest_landmark               = $input['nearest_landmark'] ?? null;
+        // $caseFi->ease_of_locating               = $input['ease_of_locating'] ?? null;
+        $caseFi->terms_of_employment            = $input['terms_of_employment'] ?? null;
+        $caseFi->grade                          = $input['grade'] ?? null;
+        $caseFi->years_lived_at_this_residence  = $input['years_lived_at_this_residence'] ?? null;
+        $caseFi->applicant_age                  = $input['applicant_age'] ?? null;
+        $caseFi->name_of_employer_co            = $input['name_of_employer_co'] ?? null;
+        $caseFi->established                    = $input['established'] ?? null;
+        $caseFi->designation                    = $input['designation'] ?? null;
+        $caseFi->visit_conducted                = $input['visit_conducted'] ?? null;
+        $caseFi->date_of_visit                  = $input['date_of_visit'] ?? null;
+        $caseFi->time_of_visit                  = $input['time_of_visit'] ?? null;
+        $caseFi->latitude                       = $input['latitude'] ?? null;
+        $caseFi->longitude                      = $input['longitude'] ?? null;
+        $caseFi->tcp1_name                      = $input['tcp1_name'] ?? null;
+        $caseFi->tcp1_checked_with              = $input['tcp1_checked_with'] ?? null;
+        $caseFi->tcp2_name                      = $input['tcp2_name'] ?? null;
+        $caseFi->tcp2_checked_with              = $input['tcp2_checked_with'] ?? null;
+        $caseFi->visited_by                     = $input['visited_by'] ?? null;
+        $caseFi->verified_by                    = $input['verified_by'] ?? null;
+
         $caseFi->save();
 
         session()->flash('success', 'Case Update successfully !!');
