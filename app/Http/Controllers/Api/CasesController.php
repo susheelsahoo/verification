@@ -275,7 +275,7 @@ class CasesController extends Controller
         // $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
         $cases->tcp2_name                           = $data['tcp2_name'];
         $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
-        $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
+        // $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
 
         $cases->save();
         return response()->json(['message' => 'Case Submit Successfully'], 200);
