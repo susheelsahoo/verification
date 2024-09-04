@@ -272,7 +272,7 @@ class CasesController extends Controller
         $cases->longitude                           = $data['longitude'];
         $cases->tcp1_name                           = $data['tcp1_name'];
         $cases->tcp1_checked_with                   = $data['tcp1_checked_with'];
-        $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
+        // $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
         $cases->tcp2_name                           = $data['tcp2_name'];
         $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
         $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
