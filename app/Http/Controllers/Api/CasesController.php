@@ -216,7 +216,7 @@ class CasesController extends Controller
         $cases = casesFiType::findOrFail($case_fi_type_id);
         $cases->address_confirmed                   = $data['address_confirmed'];
         $cases->address_confirmed_by                = $data['address_confirmed_by'];
-        $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
+        // $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
         $cases->person_met                          = $data['person_met'];
         $cases->relationship                        = $data['relationship'];
         $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];

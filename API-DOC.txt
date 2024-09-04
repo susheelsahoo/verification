@@ -30,7 +30,7 @@ http://127.0.0.1:8000/api/cases/submit
     "case_fi_type_id": "int",
     'address_confirmed':'aaaaaaaaaa',
     'address_confirmed_by':'aaaaaaaaaa',
-    'no_of_residents_in_house':'aaaaaaaaaa',
+    'no_of_residents_in_house':'int',
     'person_met':'aaaaaaaaaa',
     'relationship':'aaaaaaaaaa',
     'years_lived_at_this_residence':'aaaaaaaaaa',
