@@ -216,9 +216,9 @@ class CasesController extends Controller
         $cases = casesFiType::findOrFail($case_fi_type_id);
         $cases->address_confirmed                   = $data['address_confirmed'];
         $cases->address_confirmed_by                = $data['address_confirmed_by'];
+        $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
         $cases->person_met                          = $data['person_met'];
         $cases->relationship                        = $data['relationship'];
-        $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
         $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
         $cases->no_of_earning_family_members        = $data['no_of_earning_family_members'];
         $cases->residence_status                    = $data['residence_status'];
@@ -252,7 +252,7 @@ class CasesController extends Controller
         $cases->locked_relationship                 = $data['locked_relationship'];
         $cases->applicant_age                       = $data['applicant_age'];
         $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
-        $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
+
         $cases->occupation                          = $data['occupation'];
         $cases->untraceable                         = $data['untraceable'];
         $cases->verifiers_name                      = $data['verifiers_name'];
