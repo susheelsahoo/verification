@@ -1232,38 +1232,39 @@ class CasesController extends Controller
         // die;
 
 
-        // $rules = [
-        //     'case_fy_id'                => 'required',
-        //     'refrence_number'           => 'required',
-        //     'applicant_name'            => 'required',
-        //     'product_id'                => 'required',
-        //     'amount'                    => 'required',
-        //     'mobile'                    => 'required',
-        //     'address'                   => 'required',
-        //     'address_confirmed'         => 'required',
-        //     'employer_address'          => 'required',
-        //     'type_of_proof'             => 'required',
-        //     'address_confirmed_by'      => 'required',
-        //     'name_of_employer'          => 'required',
-        //     'person_met'                => 'required',
-        //     'telephone_no_residence'    => 'required',
-        //     'applicant_age'             => 'required',
-        //     'designation'               => 'required',
-        //     'area'                      => 'required',
-        //     'nearest_landmark'          => 'required',
-        //     'latitude'                  => 'required',
-        //     'longitude'                 => 'required',
-        // ];
-        // $request->validate($rules);
+        $rules = [
+            'case_fi_id'                => 'required',
+            // 'product_id'                => 'required',
+
+            // 'applicant_name'            => 'required',
+            // 'product_id'                => 'required',
+            // 'amount'                    => 'required',
+            // 'mobile'                    => 'required',
+            // 'address'                   => 'required',
+            // 'address_confirmed'         => 'required',
+            // 'employer_address'          => 'required',
+            // 'type_of_proof'             => 'required',
+            // 'address_confirmed_by'      => 'required',
+            // 'name_of_employer'          => 'required',
+            // 'person_met'                => 'required',
+            // 'telephone_no_residence'    => 'required',
+            // 'applicant_age'             => 'required',
+            // 'designation'               => 'required',
+            // 'area'                      => 'required',
+            // 'nearest_landmark'          => 'required',
+            // 'latitude'                  => 'required',
+            // 'longitude'                 => 'required',
+        ];
+        $request->validate($rules);
 
         $input = $request->all();
-        $case_fi_type_id = $input['case_fy_id'];
+        $case_fi_type_id = $input['case_fi_id'];
         $caseFi = casesFiType::findOrFail($case_fi_type_id);
         $case =  Cases::find($caseFi->case_id);
 
         $case->refrence_number  = $input['refrence_number'] ?? null;
         $case->applicant_name   = $input['applicant_name'] ?? null;
-        $case->product_id       = $input['product_id'] ?? null;
+        // $case->product_id       = $input['product_id'] ?? null;
         $case->date_of_birth    = $input['date_of_birth'] ?? null;
         $case->amount           = $input['loan_amount'] ?? null;
         $case->save();
@@ -1390,7 +1391,7 @@ class CasesController extends Controller
 
         $case->refrence_number = $input['refrence_number'] ?? null;
         $case->applicant_name = $input['applicant_name'] ?? null;
-        $case->product_id = $input['product_id'] ?? null;
+        // $case->product_id = $input['product_id'] ?? null;
         $case->amount = $input['loan_amount'] ?? null;
         $case->save();
 
