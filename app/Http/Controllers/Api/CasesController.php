@@ -252,7 +252,7 @@ class CasesController extends Controller
         $cases->locked_relationship                 = $data['locked_relationship'];
         $cases->applicant_age                       = $data['applicant_age'];
         $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
-
+        $cases->status                              = $data['status'];
         $cases->occupation                          = $data['occupation'];
         $cases->untraceable                         = $data['untraceable'];
         $cases->verifiers_name                      = $data['verifiers_name'];
