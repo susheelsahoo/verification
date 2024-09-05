@@ -1,12 +1,8 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <span align="right" height="30px;">
+        <a href="javascript:void()" onclick="printformFunction()">Click here to print</a>
+    </span>
     <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th colspan="4" align="right" height="30px;">
-                    <a href="javascript:Print()">Click here to print</a>
-                </th>
-            </tr>
-        </thead>
         <tbody>
             <tr>
                 <td style="border:none;font-size:22px;color:#0094ff" align="center" colspan="1">

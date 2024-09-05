@@ -442,11 +442,11 @@
                 <tr>
                     <td>Visited By </td>
                     <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="visited_by" class="form-control" value="{{ $case->visited_by ?? '' }}" />
+                        <input type="text" name="visited_by" class="form-control" value="{{ $case->visited_by ?? '' }}">
                     </td>
                     <td>Verified By </td>
                     <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="verified_by" class="form-control" value="{{ $case->verified_by ?? '' }}" />
+                        <input type="text" name="verified_by" class="form-control" value="{{ $case->verified_by ?? '' }}">
                     </td>
                 </tr>
                 <tr>

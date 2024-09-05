@@ -355,6 +355,9 @@ Cases - Admin Panel
 <!-- Start datatable js -->
 {{-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> --}}
 
+
+
+
 <script>
     // Wait for the DOM to be ready
     $(document).ready(function() {
@@ -424,7 +427,6 @@ Cases - Admin Panel
             } else {
                 alert('No case selected.');
             }
-
         });
 
         //For Single Row POPUP
@@ -684,5 +686,18 @@ Cases - Admin Panel
 
         });
     });
+</script>
+<script>
+    function printformFunction() {
+        var divToPrint = document.getElementById('outprint'); // Get the table element
+        var newWindow = window.open('', '', 'width=800,height=600'); // Open a new window
+        newWindow.document.write('<html><head><title>Print Table</title>');
+        newWindow.document.write('<style>table, th, td {border: 1px solid black; border-collapse: collapse; padding: 10px;}</style>'); // Optional: Add CSS for the table
+        newWindow.document.write('</head><body>');
+        newWindow.document.write(divToPrint.outerHTML); // Add the table's HTML to the new window
+        newWindow.document.write('</body></html>');
+        newWindow.document.close(); // Close the document
+        newWindow.print(); // Trigger print
+    }
 </script>
 @endsection

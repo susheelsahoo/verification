@@ -1018,6 +1018,9 @@ class CasesController extends Controller
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
         $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->visited_by              = Auth::guard('admin')->user()->name;
+        $cases->date_of_visit           = date('Y-m-d');
+        $cases->time_of_visit           = date('H:i:s');
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
         return redirect()->route('admin.dashboard');
@@ -1033,6 +1036,7 @@ class CasesController extends Controller
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
         $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
         return redirect()->route('admin.dashboard');

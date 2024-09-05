@@ -1,12 +1,9 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <table class="table table-bordered">
+    <span align="right" height="30px;">
+        <a href="javascript:void()" onclick="printformFunction()">Click here to print</a>
+    </span>
+    <table class="table table-bordered" id="outprint">
         <tbody>
-            <tr>
-                <td colspan="4" align="right" height="30px;">
-                    <a href="javascript:Print()">Click here to print</a>
-                </td>
-            </tr>
-
             <tr>
                 <td style="border:none;font-size:22px;color:#0094ff" align="center" colspan="1">
                     <img alt="State Bank of India" src="{{ asset('images/sbi.jpg') }}">
@@ -231,14 +228,7 @@
                 <td>Address</td>
                 <td colspan="3"></td>
             </tr>
-            <tr>
-                <td>Type of Proof</td>
-                <td colspan="3"></td>
-            </tr>
-            <tr>
-                <td>Type of Proof</td>
-                <td colspan="3"></td>
-            </tr>
+
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
             </tr>

@@ -13,28 +13,40 @@ class casesFiType extends Authenticatable
         'case_id', 'fi_type_id', 'mobile', 'user_id', 'address', 'pincode', 'land_mark',
     ];
 
-    public function getUser(){
-        return $this->belongsTo('App\Models\User','user_id','id');
+    public function getUser()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
+    public function getUserVisitedBy()
+    {
+        return $this->belongsTo('App\Models\User', 'visited_by', 'id');
+    }
+    public function getUserVerifiedBy()
+    {
+        return $this->belongsTo('App\Models\User', 'verified_by', 'id');
     }
 
-    public function getCase(){
+    public function getCase()
+    {
         return $this->belongsTo('App\Models\Cases', 'case_id', 'id');
     }
 
-    public function getCaseFiType(){
-        return $this->hasMany('App\Models\casesFiType','case_id');
+    public function getCaseFiType()
+    {
+        return $this->hasMany('App\Models\casesFiType', 'case_id');
     }
 
     // public function getFiType(){
     //     return $this->hasMany('App\Models\FiType','id','fi_type_id');
     // }
 
-    public function getFiType(){
-        return $this->hasOne('App\Models\FiType','id','fi_type_id');
+    public function getFiType()
+    {
+        return $this->hasOne('App\Models\FiType', 'id', 'fi_type_id');
     }
 
-    public function getCaseStatus(){
-        return $this->hasOne('App\Models\CaseStatus','id','sub_status');
+    public function getCaseStatus()
+    {
+        return $this->hasOne('App\Models\CaseStatus', 'id', 'sub_status');
     }
-
 }
