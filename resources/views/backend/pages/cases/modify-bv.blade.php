@@ -45,7 +45,7 @@
                     </td>
                     <td>Loan Amount</td>
                     <td class="BVstyle">
-                        <input type="text" name="loan_amount" class="form-control" value="{{ $case->getCase->amount ?? '' }}">
+                        <input type="text" name="amount" class="form-control" value="{{ $case->getCase->amount ?? '' }}">
                     </td>
                 </tr>
                 <tr>
