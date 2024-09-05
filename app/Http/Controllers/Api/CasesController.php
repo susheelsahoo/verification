@@ -158,14 +158,15 @@ class CasesController extends Controller
 
         $year = date('Y');
         $month = date('m');
-        $path = "images/cases/{$year}/{$month}";
+        $path = "images/cases/{$year}/{$month}/{$case_fi_type_id}";
 
         // Ensure the directory exists
         if (!file_exists(public_path($path))) {
             mkdir(public_path($path), 0777, true);
         }
         // Handle each uploaded file
-        foreach ($request->file('images') as $file) {
+
+        foreach ($request->file('image') as $file) {
             // Get the first available image slot
             $imgField = $this->getAvailableImageField($case);
 
