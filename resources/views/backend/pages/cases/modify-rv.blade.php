@@ -466,6 +466,9 @@
                 <tr>
                     <td colspan="4" align="center"><input type="submit" value="Upate RV Case" class="btn btn-primary updateBtn btn-sm"></td>
                 </tr>
+                <tr id="errors">
+
+                </tr>
             </tbody>
         </table>
     </form>
@@ -481,67 +484,7 @@
         $('.updateBtn').click(function(e) {
             e.preventDefault();
             var form = $(this).closest('form');
-            form.validate({ // initialize the validator
-                rules: {
-                    case_fi_id: {
-                        required: true
-                    },
-                    refrence_number: {
-                        required: true
-                    },
-                    applicant_name: {
-                        required: true
-                    },
-                    product_id: {
-                        required: true
-                    },
-                    amount: {
-                        required: true
-                    },
-                    mobile: {
-                        required: true
-                    },
-                    address: {
-                        required: true
-                    },
-                    address_confirmed: {
-                        required: true
-                    },
-                    address_confirmed_by: {
-                        required: true
-                    },
-                    type_of_proof: {
-                        required: true
-                    },
-                    name_of_employer: {
-                        required: true
-                    },
-                    person_met: {
-                        required: true
-                    },
-                    telephone_no_residence: {
-                        required: true
-                    },
-                    applicant_age: {
-                        required: true
-                    },
-                    designation: {
-                        required: true
-                    },
-                    area: {
-                        required: true
-                    },
-                    nearest_landmark: {
-                        required: true
-                    },
-                    latitude: {
-                        required: true
-                    },
-                    longitude: {
-                        required: true
-                    },
-                }
-            });
+
             let formData = form.serializeArray();
             let rowId = form.find('input[name="case_fi_id"]').val();
             let actionPath = "{{ route('admin.case.modifyRVCase','ID')}}";
@@ -555,13 +498,10 @@
                         location.reload();
                     }, 2000);
                 },
-                error: function(request, status, error) {
-                    alert(request.responseJSON.errors.product_id);
-                    // $('[name="product_id"]').next('span').html(request.responseJSON.errors.product_id);
-                    // $(".caseModelPop").animate({
-                    //     scrollTop: 0
-                    // }, 1000);
-                    //.......
+                error: function(xhr, status, error) {
+                    $.each(xhr.responseJSON.errors, function(key, item) {
+                        $("#errors").append("<li class='alert alert-danger'>" + item + "</li>")
+                    });
                 }
             });
         });

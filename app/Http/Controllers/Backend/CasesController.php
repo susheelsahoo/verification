@@ -1233,8 +1233,9 @@ class CasesController extends Controller
 
 
         $rules = [
-            'case_fi_id'                => 'required',
-            'product_id'                => 'required',
+            'case_fi_id' => 'required',
+            'product_id' => 'required',
+            'amount' => 'required',
 
             // 'applicant_name'            => 'required',
             // 'product_id'                => 'required',
@@ -1361,7 +1362,7 @@ class CasesController extends Controller
         )  */
 
         $rules = [
-            'case_fy_id' => 'required',
+            'case_fi_id' => 'required',
             'product_id' => 'required',
             'amount' => 'required',
             //    'refrence_number' => 'required',
