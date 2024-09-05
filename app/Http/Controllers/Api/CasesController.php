@@ -217,7 +217,6 @@ class CasesController extends Controller
         $cases = casesFiType::findOrFail($case_fi_type_id);
         $cases->address_confirmed                   = $data['address_confirmed'];
         $cases->address_confirmed_by                = $data['address_confirmed_by'];
-        // $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
         $cases->person_met                          = $data['person_met'];
         $cases->relationship                        = $data['relationship'];
         $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
@@ -242,13 +241,11 @@ class CasesController extends Controller
         $cases->make_and_type                       = $data['make_and_type'];
         $cases->location                            = $data['location'];
         $cases->locality                            = $data['locality'];
-        // $cases->accomodation_type                = $data['accomodation_type'];
         $cases->interior_conditions                 = $data['interior_conditions'];
         $cases->assets_seen                         = $data['assets_seen'];
         $cases->area                                = $data['area'];
         $cases->standard_of_living                  = $data['standard_of_living'];
         $cases->nearest_landmark                    = $data['nearest_landmark'];
-        // $cases->house_locked                     = $data['house_locked'];
         $cases->locked_person_met                   = $data['locked_person_met'];
         $cases->locked_relationship                 = $data['locked_relationship'];
         $cases->applicant_age                       = $data['applicant_age'];
@@ -260,13 +257,17 @@ class CasesController extends Controller
         $cases->verification_conducted_at           = $data['verification_conducted_at'];
         $cases->proof_attached                      = $data['proof_attached'];
         $cases->type_of_proof                       = $data['type_of_proof'];
-        // $cases->employement_details              = $data['employement_details'];
+
         $cases->comments                            = $data['comments'];
         $cases->supervisor_remarks                  = $data['supervisor_remarks'];
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
         $cases->remarks                             = $data['remarks'];
         $cases->recommended                         = $data['recommended'];
         $cases->visit_conducted                     = $data['visit_conducted'];
+        // $cases->accomodation_type                = $data['accomodation_type'];
+        // $cases->house_locked                     = $data['house_locked'];
+        // $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
+        // $cases->employement_details              = $data['employement_details'];
         // $cases->date_of_visit                    = $data['date_of_visit'];
         // $cases->time_of_visit                    = $data['time_of_visit'];
         $cases->latitude                            = $data['latitude'];
@@ -277,7 +278,10 @@ class CasesController extends Controller
         $cases->tcp2_name                           = $data['tcp2_name'];
         $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
         // $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
-
+        $cases->to_whom_does_address_belong         = $data['to_whom_does_address_belong'];
+        $cases->is_applicant_know_to_person         = $data['is_applicant_know_to_person'];
+        $cases->other_stability_year_details        = $data['other_stability_year_details'];
+        $cases->negative_feedback_reason            = $data['negative_feedback_reason'];
         $cases->save();
         return response()->json(['message' => 'Case Submit Successfully'], 200);
     }
