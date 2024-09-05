@@ -3,7 +3,7 @@
         color: red;
     }
 </style>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 caseModelPop">
     <form action="{{ route('admin.case.modifyRVCase', $case->id) }}" method="POST">
         @csrf
         <input type="hidden" name="case_fi_id" value="{{ $case->id }}" />
@@ -43,6 +43,7 @@
                             @endforeach
                             @endif
                         </select>
+                        <span class="text-danger">{!! $errors->first('product_id', ':message') !!} </span>
                     </td>
                     <td>Loan Amount</td>
                     <td class="BVstyle ng-binding"><input type="text" name="loan_amount" class="form-control" value="{{ $case->getCase->amount ?? 'NA' }}" /></td>
@@ -555,8 +556,13 @@
                         location.reload();
                     }, 2000);
                 },
-                error: function() {
-                    alert(response);
+                error: function(request, status, error) {
+                    alert(request.responseJSON.errors.product_id);
+                    // $('[name="product_id"]').next('span').html(request.responseJSON.errors.product_id);
+                    // $(".caseModelPop").animate({
+                    //     scrollTop: 0
+                    // }, 1000);
+                    //.......
                 }
             });
         });

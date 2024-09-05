@@ -1234,7 +1234,7 @@ class CasesController extends Controller
 
         $rules = [
             'case_fi_id'                => 'required',
-            // 'product_id'                => 'required',
+            'product_id'                => 'required',
 
             // 'applicant_name'            => 'required',
             // 'product_id'                => 'required',
@@ -1264,7 +1264,7 @@ class CasesController extends Controller
 
         $case->refrence_number  = $input['refrence_number'] ?? null;
         $case->applicant_name   = $input['applicant_name'] ?? null;
-        // $case->product_id       = $input['product_id'] ?? null;
+        $case->product_id       = $input['product_id'] ?? null;
         $case->date_of_birth    = $input['date_of_birth'] ?? null;
         $case->amount           = $input['loan_amount'] ?? null;
         $case->save();
