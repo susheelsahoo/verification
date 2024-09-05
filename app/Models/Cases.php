@@ -44,6 +44,6 @@ class Cases extends Authenticatable
 
     public function getProduct()
     {
-        return $this->hasOne('App\Models\BankProductMapping', 'id', 'product_id');
+        return $this->hasOne('App\Models\Product', 'id', 'product_id');
     }
 }
