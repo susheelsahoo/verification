@@ -321,11 +321,11 @@
                 <tr>
                     <td>VisitDate</td>
                     <td class="BVstyle">
-                        <input type="text" name="date_of_visit" class="form-control" value="{{ $case->date_of_visit ?? '' }}">
+                        <input type="date" name="date_of_visit" class="form-control" value="{{ $case->date_of_visit ?? '' }}">
                     </td>
                     <td>VisitTime</td>
                     <td class="BVstyle">
-                        <input type="text" name="time_of_visit" class="form-control" value="{{ $case->time_of_visit ?? '' }}">
+                        <input type="time" name="time_of_visit" class="form-control" value="{{ $case->time_of_visit ?? '' }}">
                     </td>
                 </tr>
                 <tr>

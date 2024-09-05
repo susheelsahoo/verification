@@ -46,7 +46,7 @@
                         <span class="text-danger">{!! $errors->first('product_id', ':message') !!} </span>
                     </td>
                     <td>Loan Amount</td>
-                    <td class="BVstyle ng-binding"><input type="text" name="loan_amount" class="form-control" value="{{ $case->getCase->amount ?? 'NA' }}" /></td>
+                    <td class="BVstyle ng-binding"><input type="text" name="amount" class="form-control" value="{{ $case->getCase->amount ?? 'NA' }}" /></td>
                 </tr>
                 <tr>
                     <td>Contact No.</td>
@@ -241,11 +241,10 @@
                         <input type="text" name="applicant_name1" class="form-control" value="{{ $case->applicant_name ?? '' }}" />
 
                     </td>
-                    <td>Person Met</td>
+                    <!-- <td>Person Met</td>
                     <td class="BVstyle ng-binding ng-hide">
                         <input type="text" name="person_met" class="form-control" value="{{ $case->person_met ?? '' }}" />
-
-                    </td>
+                    </td> -->
                 </tr>
                 <tr>
                     <td>Relationship</td>
@@ -337,12 +336,12 @@
                 <tr>
                     <td>Date of Visit</td>
                     <td>
-                        <input type="text" name="date_of_visit" class="form-control" value="{{ $case->date_of_visit ?? '' }}" />
+                        <input type="date" name="date_of_visit" class="form-control" value="{{ $case->date_of_visit ?? '' }}" />
 
                     </td>
                     <td>Time of Visit</td>
                     <td>
-                        <input type="text" name="time_of_visit" class="form-control" value="{{ $case->time_of_visit ?? '' }}" />
+                        <input type="time" name="time_of_visit" class="form-control" value="{{ $case->time_of_visit ?? '' }}" />
 
                     </td>
                 </tr>
