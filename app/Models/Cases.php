@@ -17,27 +17,33 @@ class Cases extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getCreatedBy(){
-        return $this->hasOne('App\Models\User','id','created_by');
+    public function getCreatedBy()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'created_by');
     }
 
-    public function getUpdatedBy(){
-        return $this->hasOne('App\Models\User','id','created_by');
+    public function getUpdatedBy()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'created_by');
     }
 
-    public function getCaseFiType(){
-        return $this->hasMany('App\Models\casesFiType','case_id');
+    public function getCaseFiType()
+    {
+        return $this->hasMany('App\Models\casesFiType', 'case_id');
     }
 
-    public function getApplicationType(){
-        return $this->hasOne('App\Models\ApplicationType','id','application_type');
+    public function getApplicationType()
+    {
+        return $this->hasOne('App\Models\ApplicationType', 'id', 'application_type');
     }
 
-    public function getBank(){
-        return $this->hasOne('App\Models\Bank','id','bank_id');
+    public function getBank()
+    {
+        return $this->hasOne('App\Models\Bank', 'id', 'bank_id');
     }
 
-    public function getProduct(){
-        return $this->hasOne('App\Models\Product','id','product_id');
+    public function getProduct()
+    {
+        return $this->hasOne('App\Models\BankProductMapping', 'id', 'product_id');
     }
 }
