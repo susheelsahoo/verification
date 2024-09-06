@@ -54,7 +54,7 @@ class CasesController extends Controller
                 DB::raw('COUNT(p.id) as total_count')
             )
             ->where('cft.user_id', $user_id)
-            ->where('cft.status', '0')
+            ->where('cft.status', '1')
             ->groupBy('ft.name', 'p.id', 'b.name', 'p.name')
             ->get();
 
