@@ -197,7 +197,6 @@ class CasesController extends Controller
     {
         // Create New Cases
         $data = $request->all();
-        dd($data);
         $validator = Validator::make(
             request()->all(),
             array(
