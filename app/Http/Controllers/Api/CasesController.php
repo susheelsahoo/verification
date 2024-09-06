@@ -56,7 +56,7 @@ class CasesController extends Controller
             ->where('cft.user_id', $user_id)
             ->where('c.status', '0')
             ->groupBy('ft.name', 'p.id', 'b.name', 'p.name')
-            ->get();
+            ->toSql();
 
 
         if ($cases !== null) {
@@ -256,7 +256,6 @@ class CasesController extends Controller
         $cases->verification_conducted_at           = $data['verification_conducted_at'];
         $cases->proof_attached                      = $data['proof_attached'];
         $cases->type_of_proof                       = $data['type_of_proof'];
-
         $cases->comments                            = $data['comments'];
         $cases->supervisor_remarks                  = $data['supervisor_remarks'];
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
@@ -265,7 +264,7 @@ class CasesController extends Controller
         $cases->visit_conducted                     = $data['visit_conducted'];
         // $cases->accomodation_type                = $data['accomodation_type'];
         // $cases->house_locked                     = $data['house_locked'];
-        // $cases->no_of_residents_in_house            = $data['no_of_residents_in_house'];
+        // $cases->no_of_residents_in_house         = $data['no_of_residents_in_house'];
         // $cases->employement_details              = $data['employement_details'];
         // $cases->date_of_visit                    = $data['date_of_visit'];
         // $cases->time_of_visit                    = $data['time_of_visit'];
