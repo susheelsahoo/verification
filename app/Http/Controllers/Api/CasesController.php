@@ -92,6 +92,7 @@ class CasesController extends Controller
             )
             ->where('p.id', $product_id)
             ->where('ft.name', $fi_type)
+            ->where('cft.status', '1')
             ->get();
 
         if ($cases !== null) {
