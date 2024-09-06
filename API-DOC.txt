@@ -5,7 +5,7 @@ http://127.0.0.1:8000/api/cases/show/count/{user_id}
 
 Get Case details with product id 
 Method Get
-http://127.0.0.1:8000/api/cases/list/{fi_type}/{product_id}
+http://127.0.0.1:8000/api/cases/list/{fi_type}/{product_id}/{user_id}
 ------------------------------------------------------------
 
 Get Case details with cases_fi_types id 

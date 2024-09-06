@@ -66,7 +66,7 @@ class CasesController extends Controller
         }
     }
 
-    public function showCasebyProductId($fi_type, $product_id)
+    public function showCasebyProductId($fi_type, $product_id, $user_id)
     {
         // dd($fi_type);
         // SELECT p.id as product_id, p.name as product_name, c.applicant_name, c.created_at, c.refrence_number, cft.address, cft.pincode
@@ -92,6 +92,7 @@ class CasesController extends Controller
             )
             ->where('p.id', $product_id)
             ->where('ft.name', $fi_type)
+            ->where('cft.user_id', $user_id)
             ->where('cft.status', '1')
             ->get();
 
