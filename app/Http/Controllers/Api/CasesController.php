@@ -189,7 +189,7 @@ class CasesController extends Controller
     {
         // Create New Cases 
         $data = $request->all();
-        dump($data);
+        // dump($data);
         $validator = Validator::make(
             request()->all(),
             array(
@@ -213,10 +213,11 @@ class CasesController extends Controller
         }
         // Handle each uploaded file
         $agency_signature = $request->file('agency_signature');
-        dd($agency_signature);
+        dump($agency_signature);
         // Get the first available image slot
         if ($agency_signature) {
             $filename = time() . '_' . $agency_signature->getClientOriginalName();
+            dd($filename);
             $agency_signature->move(public_path($path), $filename);
 
             // Save the filename to the current image field
