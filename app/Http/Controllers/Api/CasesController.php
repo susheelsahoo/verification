@@ -213,7 +213,7 @@ class CasesController extends Controller
         }
         // Handle each uploaded file
         $agency_signature = $request->file('agency_signature');
-
+        dd($agency_signature);
         // Get the first available image slot
         if ($agency_signature) {
             $filename = time() . '_' . $agency_signature->getClientOriginalName();
