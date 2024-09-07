@@ -19,7 +19,14 @@ http://127.0.0.1:8000/api/cases/update
 
 case_fi_type_id
 image[]
+----------------------------------------------------------------
 
+Get Case details with cases_fi_types id 
+Method POST
+http://127.0.0.1:8000/api/cases/uploadSignature
+
+case_fi_type_id
+agency_signature
 ------------------------------------------------------------
 
 Get Case details with cases_fi_types id 

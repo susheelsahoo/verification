@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <td>Case Creation Login Details</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? '0000' }}</td>
+                <td colspan="3" class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Product Name</td>
@@ -349,8 +349,11 @@
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center">
-                    <!-- <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200"> -->
-                    {{ $case->signature_of_agency_supervisor ?? 'NA' }}
+                    @if(!empty($case->signature_of_agency_supervisor))
+                    <div class="col-sm image_1">
+                        <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
+                    </div>
+                    @endif
                     <br>
                     Signature of Agency Supervisor (With agency Seal)
                 </td>

@@ -261,8 +261,11 @@
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center">
-                    <!-- <img src="http://verification.mobileforce.in/Data/CaseLogos/" height="100" width="200"> -->
-                    {{ $case->email_of_employer ?? '0000' }}
+                    @if(!empty($case->signature_of_agency_supervisor))
+
+                    <img title='' style='width:100px;height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
+
+                    @endif
                     <br>
                     Signature of Agency Supervisor (With agency Seal)
                 </td>

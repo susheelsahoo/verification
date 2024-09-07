@@ -140,7 +140,7 @@ class CasesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function uploadImage(Request $request)
     {
         // Create New Cases
         $data = $request->all();
@@ -183,6 +183,48 @@ class CasesController extends Controller
             } else {
                 return response()->json(['message' => 'Image Not uploaded'], 500);
             }
+        }
+    }
+    public function uploadSignature(Request $request)
+    {
+        // Create New Cases 
+        $data = $request->all();
+
+        $validator = Validator::make(
+            request()->all(),
+            array(
+                'case_fi_type_id'  =>       'required',
+            )
+        );
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors(), 400]);
+        }
+        $case_fi_type_id = $data['case_fi_type_id'];
+
+        $case = CasesFiType::findOrFail($case_fi_type_id);
+
+        $year = date('Y');
+        $month = date('m');
+        $path = "images/cases/{$year}/{$month}/{$case_fi_type_id}";
+
+        // Ensure the directory exists
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+        // Handle each uploaded file
+        $agency_signature = $request->file('agency_signature');
+
+        // Get the first available image slot
+        if ($agency_signature) {
+            $filename = time() . '_' . $agency_signature->getClientOriginalName();
+            $agency_signature->move(public_path($path), $filename);
+
+            // Save the filename to the current image field
+            $case->signature_of_agency_supervisor = "{$path}/{$filename}";
+            $case->save();
+            return response()->json(['message' => 'Agency Signature uploaded successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Image Not uploaded'], 500);
         }
     }
     private function getAvailableImageField($case)
