@@ -142,7 +142,7 @@ class CasesController extends Controller
 
         foreach ($request->fi_type_id as $fi_type_id) {
 
-            if (!empty($fi_type_id['id'])) {
+            if (!empty($fi_type_id['phone_number'])) {
                 $casesFiType = new casesFiType;
                 $casesFiType->case_id       = $cases_id;
                 $casesFiType->fi_type_id    = $fi_type_id['id'];

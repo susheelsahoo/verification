@@ -18,46 +18,37 @@
                 <tr>
                     <td>Reference No.</td>
                     <td class="BVstyle">
-                        <input type="text" name="refrence_number" class="form-control" value="{{ $case->getCase->refrence_number ?? '' }}">
+                        <input type="text" name="refrence_number" class="form-control" value="{{ $case->getCase->refrence_number ?? '' }}" readonly>
                     </td>
                     <td>Customer Name</td>
                     <td class="BVstyle">
-                        <input type="text" name="applicant_name" class="form-control" value="{{ $case->getCase->applicant_name ?? '' }}">
+                        <input type="text" name="applicant_name" class="form-control" value="{{ $case->getCase->applicant_name ?? '' }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td>Case Creation Login Details</td>
                     <td colspan="3" class="BVstyle">
-                        <input type="text" name="created_at" class="form-control" value="{{ $case->getCase->created_at ?? '' }}">
+                        <input type="text" name="created_at" class="form-control" value="{{ $case->getCase->created_at ?? '' }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td>Product Name</td>
-                    <td class="BVstyle">
-                        <select id="productSelect" name="product_id" class="custom-select">
-                            <option value="">--Select Option--</option>
-                            @if($AvailbleProduct)
-                            @foreach ($AvailbleProduct as $product)
-                            <option value="{{ $product->id }}" @if(($case->getCase->getProduct->id) && ($case->getCase->getProduct->id == $product->id)) selected @endif >{{ $product->name }}</option>
-                            @endforeach
-                            @endif
-                        </select>
-                    </td>
+                    <td class="BVstyle ng-binding">{{ $case->getCase->getProduct->name ?? 'NA' }}</td>
                     <td>Loan Amount</td>
                     <td class="BVstyle">
-                        <input type="text" name="amount" class="form-control" value="{{ $case->getCase->amount ?? '' }}">
+                        <input type="text" name="amount" class="form-control" value="{{ $case->getCase->amount ?? '' }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td>Contact No.</td>
                     <td colspan="3" class="BVstyle">
-                        <input type="text" name="mobile" class="form-control" value="{{ $case->mobile ?? '' }}">
+                        <input type="text" name="mobile" class="form-control" value="{{ $case->mobile ?? '' }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td>Address</td>
                     <td colspan="3" class="BVstyle">
-                        <input type="text" name="address" class="form-control" value="{{ $case->address ?? '' }}">
+                        <input type="text" name="address" class="form-control" value="{{ $case->address ?? '' }}" readonly>
                     </td>
                 </tr>
                 <tr>

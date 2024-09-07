@@ -54,8 +54,8 @@ Create Case Create - Admin Panel
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Bank</label>
-                                <select class="custom-select selectBank" name="bank_id" id="selectBank">
+                                <label for="name">Bank <span class="text-danger">*</span></label>
+                                <select class="custom-select selectBank" name="bank_id" id="selectBank" required>
                                     <option value="">--Select Option--</option>
                                     @foreach ($banks as $bank)
                                     <option value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
@@ -63,18 +63,18 @@ Create Case Create - Admin Panel
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Product</label>
-                                <select id="productSelect" name="product_id" class="custom-select">
+                                <label for="name">Product <span class="text-danger">*</span></label>
+                                <select id="productSelect" name="product_id" class="custom-select" required>
                                     <option value="">--Select Option--</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">FI Type</label>
-                                @foreach ($fitypes as $fitype)
+                                <label for="name">FI Type <span class="text-danger">*</span></label>
+                                @foreach ($fitypes as $key => $fitype)
                                 <div class="form-check">
-                                    <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}">
+                                    <input class="form-check-input fytpe_checkbox" type="checkbox" name="fi_type_id[{{ $key }}][id]" value="{{ $fitype['id'] }}" rel-name="{{ $fitype['name'] }}">
                                     <label class="form-check-label" for="fitype{{ $fitype['id'] }}">
                                         {{ $fitype['name'] }}
                                     </label>
@@ -83,7 +83,7 @@ Create Case Create - Admin Panel
                             </div>
                             {!! $fitypesFeild !!}
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="application_type">Application Type</label>
+                                <label for="application_type">Application Type <span class="text-danger">*</span></label>
                                 <select class="custom-select application_type" name="application_type" id="application_type">
                                     <option value="">--Select Option--</option>
                                     @foreach ($ApplicationTypes as $ApplicationType)
@@ -99,8 +99,8 @@ Create Case Create - Admin Panel
                                 <input type="text" class="form-control" id="refrence_number" name="refrence_number" value="{{ old('refrence_number') }}" placeholder=" Enter Reference Number">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="name">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount" value="{{ old('amount') }}" placeholder=" Enter Amount">
+                                <label for="name">Amount <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="amount" name="amount" value="{{ old('amount') }}" placeholder=" Enter Amount" required>
                             </div>
                         </div>
 
@@ -130,7 +130,7 @@ Create Case Create - Admin Panel
                                 <input type="text" class="form-control" id="vehicle" name="vehicle" value="{{ old('vehicle') }}" placeholder="Enter Vehicle">
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
-                                <label for="geo_limit">Geo Limit *</label>
+                                <label for="geo_limit">Geo Limit </label>
                                 <select id="geo_limit" name="geo_limit" class="custom-select">
                                     <option value="">--Select Option--</option>
                                     <option value="Local">Local</option>
