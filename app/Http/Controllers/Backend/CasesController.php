@@ -1269,7 +1269,7 @@ class CasesController extends Controller
 
         $case->refrence_number  = $input['refrence_number'] ?? null;
         $case->applicant_name   = $input['applicant_name'] ?? null;
-        $case->product_id       = $input['product_id'] ?? null;
+        // $case->product_id       = $input['product_id'] ?? null;
         $case->date_of_birth    = $input['date_of_birth'] ?? null;
         $case->amount           = $input['amount'] ?? null;
         $case->save();
@@ -1396,7 +1396,7 @@ class CasesController extends Controller
 
         $case->refrence_number = $input['refrence_number'] ?? null;
         $case->applicant_name = $input['applicant_name'] ?? null;
-        $case->product_id = $input['product_id'] ?? null;
+        // $case->product_id = $input['product_id'] ?? null;
         $case->amount = $input['amount'] ?? null;
         $case->save();
 
