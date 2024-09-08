@@ -211,7 +211,7 @@
                 <tr>
                     <td>Years of current employment</td>
                     <td class="BVstyle">
-                        <input type="text" name="years_lived_at_this_residence" class="form-control" value="{{ $case->years_lived_at_this_residence ?? '' }}">
+                        <input type="text" name="year_of_establishment" class="form-control" value="{{ $case->year_of_establishment ?? '' }}">
                     </td>
                     <td></td>
                     <td></td>

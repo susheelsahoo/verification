@@ -33,14 +33,16 @@ Get Case details with cases_fi_types id
 Method POST
 http://127.0.0.1:8000/api/cases/submit
 
+RV Payload
 {
-    "case_fi_type_id": "19",
+    "case_fi_type_id"   : "2",
+    "fi_type_id"        : "1",
     "address_confirmed": "aaaaaaaaaa",
     "address_confirmed_by": "aaaaaaaaaa",
     "no_of_residents_in_house": "1234",
     "person_met": "aaaaaaaaaa",
     "relationship": "aaaaaaaaaa",
-    "years_lived_at_this_residence": "2",
+    "year_of_establishment": "2",
     "no_of_earning_family_members": "2",
     "residence_status": "aaaaaaaaaa",
     "name_of_employer": "aaaaaaaaaa",
@@ -101,8 +103,66 @@ http://127.0.0.1:8000/api/cases/submit
     "other_stability_year_details" : "1111",
     "negative_feedback_reason" : ""
 }
-
+BV Payload
+{
+        "case_fi_type_id"   : "2",
+        "fi_type_id"        : "2",
+        "mobile":"aaaaa",
+        "address":"aaaaa",
+        "address_confirmed":"aaaaa",
+        "employer_address":"aaaaa",
+        "type_of_proof":"aaaaa",
+        "address_confirmed_by":"aaaaa",
+        "name_of_employer":"aaaaa",
+        "person_met":"aaaaa",
+        "website_of_employer":"aaaaa",
+        "email_of_employer":"aaaaa",
+        "telephono_no_office":"aaaaa",
+        "ext":"aaaaa",
+        "telephone_no_residence":"aaaaa",
+        "co_board_outside_bldg_office":"aaaaa",
+        "type_of_employer":"aaaaa",
+        "nature_of_employer":"aaaaa",
+        "line_of_business":"aaaaa",        
+        "level_of_business_activity":"aaaaa",
+        "no_of_employees":"10",
+        "no_of_branches":"2",
+        "office_ambience":"aaaaa",
+        "type_of_locality":"aaaaa",
+        "area":"aaaaa",
+        "nearest_landmark":"aaaaa",
+        "// ease_of_locating":"aaaaa",
+        "terms_of_employment":"aaaaa",
+        "grade":"aaaaa",
+        "year_of_establishment":"2",
+        "applicant_age":"32",
+        "name_of_employer_co":"aaaaa",
+        "established":"aaaaa",
+        "designation":"aaaaa",
+        "visit_conducted":"aaaaa",
+        "date_of_visit":"2020-01-01",
+        "time_of_visit":"11:11",
+        "latitude":"22.22",
+        "longitude":"33.33",
+        "tcp1_name":"aaaaa",
+        "tcp1_checked_with":"aaaaa",
+        "tcp2_name":"aaaaa",
+        "tcp2_checked_with":"aaaaa",
+        "visited_by":"aaaaa",
+        "verified_by":"aaaaa"
+}
 -------------------------------------------------------------------------------------------------------
+year_of_establishment drop column
+
+years_lived_at_this_residence
+
+
+
+
+
+
+
+
 
 ALTER TABLE `cases_fi_types` ADD `scheduled_visit_date` DATETIME NULL AFTER `status`;
 

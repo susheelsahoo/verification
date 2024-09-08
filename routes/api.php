@@ -37,6 +37,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/cases/submit', [CasesController::class, 'caseSubmit']);
 
 
+
+
     // Route::get('/cases', [BlogController::class, 'index']);
     // // Route::post('/cases/create', [BlogController::class, 'store']);
     // Route::get('/cases/{id}', [BlogController::class, 'show']);

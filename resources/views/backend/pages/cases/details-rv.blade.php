@@ -67,7 +67,7 @@
                 <td>No of Residents in the House</td>
                 <td class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
                 <td>Years at current Residence</td>
-                <td class="BVstyle ng-binding">{{ $case->years_lived_at_this_residence ?? 'NA' }}</td>
+                <td class="BVstyle ng-binding">{{ $case->year_of_establishment ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>No of Earning Family Members</td>

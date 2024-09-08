@@ -252,17 +252,26 @@ class CasesController extends Controller
         }
 
         // dd($request->all());
+        if ($data['fi_type_id'] == '1') {
+            $this->SubmitRVCase($data);
+        } elseif ($data['fi_type_id'] == '2') {
+            $this->SubmitBVCase($data);
+        }
+
+        return response()->json(['message' => 'Case Submit Successfully'], 200);
+    }
+
+    private function SubmitRVCase($data)
+    {
 
         // Create the path to store the image
         $case_fi_type_id = $data['case_fi_type_id'];
-
-
         $cases = casesFiType::findOrFail($case_fi_type_id);
         $cases->address_confirmed                   = $data['address_confirmed'];
         $cases->address_confirmed_by                = $data['address_confirmed_by'];
         $cases->person_met                          = $data['person_met'];
         $cases->relationship                        = $data['relationship'];
-        $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
+        $cases->year_of_establishment               = $data['year_of_establishment'];
         $cases->no_of_earning_family_members        = $data['no_of_earning_family_members'];
         $cases->residence_status                    = $data['residence_status'];
         $cases->name_of_employer                    = $data['name_of_employer'];
@@ -292,7 +301,7 @@ class CasesController extends Controller
         $cases->locked_person_met                   = $data['locked_person_met'];
         $cases->locked_relationship                 = $data['locked_relationship'];
         $cases->applicant_age                       = $data['applicant_age'];
-        $cases->years_lived_at_this_residence       = $data['years_lived_at_this_residence'];
+        $cases->year_of_establishment               = $data['year_of_establishment'];
         $cases->status                              = $data['status'];
         $cases->occupation                          = $data['occupation'];
         $cases->untraceable                         = $data['untraceable'];
@@ -325,7 +334,62 @@ class CasesController extends Controller
         $cases->other_stability_year_details        = $data['other_stability_year_details'];
         $cases->negative_feedback_reason            = $data['negative_feedback_reason'];
         $cases->save();
-        return response()->json(['message' => 'Case Submit Successfully'], 200);
+        return $cases->id;
+    }
+
+
+    private function SubmitBVCase($data)
+    {
+        // Create the path to store the image
+        $case_fi_type_id = $data['case_fi_type_id'];
+
+        $caseFi = casesFiType::findOrFail($case_fi_type_id);
+        $caseFi->mobile                         = $data['mobile'];
+        $caseFi->address                        = $data['address'];
+        $caseFi->address_confirmed              = $data['address_confirmed'];
+        $caseFi->employer_address               = $data['employer_address'];
+        $caseFi->type_of_proof                  = $data['type_of_proof'];
+        $caseFi->address_confirmed_by           = $data['address_confirmed_by'];
+        $caseFi->name_of_employer               = $data['name_of_employer'];
+        $caseFi->person_met                     = $data['person_met'];
+        $caseFi->website_of_employer            = $data['website_of_employer'];
+        $caseFi->email_of_employer              = $data['email_of_employer'];
+        $caseFi->telephono_no_office            = $data['telephono_no_office'];
+        $caseFi->ext                            = $data['ext'];
+        $caseFi->telephone_no_residence         = $data['telephone_no_residence'];
+        $caseFi->co_board_outside_bldg_office   = $data['co_board_outside_bldg_office'];
+        $caseFi->type_of_employer               = $data['type_of_employer'];
+        $caseFi->nature_of_employer             = $data['nature_of_employer'];
+        $caseFi->line_of_business               = $data['line_of_business'];
+
+        $caseFi->level_of_business_activity     = $data['level_of_business_activity'];
+        $caseFi->no_of_employees                = $data['no_of_employees'];
+        $caseFi->no_of_branches                 = $data['no_of_branches'];
+        $caseFi->interior_conditions            = $data['office_ambience'];
+        $caseFi->type_of_locality               = $data['type_of_locality'];
+        $caseFi->area                           = $data['area'];
+        $caseFi->nearest_landmark               = $data['nearest_landmark'];
+        // $caseFi->ease_of_locating               = $data['ease_of_locating'];
+        $caseFi->terms_of_employment            = $data['terms_of_employment'];
+        $caseFi->grade                          = $data['grade'];
+        $caseFi->year_of_establishment          = $data['year_of_establishment'];
+        $caseFi->applicant_age                  = $data['applicant_age'];
+        $caseFi->name_of_employer_co            = $data['name_of_employer_co'];
+        $caseFi->established                    = $data['established'];
+        $caseFi->designation                    = $data['designation'];
+        $caseFi->visit_conducted                = $data['visit_conducted'];
+        $caseFi->date_of_visit                  = $data['date_of_visit'];
+        $caseFi->time_of_visit                  = $data['time_of_visit'];
+        $caseFi->latitude                       = $data['latitude'];
+        $caseFi->longitude                      = $data['longitude'];
+        $caseFi->tcp1_name                      = $data['tcp1_name'];
+        $caseFi->tcp1_checked_with              = $data['tcp1_checked_with'];
+        $caseFi->tcp2_name                      = $data['tcp2_name'];
+        $caseFi->tcp2_checked_with              = $data['tcp2_checked_with'];
+        $caseFi->visited_by                     = $data['visited_by'];
+        $caseFi->verified_by                    = $data['verified_by'];
+        $caseFi->save();
+        return $caseFi->id;
     }
 
     public function storeCase(Request $request)

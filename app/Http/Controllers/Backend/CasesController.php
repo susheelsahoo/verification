@@ -1281,7 +1281,7 @@ class CasesController extends Controller
         $caseFi->person_met                         = $input['person_met'] ?? null;
         $caseFi->relationship                       = $input['relationship'] ?? null;
         $caseFi->no_of_residents_in_house           = $input['no_of_residents_in_house'] ?? null;
-        $caseFi->years_lived_at_this_residence      = $input['years_lived_at_this_residence'] ?? null;
+        $caseFi->year_of_establishment              = $input['year_of_establishment'] ?? null;
         $caseFi->no_of_earning_family_members       = $input['no_of_earning_family_members'] ?? null;
         $caseFi->residence_status                   = $input['residence_status'] ?? null;
         $caseFi->name_of_employer                   = $input['name_of_employer'] ?? null;
@@ -1428,7 +1428,7 @@ class CasesController extends Controller
         // $caseFi->ease_of_locating               = $input['ease_of_locating'] ?? null;
         $caseFi->terms_of_employment            = $input['terms_of_employment'] ?? null;
         $caseFi->grade                          = $input['grade'] ?? null;
-        $caseFi->years_lived_at_this_residence  = $input['years_lived_at_this_residence'] ?? null;
+        $caseFi->year_of_establishment          = $input['year_of_establishment'] ?? null;
         $caseFi->applicant_age                  = $input['applicant_age'] ?? null;
         $caseFi->name_of_employer_co            = $input['name_of_employer_co'] ?? null;
         $caseFi->established                    = $input['established'] ?? null;

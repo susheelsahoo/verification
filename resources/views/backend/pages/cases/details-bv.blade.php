@@ -136,7 +136,7 @@
             </tr>
             <tr>
                 <td>Years of current employment</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->years_lived_at_this_residence ?? 'NA' }}</td>
+                <td class="BVstyle ng-binding ng-hide">{{ $case->year_of_establishment ?? 'NA' }}</td>
                 <td></td>
                 <td></td>
             </tr>
