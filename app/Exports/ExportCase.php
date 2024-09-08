@@ -22,12 +22,32 @@ class ExportCase implements FromCollection, WithHeadings, ShouldAutoSize, WithTi
         if($case){
             $i=0;
             foreach($case as $key => $value){
+                $fiType = $value->getFiType->name ?? null;
+                $bank = $value->getCase->getBank->name ?? null;
+                $product = $value->getCase->getProduct->name ?? null;
+                $columnValue = null;
+                if($bank){
+                    $columnValue = $bank;
+                }
+                if($product){
+                    if($columnValue){
+                        $columnValue .= ' ';
+                    }
+                    $columnValue .= $product;
+                }
+
+                if($fiType){
+                    if($columnValue){
+                        $columnValue .= ' ';
+                    }
+                    $columnValue .= $fiType;
+                }
                 $output[$i][] =  $value->id;
                 $output[$i][] =  $value->getCase->refrence_number ?? '';
                 $output[$i][] =  $value->getCase->applicant_name ?? '';
                 $output[$i][] =  $value->mobile ?? '';
                 $output[$i][] =  $value->address ?? '';
-                $output[$i][] =  $value->getCase->getBank->name ?? '-'.' ' . $value->getCase->getProduct->name ?? '-'.' '.$value->getFiType->name ?? '';
+                $output[$i][] =  $columnValue;
                 $output[$i][] =  $value->scheduled_visit_date ? humanReadableDate($value->scheduled_visit_date) : '';
                 $output[$i][] =  $value->getUser->name ?? '';
                 $output[$i][] =  $value->status ? get_status($value->status) :  '';
