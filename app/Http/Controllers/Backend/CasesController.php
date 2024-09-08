@@ -1159,7 +1159,7 @@ class CasesController extends Controller
     {
 
         $input = $request->all();
-        $case_fi_type_id = $input['case_fy_id'];
+        $case_fi_type_id = $input['case_fi_id'];
         $cases           = casesFiType::findOrFail($case_fi_type_id);
         $cases->remarks  = $input['status_remark'] ?? null;
         $cases->address  = $input['address'] ?? null;
@@ -1357,10 +1357,10 @@ class CasesController extends Controller
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
-    public function zipDownload($case_fy_id = null)
+    public function zipDownload($case_fi_id = null)
     {
-        if ($case_fy_id) {
-            $caseFi = casesFiType::findOrFail($case_fy_id);
+        if ($case_fi_id) {
+            $caseFi = casesFiType::findOrFail($case_fi_id);
             $zip      = new ZipArchive;
             $path = storage_path('app/public/');
             $fileName = 'attachment' . $caseFi->id . '.zip';

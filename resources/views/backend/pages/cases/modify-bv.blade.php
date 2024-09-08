@@ -390,7 +390,7 @@
             var form = $(this).closest('form');
 
             let formData = form.serializeArray();
-            let rowId = form.find('input[name="case_fy_id"]').val();
+            let rowId = form.find('input[name="case_fi_id"]').val();
             let actionPath = "{{ route('admin.case.modifyBVCase','ID')}}";
             actionPath = actionPath.replace('ID', rowId);
             $.ajax({
