@@ -6,7 +6,7 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <form action="{{ route('admin.case.modifyBVCase', $case->id) }}" method="POST">
         @csrf
-        <input type="hidden" name="case_fy_id" value="{{ $case->id }}" />
+        <input type="hidden" name="case_fi_id" value="{{ $case->id }}" />
         <table class="table table-bordered">
             <tbody>
                 <tr>
