@@ -48,6 +48,7 @@ Cases - Admin Panel
                         </button> --}}
 
                         <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds">Assign</button>
+                        <a class="btn btn-warning text-white" href="{{ route('admin.case.export.excel','a') }}">Export Cases</a>
 
                     </p>
                     <div class="clearfix"></div>

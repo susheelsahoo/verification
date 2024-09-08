@@ -24,6 +24,7 @@ use Spatie\Permission\Models\Permission;
 use ZipArchive;
 use ZipStream\File;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\ExportCase;
 
 class CasesController extends Controller
 {
@@ -1133,13 +1134,9 @@ class CasesController extends Controller
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function export()
+    public function exportCase($id=null)
     {
-        dd('sssssssssssssssssssssssssssssss');
-
-        // Excel::import(new UsersImport, request()->file('file'));
-
-        return back();
+        return Excel::download(new ExportCase, 'cases.xlsx');
     }
 
     public function viewCase($id)

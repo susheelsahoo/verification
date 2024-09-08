@@ -59,6 +59,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/update-bv-form-case/{id}', 'Backend\CasesController@modifyBVCase')->name('admin.case.modifyBVCase');
     Route::post('cases/update-rv-form-case/{id}', 'Backend\CasesController@modifyRVCase')->name('admin.case.modifyRVCase');
     Route::get('cases/zip-download/{id}', 'Backend\CasesController@zipDownload')->name('admin.case.zip.download');
+    Route::get('cases/export-excel/{id}', 'Backend\CasesController@exportCase')->name('admin.case.export.excel');
 
 
 
