@@ -1157,25 +1157,7 @@ class CasesController extends Controller
 
     public  function modifyCase(Request $request, $id)
     {
-        /*
-        Array
-            (
-                [_token] => pWdO1L0EjF3R6i6VY9CtO0TvihOIHOQCfV83wDTl
-                [case_fy_id] => 6
-                [applicant_name] => susheel sahoo update
-                [address] => my address updateed
-                [city] =>
-                [pincode] => 2013011234
-                [company_name] =>
-                [reference_number] => 30
-                [internal_code] => EP1010
-                [application_type] => 1
-                [mobile] => 9876543211
-                [alternate_number] =>
-                [loan_amont] => 10000
-                [status_remark] =>
-                [created_by] => 1
-            )  */
+
         $input = $request->all();
         $case_fi_type_id = $input['case_fy_id'];
         $cases           = casesFiType::findOrFail($case_fi_type_id);
@@ -1229,36 +1211,9 @@ class CasesController extends Controller
 
     public function modifyRVCase(Request $request, $id)
     {
-
-        // $input = $request->all();
-        // echo '<pre>RVVVVV';
-        // print_r($input);
-        // die;
-
-
         $rules = [
             'case_fi_id' => 'required',
-            // 'product_id' => 'required',
             'amount' => 'required',
-
-            // 'applicant_name'            => 'required',
-            // 'product_id'                => 'required',
-            // 'amount'                    => 'required',
-            // 'mobile'                    => 'required',
-            // 'address'                   => 'required',
-            // 'address_confirmed'         => 'required',
-            // 'employer_address'          => 'required',
-            // 'type_of_proof'             => 'required',
-            // 'address_confirmed_by'      => 'required',
-            // 'name_of_employer'          => 'required',
-            // 'person_met'                => 'required',
-            // 'telephone_no_residence'    => 'required',
-            // 'applicant_age'             => 'required',
-            // 'designation'               => 'required',
-            // 'area'                      => 'required',
-            // 'nearest_landmark'          => 'required',
-            // 'latitude'                  => 'required',
-            // 'longitude'                 => 'required',
         ];
         $request->validate($rules);
 
@@ -1334,62 +1289,14 @@ class CasesController extends Controller
 
     public function modifyBVCase(Request $request, $id)
     {
-
-        // $input = $request->all();
-        // echo '<pre>BVVVVVV';
-        // print_r($input);
-        // die;
-        /*
-        Array
-        (
-            [_token] => FGwvN02rzIhZgWSZ5utZpc8qEcsQGgvEVK8UxpZB
-            [case_fy_id] => 6
-            [refrence_number] => EP1010
-            [applicant_name] => susheel sahoo update
-            [product_id] => 1
-            [amount] => 10000
-            [mobile] => 9876543211
-            [address] => my address updateed
-            [address_confirmed] => aaa
-            [employer_address] => aaa
-            [type_of_proof] => aaa
-            [address_confirmed_by] => aaa
-            [name_of_employer] => aaa
-            [person_met] => aaa
-            [telephone_no_residence] => aaa
-            [applicant_age] => aaa
-            [designation] => aaa
-            [area] => aaa
-            [nearest_landmark] => aaa
-            [latitude] => aaa
-            [longitude] => aaa
-        )  */
-
+        $input = $request->all();
         $rules = [
             'case_fi_id' => 'required',
-            // 'product_id' => 'required',
             'amount' => 'required',
-            //    'refrence_number' => 'required',
-            //     'applicant_name' => 'required',
-            //     'mobile' => 'required',
-            //     'address' => 'required',
-            //     'address_confirmed' => 'required',
-            //     'employer_address' => 'required',
-            //     'type_of_proof' => 'required',
-            //     'address_confirmed_by' => 'required',
-            //     'name_of_employer' => 'required',
-            //     'person_met' => 'required',
-            //     'telephone_no_residence' => 'required',
-            //     'applicant_age' => 'required',
-            //     'designation' => 'required',
-            //     'area' => 'required',
-            //     'nearest_landmark' => 'required',
-            //     'latitude' => 'required',
-            //     'longitude' => 'required',
+
         ];
         $request->validate($rules);
 
-        $input = $request->all();
         $case_fi_type_id = $input['case_fy_id'];
         $caseFi = casesFiType::findOrFail($case_fi_type_id);
         $case =  Cases::find($caseFi->case_id);
