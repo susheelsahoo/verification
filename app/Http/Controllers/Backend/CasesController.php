@@ -1296,8 +1296,7 @@ class CasesController extends Controller
 
         ];
         $request->validate($rules);
-
-        $case_fi_type_id = $input['case_fy_id'];
+        $case_fi_type_id = $input['case_fi_id'];
         $caseFi = casesFiType::findOrFail($case_fi_type_id);
         $case =  Cases::find($caseFi->case_id);
 
