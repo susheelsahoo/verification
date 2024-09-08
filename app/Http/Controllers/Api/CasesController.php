@@ -244,7 +244,8 @@ class CasesController extends Controller
         $validator = Validator::make(
             request()->all(),
             array(
-                'case_fi_type_id'  =>       'required',
+                'case_fi_type_id'   =>       'required',
+                'fi_type_id'        =>       'required',
             )
         );
         if ($validator->fails()) {
