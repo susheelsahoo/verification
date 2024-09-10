@@ -141,6 +141,9 @@ Cases - Admin Panel
                                         <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
 
 
+                                        <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
+
+
 
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>

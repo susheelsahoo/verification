@@ -25,6 +25,7 @@ use ZipArchive;
 use ZipStream\File;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\ExportCase;
+use Dompdf\Dompdf;
 
 class CasesController extends Controller
 {
@@ -1116,12 +1117,11 @@ class CasesController extends Controller
 
     private function importExcel($file)
     {
+        /*
         $spreadsheet = IOFactory::load($file->getRealPath());
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-
         $header = $sheetData[1];
         unset($sheetData[1]); // Remove header row
-
         foreach ($sheetData as $row) {
             $data = array_combine($header, $row);
             DB::table('your_table')->insert([
@@ -1129,7 +1129,9 @@ class CasesController extends Controller
                 'column2' => $data['B'],
                 // more columns...
             ]);
-        }
+        } */
+
+        return true;
     }
     /**
      * @return \Illuminate\Support\Collection
@@ -1427,5 +1429,18 @@ class CasesController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    public function generatePdf($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $view = view('backend.pages.cases.pdf',  compact('case'))->render();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $fileName = 'case'.'_'.date('Y-m-d_H-i-s').'.pdf';
+        $dompdf->stream($fileName, array("Attachment"=>1));
+        return true;
     }
 }
