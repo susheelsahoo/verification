@@ -136,7 +136,7 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
-
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="clone case"></img></a>
 
                                         <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
 
@@ -642,6 +642,33 @@ Cases - Admin Panel
             if (confirm('Are you sure to clone this case')) {
                 let case_id = $(this).attr('data-row');
                 var url = "{{ route('admin.case.clone','CASE_ID')}}";
+                url = url.replace('CASE_ID', case_id);
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.success);
+                            window.location.href = "{{ route('admin.dashboard') }}";
+
+                        } else {
+                            alert('Unable to close the case.');
+                        }
+
+                    },
+                    error: function() {
+                        alert('Request failed');
+                    }
+                });
+
+            }
+
+        });
+        $('.HoldCase').click(function() {
+            if (confirm('Are you sure to hold this case')) {
+                let case_id = $(this).attr('data-row');
+                var url = "{{ route('admin.case.hold','CASE_ID')}}";
                 url = url.replace('CASE_ID', case_id);
 
                 $.ajax({

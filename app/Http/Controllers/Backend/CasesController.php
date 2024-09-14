@@ -1082,6 +1082,15 @@ class CasesController extends Controller
         return response()->json(['success' => 'Case Clone successfully.'], 200);
     }
 
+    public function holdCase($case_fi_type_id)
+    {
+        $cases  = casesFiType::findOrFail($case_fi_type_id);
+        $cases->status                  = '6';
+        $cases->save();
+        return response()->json(['success' => 'Case Hold successfully.'], 200);
+    }
+
+
     public function deleteImage(Request $request, $image_number)
     {
 
@@ -1134,7 +1143,7 @@ class CasesController extends Controller
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function exportCase($id=null)
+    public function exportCase($id = null)
     {
         return Excel::download(new ExportCase, 'cases.xlsx');
     }
