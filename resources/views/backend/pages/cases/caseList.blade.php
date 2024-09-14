@@ -136,7 +136,7 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
-                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="clone case"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="Hold case"></img></a>
 
                                         <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
 
