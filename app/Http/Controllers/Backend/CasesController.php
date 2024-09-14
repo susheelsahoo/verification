@@ -25,6 +25,9 @@ use ZipArchive;
 use ZipStream\File;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\ExportCase;
+use Dompdf\Dompdf;
+use App\Helpers\LogHelper;
+use App\Helpers\CaseHistoryHelper;
 
 class CasesController extends Controller
 {
@@ -156,6 +159,9 @@ class CasesController extends Controller
             }
         }
 
+        LogHelper::logActivity('Create Case', 'User created a new case.');
+        CaseHistoryHelper::logHistory($cases_id,null,null,null,'New Case','Case Create','New Case Created');
+
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.case.index');
     }
@@ -241,6 +247,8 @@ class CasesController extends Controller
 
             $fitypesFeild .= '</div>';
         }
+
+        LogHelper::logActivity('Show Case', 'User show case.');
 
         return view('backend.pages.cases.show', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
     }
@@ -370,6 +378,10 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been updated !!');
+
+        LogHelper::logActivity('Update Case', 'User update case.');
+        CaseHistoryHelper::logHistory($id,null,null,null,'New Case','Update Case','Update Case');
+
         return redirect()->route('admin.case.index');
     }
     public function reinitatiateCase($id)
@@ -506,6 +518,11 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been created !!');
+
+        LogHelper::logActivity('Reinitatiate Case', 'User reinitatiate case.');
+
+        CaseHistoryHelper::logHistory($cases_id,null,null,null,'Case','Reinitatiate Case','Reinitatiate Case');
+
         return redirect()->route('admin.case.index');
     }
 
@@ -576,6 +593,7 @@ class CasesController extends Controller
                                     ';
 
         if ($casesFiType !== null) {
+
             return response()->json(['htmlFormReinitatiateCase' => $htmlFormReinitatiateCase]);
         } else {
             return response()->json(['error' => 'Something went wrong.'], 400);
@@ -605,6 +623,8 @@ class CasesController extends Controller
         $newCaseFiType->save();
 
         session()->flash('success', 'Case Reinitatiate Successfully.');
+        LogHelper::logActivity('Reinitatiate Case', 'User reinitatiate case as New Case.');
+        CaseHistoryHelper::logHistory($newCasedata->id,0,null,null,'Existing Case '.$case_id,'Reinitatiate Case','Reinitatiate Case');
         return back();
     }
 
@@ -693,6 +713,8 @@ class CasesController extends Controller
             $fitypesFeild .= '</div>';
         }
 
+        LogHelper::logActivity('View Case', 'User view case.');
+
         return view('backend.pages.cases.show', compact('cases', 'banks', 'roles', 'fitypes', 'fitypesFeild', 'ApplicationTypes', 'fi_type_ids', 'AvailbleProduct'));
     }
 
@@ -701,6 +723,7 @@ class CasesController extends Controller
         $case_fi_type = casesFiType::findOrFail($case_fi_type_id);
 
         if ($case_fi_type !== null) {
+            LogHelper::logActivity('Get Case', 'User fetch case record.');
             return response()->json(['case_fi_type' => $case_fi_type]);
         } else {
             return response()->json(['error' => 'Bank ID not provided.'], 400);
@@ -756,6 +779,8 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Case has been updated !!');
+        LogHelper::logActivity('Update Case', 'User update case.');
+        CaseHistoryHelper::logHistory($id,null,null,null,'Existing Case','Update Case','Update Case');
         return redirect()->route('admin.case.index');
     }
     public function uploadCaseImage($case_fi_type_id)
@@ -802,7 +827,7 @@ class CasesController extends Controller
                 break;
             }
         }
-
+        LogHelper::logActivity('Upload Document', 'User upload supported document to the case.');
         return back();
     }
 
@@ -833,6 +858,7 @@ class CasesController extends Controller
         }
 
         session()->flash('success', 'Cases has been deleted !!');
+        LogHelper::logActivity('Delete Case', 'User delete case.');
         return back();
     }
 
@@ -916,6 +942,7 @@ class CasesController extends Controller
             }
         }
         session()->flash('success', 'File imported successfully.');
+        LogHelper::logActivity('Import Case', 'User imprt case.');
         return redirect()->route('admin.case.index');
     }
 
@@ -1003,8 +1030,10 @@ class CasesController extends Controller
             $cases->scheduled_visit_date    = $scheduled_visit_date;
             $cases->status                  = '1';
             $cases->save();
+            CaseHistoryHelper::logHistory($cases->case_id,1,null,$user_id,'New Case','Assign Case','Assign Case');
         }
         session()->flash('success', 'User assign successfully !!');
+        LogHelper::logActivity('Assign Case', 'User assign case.');
         return back();
     }
 
@@ -1024,6 +1053,8 @@ class CasesController extends Controller
         $cases->time_of_visit           = date('H:i:s');
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
+        CaseHistoryHelper::logHistory($cases->case_id,2,$request['sub_status'],$cases->user_id,$consolidated_remarks,'Resolve Case','Resolve Case');
+        LogHelper::logActivity('Resolve Case', 'User resolve case.');
         return redirect()->route('admin.dashboard');
     }
     public function verifiedCase(Request $request)
@@ -1040,6 +1071,8 @@ class CasesController extends Controller
         $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
+        CaseHistoryHelper::logHistory($cases->case_id,$status,$sub_status,$cases->user_id,$consolidated_remarks,'Verified Case','Verified Case');
+        LogHelper::logActivity('Verify Case', 'User verify case.');
         return redirect()->route('admin.dashboard');
     }
 
@@ -1053,6 +1086,8 @@ class CasesController extends Controller
         $cases->consolidated_remarks    = $consolidated_remarks;
         $cases->save();
         session()->flash('success', 'Remark Update successfully !!');
+        LogHelper::logActivity('Update Remark', 'User update remark of the case.');
+        CaseHistoryHelper::logHistory($cases->case_id,$cases->status,$cases->sub_status,$cases->user_id,$consolidated_remarks,'Update Remark Case','Update Remark Case');
         return redirect()->route('admin.dashboard');
     }
 
@@ -1062,6 +1097,8 @@ class CasesController extends Controller
         $cases             = casesFiType::find($case_fi_type_id);
         $cases->status     = '7';
         $cases->save();
+        LogHelper::logActivity('Close Case', 'User close case status.');
+        CaseHistoryHelper::logHistory($cases->case_id,7,$cases->sub_status,$cases->user_id,$cases->consolidated_remarks,'Close Case','Close Case');
         return response()->json(['success' => 'Case Close successfully.'], 200);
     }
     public function cloneCase($case_fi_type_id)
@@ -1079,6 +1116,8 @@ class CasesController extends Controller
 
         // Duplicate related case_fi_types
 
+        LogHelper::logActivity('Clone Case', 'User create clone of the case.');
+        CaseHistoryHelper::logHistory($newCasedata->id,null,null,null,'Clone Case '.$case_id,'Clone Case','Clone Case');
         return response()->json(['success' => 'Case Clone successfully.'], 200);
     }
 
@@ -1103,6 +1142,7 @@ class CasesController extends Controller
         $cases->save();
 
         // session()->flash('success', 'Image uploaded successfully');
+        LogHelper::logActivity('Remove Document', 'User remove case supported document.');
         return response()->json(['success' => 'Image delete successfully.'], 200);
     }
 
@@ -1125,12 +1165,11 @@ class CasesController extends Controller
 
     private function importExcel($file)
     {
+        /*
         $spreadsheet = IOFactory::load($file->getRealPath());
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-
         $header = $sheetData[1];
         unset($sheetData[1]); // Remove header row
-
         foreach ($sheetData as $row) {
             $data = array_combine($header, $row);
             DB::table('your_table')->insert([
@@ -1138,13 +1177,16 @@ class CasesController extends Controller
                 'column2' => $data['B'],
                 // more columns...
             ]);
-        }
+        } */
+
+        return true;
     }
     /**
      * @return \Illuminate\Support\Collection
      */
     public function exportCase($id = null)
     {
+        LogHelper::logActivity('Export Case', 'User export case.');
         return Excel::download(new ExportCase, 'cases.xlsx');
     }
 
@@ -1172,6 +1214,7 @@ class CasesController extends Controller
         $cases->pincode  = $input['pincode'] ?? null;
         $cases->save();
 
+        LogHelper::logActivity('Modify Case', 'User modify case.');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
         // session()->flash('success', 'Case Update successfully !!');
         // return redirect()->back();
@@ -1290,6 +1333,7 @@ class CasesController extends Controller
         // Save the model
         $caseFi->save();
         session()->flash('success', 'Case Update successfully !!');
+        LogHelper::logActivity('Modify RV Case', 'User modify rv case.');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
@@ -1360,6 +1404,7 @@ class CasesController extends Controller
         $caseFi->save();
 
         session()->flash('success', 'Case Update successfully !!');
+        LogHelper::logActivity('Modify BV Case', 'User modify bv case.');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
@@ -1429,6 +1474,7 @@ class CasesController extends Controller
                 $zip->close();
             }
             if (file_exists($zipFile)) {
+                LogHelper::logActivity('Zip Download', 'User dlownload case supported documet as zip.');
                 return response()->download($zipFile);
             } else {
                 return redirect()->back();
@@ -1436,5 +1482,19 @@ class CasesController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    public function generatePdf($id)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $view = view('backend.pages.cases.pdf',  compact('case'))->render();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $fileName = 'case'.'_'.date('Y-m-d_H-i-s').'.pdf';
+        $dompdf->stream($fileName, array("Attachment"=>1));
+        LogHelper::logActivity('Print Case', 'User export case as pdf.');
+        return true;
     }
 }
