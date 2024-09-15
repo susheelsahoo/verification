@@ -241,6 +241,7 @@ class CasesController extends Controller
     {
         // Create New Cases
         $data = $request->all();
+
         $validator = Validator::make(
             request()->all(),
             array(
@@ -249,14 +250,15 @@ class CasesController extends Controller
             )
         );
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors(), 400]);
         }
 
-        // dd($request->all());
+
         if ($data['fi_type_id'] == '1') {
             $this->SubmitRVCase($data);
         } elseif ($data['fi_type_id'] == '2') {
             $this->SubmitBVCase($data);
+        } else {
+            return response()->json(['error' => 'Fi type is not vaild', 400]);
         }
 
         return response()->json(['message' => 'Case Submit Successfully'], 200);

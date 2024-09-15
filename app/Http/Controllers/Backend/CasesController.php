@@ -990,34 +990,6 @@ class CasesController extends Controller
     {
         $user_id = $user_id ?? 0;
 
-        /*
-        $query = DB::table('cases_fi_types as cft')
-            ->select(
-                'cft.id',
-                'c.refrence_number',
-                'c.applicant_name',
-                'c.co_applicant_name',
-                'cft.mobile',
-                'cft.address',
-                'b.name as bank_name',
-                'p.name as product_name',
-                'ft.name as fi_type_name',
-                'cft.scheduled_visit_date',
-                'cft.status',
-                'u.name as agent_name'
-            )
-            ->join('cases as c', 'c.id', '=', 'cft.case_id')
-            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
-            ->join('banks as b', 'b.id', '=', 'c.bank_id')
-            ->join('products as p', 'p.id', '=', 'c.product_id')
-            ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
-            ->where('cft.user_id', $user_id)
-            ->where('cft.status', '!=', '7');
-        if ($status != 'aaa') {
-            $query->where('cft.status', $status);
-        }
-        $cases = $query->get(); */
-
         $assign = false;
 
         if ($status != 'aaa') {
