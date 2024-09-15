@@ -150,6 +150,16 @@ BV Payload
         "tcp2_checked_with":"aaaaa",
         "visited_by":"aaaaa",
         "verified_by":"aaaaa"
+        "address_confirmation_status":"aaaaaaaa",
+        "address_of_employer_co":"aaaaaaaa",
+        "designation_other":"aaaaaaaa",
+        "type_industry":"aaaaaaaa",
+        "residence_number":"aaaaaaaa",
+        "type_of_profession":"aaaaaaaa",
+        "year_of_establishment_of_business":"aaaaaaaa",
+        "year_of_employment":"aaaaaaaa",
+        "verifier_feedback":"aaaaaaaa",
+
 }
 -------------------------------------------------------------------------------------------------------
 year_of_establishment drop column
