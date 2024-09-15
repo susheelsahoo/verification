@@ -998,8 +998,6 @@ class CasesController extends Controller
             $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
         }
 
-        //echo '<pre>'; print_r($case); die;
-
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
 

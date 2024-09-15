@@ -97,7 +97,8 @@ Dashboard Page - Admin Panel
         </div>
         <div class="col-lg-2 col-md-2">
             <p class="mt-3"><strong>Unassigned Cases</strong>: <a href="{{ route('admin.case.caseStatus', ['status' => '0']) }}">{{ $total_Unassigned }} </a> </p>
-            <p><strong>Dedup Cases</strong>: {{ $total_dedup }} </p>
+            <p class="mt-3"><strong>Dedup Cases</strong>: <a href="{{ route('admin.case.caseStatus', ['status' => '8']) }}">{{ $total_dedup }} </a> </p>
+
         </div>
     </div>
     <div class="row mt-4">

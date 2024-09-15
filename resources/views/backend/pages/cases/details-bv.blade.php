@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <span align="right" height="30px;">
-        <a href="javascript:void()" onclick="printformFunction()">Click here to print</a>
+        <a href="javascript:void(0)" onclick="printformFunction()">Click here to print</a>
     </span>
     <table class="table table-bordered">
         <tbody>
