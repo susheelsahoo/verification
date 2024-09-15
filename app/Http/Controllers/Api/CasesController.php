@@ -389,6 +389,22 @@ class CasesController extends Controller
         $caseFi->tcp2_checked_with              = $data['tcp2_checked_with'];
         $caseFi->visited_by                     = $data['visited_by'];
         $caseFi->verified_by                    = $data['verified_by'];
+        $caseFi->address_confirmed              = $data['address_confirmation_status'];
+        $caseFi->employer_address               = $data['address_of_employer_co'];
+        $caseFi->designation_other              = $data['designation_other'];
+        $caseFi->accommodation_type             = $data['type_industry'];
+        $caseFi->residence_number               = $data['residence_number'];
+        $caseFi->type_of_employer               = $data['type_of_profession'];
+        $caseFi->year_of_establishment          = $data['year_of_establishment_of_business'];
+        $caseFi->other_stability_year_details   = $data['year_of_employment'];
+        $caseFi->negative_feedback_reason       = $data['verifier_feedback'];
+
+
+        
+                
+ 
+                
+                 
         $caseFi->save();
         return $caseFi->id;
     }

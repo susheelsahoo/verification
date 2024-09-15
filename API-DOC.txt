@@ -156,6 +156,9 @@ year_of_establishment drop column
 
 years_lived_at_this_residence
 
+ALTER TABLE `cases_fi_types` ADD `residence_number` INT(11) NULL AFTER `no_of_earning_family_members`;
+ALTER TABLE `cases_fi_types` ADD `designation_other` VARCHAR(255) NULL AFTER `designation`;
+
 
 
 
