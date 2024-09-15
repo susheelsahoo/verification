@@ -44,6 +44,7 @@ class DashboardController extends Controller
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->where('status', '0')->get());
+        $total_dedup  = count(casesFiType::select('id')->where('status', '8')->get());
         $agentLists = User::where('admin_id', $this->user->id)->get();
         $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
 
@@ -115,6 +116,6 @@ class DashboardController extends Controller
         $totalSum = ['total' => $total, 'inprogressTotal' => $inprogressTotal, 'positive_resolvedTotal' => $positive_resolvedTotal, 'negative_resolvedTotal' => $negative_resolvedTotal, 'positive_verifiedTotal' => $positive_verifiedTotal, 'negative_verifiedTotal' => $negative_verifiedTotal, 'holdTotal' => $holdTotal];
 
 
-        return view('backend.pages.dashboard.index', compact('totalSum', 'userCount', 'agentLists', 'total_Unassigned'));
+        return view('backend.pages.dashboard.index', compact('totalSum', 'userCount', 'agentLists', 'total_Unassigned', 'total_dedup'));
     }
 }

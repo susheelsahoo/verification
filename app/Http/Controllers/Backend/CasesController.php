@@ -192,6 +192,7 @@ class CasesController extends Controller
                 $casesFiType->address       = $fi_type_id['address'];
                 $casesFiType->pincode       = $fi_type_id['pincode'];
                 $casesFiType->land_mark     = $fi_type_id['landmark'];
+                $casesFiType->status        = $fi_type_id['status'];
                 $casesFiType->user_id       = '0';
                 $casesFiType->save();
             }
