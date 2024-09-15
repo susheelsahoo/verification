@@ -345,8 +345,8 @@ class CasesController extends Controller
         $case_fi_type_id = $data['case_fi_type_id'];
 
         $caseFi = casesFiType::findOrFail($case_fi_type_id);
-        $caseFi->mobile                         = $data['mobile'];
-        $caseFi->address                        = $data['address'];
+        // $caseFi->mobile                         = $data['mobile'];
+        // $caseFi->address                        = $data['address'];
         $caseFi->address_confirmed              = $data['address_confirmed'];
         $caseFi->employer_address               = $data['employer_address'];
         $caseFi->type_of_proof                  = $data['type_of_proof'];
@@ -400,11 +400,11 @@ class CasesController extends Controller
         $caseFi->negative_feedback_reason       = $data['verifier_feedback'];
 
 
-        
-                
- 
-                
-                 
+
+
+
+
+
         $caseFi->save();
         return $caseFi->id;
     }

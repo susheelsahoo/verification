@@ -115,24 +115,63 @@ class CasesController extends Controller
 
             ];
         }
+        $applicant_name      = $co_applicant_name   = NULL;
         $request->validate($rules, $messages);
+        if ($request->application_type == '1') {
+            $applicant_name      = $request->applicant_name;
+        } elseif ($request->application_type == '2') {
+            $applicant_name      = $request->applicant_name;
+            $co_applicant_name   = $request->co_applicant_name;
+        } elseif ($request->application_type == '3') {
+            $applicant_name      = $request->guarantee_name;
+        } elseif ($request->application_type == '4') {
+            $applicant_name      = $request->applicant_name;
+        }
 
+        // Convert the request data to an array or collection
+        $fiTypeIds = $request->fi_type_id;
 
+        foreach ($fiTypeIds as $key => $fiTypeId) {
+            // Check if the phone number is not empty
+            if (!empty($fiTypeId['phone_number'])) {
+                // Fetch the results from the database based on the given conditions
+                $results = DB::table('cases_fi_types as cft')
+                    ->join('cases as c', 'c.id', '=', 'cft.case_id')
+                    ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+                    ->select(
+                        'c.application_type',
+                        'cft.fi_type_id',
+                        'ft.name',
+                        'c.product_id',
+                        'c.applicant_name',
+                        'c.co_applicant_name',
+                        'cft.mobile',
+                        'cft.address',
+                        'cft.pincode',
+                        'cft.land_mark'
+                    )
+                    ->where('c.application_type', $request->application_type) // Access the request data properly
+                    ->where('cft.address', $fiTypeId['address']) // Access array instead of modifying request
+                    ->where('cft.pincode', $fiTypeId['pincode'])
+                    ->where('cft.mobile', $fiTypeId['phone_number'])
+                    ->where('cft.land_mark', $fiTypeId['landmark'])
+                    ->get()
+                    ->toArray();
+
+                // Update the status based on the results
+                $fiTypeIds[$key]['status'] = empty($results) ? '0' : '8';
+            }
+        }
+
+        // Optional: If you need to assign the modified data back to the request
+        $request->merge(['fi_type_id' => $fiTypeIds]);
         // Create New cases
         $cases = new Cases();
         $cases->bank_id             = $request->bank_id;
         $cases->product_id          = $request->product_id;
         $cases->application_type    = $request->application_type;
-        if ($request->application_type == '1') {
-            $cases->applicant_name      = $request->applicant_name;
-        } elseif ($request->application_type == '2') {
-            $cases->applicant_name      = $request->applicant_name;
-            $cases->co_applicant_name   = $request->co_applicant_name;
-        } elseif ($request->application_type == '3') {
-            $cases->applicant_name      = $request->guarantee_name;
-        } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->applicant_name;
-        }
+        $cases->applicant_name      = $applicant_name;
+        $cases->co_applicant_name   = $co_applicant_name;
         $cases->refrence_number     = $request->refrence_number;
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
@@ -140,7 +179,6 @@ class CasesController extends Controller
         $cases->remarks             = $request->remarks;
         $cases->created_by          = Auth::guard('admin')->user()->id;
         $cases->updated_by          = Auth::guard('admin')->user()->id;
-        // $cases->name         = $request->name;
         $cases->save();
         $cases_id = $cases->id;
 
@@ -160,7 +198,7 @@ class CasesController extends Controller
         }
 
         LogHelper::logActivity('Create Case', 'User created a new case.');
-        CaseHistoryHelper::logHistory($cases_id,null,null,null,'New Case','Case Create','New Case Created');
+        CaseHistoryHelper::logHistory($cases_id, null, null, null, 'New Case', 'Case Create', 'New Case Created');
 
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.case.index');
@@ -380,7 +418,7 @@ class CasesController extends Controller
         session()->flash('success', 'Case has been updated !!');
 
         LogHelper::logActivity('Update Case', 'User update case.');
-        CaseHistoryHelper::logHistory($id,null,null,null,'New Case','Update Case','Update Case');
+        CaseHistoryHelper::logHistory($id, null, null, null, 'New Case', 'Update Case', 'Update Case');
 
         return redirect()->route('admin.case.index');
     }
@@ -521,7 +559,7 @@ class CasesController extends Controller
 
         LogHelper::logActivity('Reinitatiate Case', 'User reinitatiate case.');
 
-        CaseHistoryHelper::logHistory($cases_id,null,null,null,'Case','Reinitatiate Case','Reinitatiate Case');
+        CaseHistoryHelper::logHistory($cases_id, null, null, null, 'Case', 'Reinitatiate Case', 'Reinitatiate Case');
 
         return redirect()->route('admin.case.index');
     }
@@ -624,7 +662,7 @@ class CasesController extends Controller
 
         session()->flash('success', 'Case Reinitatiate Successfully.');
         LogHelper::logActivity('Reinitatiate Case', 'User reinitatiate case as New Case.');
-        CaseHistoryHelper::logHistory($newCasedata->id,0,null,null,'Existing Case '.$case_id,'Reinitatiate Case','Reinitatiate Case');
+        CaseHistoryHelper::logHistory($newCasedata->id, 0, null, null, 'Existing Case ' . $case_id, 'Reinitatiate Case', 'Reinitatiate Case');
         return back();
     }
 
@@ -780,7 +818,7 @@ class CasesController extends Controller
 
         session()->flash('success', 'Case has been updated !!');
         LogHelper::logActivity('Update Case', 'User update case.');
-        CaseHistoryHelper::logHistory($id,null,null,null,'Existing Case','Update Case','Update Case');
+        CaseHistoryHelper::logHistory($id, null, null, null, 'Existing Case', 'Update Case', 'Update Case');
         return redirect()->route('admin.case.index');
     }
     public function uploadCaseImage($case_fi_type_id)
@@ -1030,7 +1068,7 @@ class CasesController extends Controller
             $cases->scheduled_visit_date    = $scheduled_visit_date;
             $cases->status                  = '1';
             $cases->save();
-            CaseHistoryHelper::logHistory($cases->case_id,1,null,$user_id,'New Case','Assign Case','Assign Case');
+            CaseHistoryHelper::logHistory($cases->case_id, 1, null, $user_id, 'New Case', 'Assign Case', 'Assign Case');
         }
         session()->flash('success', 'User assign successfully !!');
         LogHelper::logActivity('Assign Case', 'User assign case.');
@@ -1053,7 +1091,7 @@ class CasesController extends Controller
         $cases->time_of_visit           = date('H:i:s');
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        CaseHistoryHelper::logHistory($cases->case_id,2,$request['sub_status'],$cases->user_id,$consolidated_remarks,'Resolve Case','Resolve Case');
+        CaseHistoryHelper::logHistory($cases->case_id, 2, $request['sub_status'], $cases->user_id, $consolidated_remarks, 'Resolve Case', 'Resolve Case');
         LogHelper::logActivity('Resolve Case', 'User resolve case.');
         return redirect()->route('admin.dashboard');
     }
@@ -1071,7 +1109,7 @@ class CasesController extends Controller
         $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        CaseHistoryHelper::logHistory($cases->case_id,$status,$sub_status,$cases->user_id,$consolidated_remarks,'Verified Case','Verified Case');
+        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $consolidated_remarks, 'Verified Case', 'Verified Case');
         LogHelper::logActivity('Verify Case', 'User verify case.');
         return redirect()->route('admin.dashboard');
     }
@@ -1087,7 +1125,7 @@ class CasesController extends Controller
         $cases->save();
         session()->flash('success', 'Remark Update successfully !!');
         LogHelper::logActivity('Update Remark', 'User update remark of the case.');
-        CaseHistoryHelper::logHistory($cases->case_id,$cases->status,$cases->sub_status,$cases->user_id,$consolidated_remarks,'Update Remark Case','Update Remark Case');
+        CaseHistoryHelper::logHistory($cases->case_id, $cases->status, $cases->sub_status, $cases->user_id, $consolidated_remarks, 'Update Remark Case', 'Update Remark Case');
         return redirect()->route('admin.dashboard');
     }
 
@@ -1098,7 +1136,7 @@ class CasesController extends Controller
         $cases->status     = '7';
         $cases->save();
         LogHelper::logActivity('Close Case', 'User close case status.');
-        CaseHistoryHelper::logHistory($cases->case_id,7,$cases->sub_status,$cases->user_id,$cases->consolidated_remarks,'Close Case','Close Case');
+        CaseHistoryHelper::logHistory($cases->case_id, 7, $cases->sub_status, $cases->user_id, $cases->consolidated_remarks, 'Close Case', 'Close Case');
         return response()->json(['success' => 'Case Close successfully.'], 200);
     }
     public function cloneCase($case_fi_type_id)
@@ -1117,7 +1155,7 @@ class CasesController extends Controller
         // Duplicate related case_fi_types
 
         LogHelper::logActivity('Clone Case', 'User create clone of the case.');
-        CaseHistoryHelper::logHistory($newCasedata->id,null,null,null,'Clone Case '.$case_id,'Clone Case','Clone Case');
+        CaseHistoryHelper::logHistory($newCasedata->id, null, null, null, 'Clone Case ' . $case_id, 'Clone Case', 'Clone Case');
         return response()->json(['success' => 'Case Clone successfully.'], 200);
     }
 
@@ -1492,8 +1530,8 @@ class CasesController extends Controller
         $dompdf->loadHtml($view);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
-        $fileName = 'case'.'_'.date('Y-m-d_H-i-s').'.pdf';
-        $dompdf->stream($fileName, array("Attachment"=>1));
+        $fileName = 'case' . '_' . date('Y-m-d_H-i-s') . '.pdf';
+        $dompdf->stream($fileName, array("Attachment" => 1));
         LogHelper::logActivity('Print Case', 'User export case as pdf.');
         return true;
     }
