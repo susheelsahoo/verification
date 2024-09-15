@@ -720,6 +720,7 @@ Cases - Admin Panel
 </script>
 <script>
     function printformFunction() {
+        debugger
         var divToPrint = document.getElementById('outprint'); // Get the table element
         var newWindow = window.open('', '', 'width=800,height=600'); // Open a new window
         newWindow.document.write('<html><head><title>Print Table</title>');
