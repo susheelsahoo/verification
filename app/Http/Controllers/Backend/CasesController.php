@@ -1000,6 +1000,33 @@ class CasesController extends Controller
 
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
+    public function dedupCase($case_id)
+    {
+        $cases_fi_type = casesFiType::with(['getCase'])->where('id', $case_id)->first();
+
+        $results = DB::table('cases_fi_types as cft')
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->select(
+                'cft.id'
+            )
+            ->where('c.application_type', $cases_fi_type->getCase->application_type) // Access the request data properly
+            ->where('cft.address', $cases_fi_type['address']) // Access array instead of modifying request
+            ->where('cft.pincode', $cases_fi_type['pincode'])
+            ->where('cft.mobile', $cases_fi_type['mobile'])
+            ->where('cft.land_mark', $cases_fi_type['land_mark'])
+            ->get()
+            ->pluck('id')  // Extract the IDs from the result
+            ->toArray();
+
+        $assign = false;
+        $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+            ->whereIn('id', $results)
+            ->get();
+
+
+        return view('backend.pages.cases.dedupCaseList', compact('cases', 'assign'));
+    }
 
     public function assigned($status, $user_id = null)
     {

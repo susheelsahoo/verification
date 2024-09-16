@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/clone/{id}', 'Backend\CasesController@cloneCase')->name('admin.case.clone');
     Route::get('cases/hold/{id}', 'Backend\CasesController@holdCase')->name('admin.case.hold');
     Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.case.caseStatus');
+    Route::get('cases/dedup-case/{case_id?}', 'Backend\CasesController@dedupCase')->name('admin.case.dedup-case');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.viewCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.updateCase');
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
