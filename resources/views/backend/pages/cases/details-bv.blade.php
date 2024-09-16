@@ -2,7 +2,7 @@
     <span align="right" height="30px;">
         <a href="javascript:void(0)" onclick="printformFunction()">Click here to print</a>
     </span>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="outprint">
         <tbody>
             <tr>
                 <td style="border:none;font-size:22px;color:#0094ff" align="center" colspan="1">
