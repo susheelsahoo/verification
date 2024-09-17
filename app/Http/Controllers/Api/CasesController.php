@@ -400,13 +400,7 @@ class CasesController extends Controller
         $caseFi->year_of_establishment          = $data['year_of_establishment_of_business'];
         $caseFi->other_stability_year_details   = $data['year_of_employment'];
         $caseFi->negative_feedback_reason       = $data['verifier_feedback'];
-
-
-
-
-
-
-
+        $caseFi->status                          = $data['status'];
         $caseFi->save();
         return $caseFi->id;
     }
