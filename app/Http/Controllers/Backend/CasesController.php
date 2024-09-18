@@ -1269,6 +1269,14 @@ class CasesController extends Controller
             $view = view('backend.pages.cases.details-rv', compact('case'))->render();
         }
 
+        if ($fi_type_details['name'] == 'BV') {
+            $view = view('backend.pages.cases.details-bv', compact('case'))->render();
+        } else if ($fi_type_details['name'] == 'RV') {
+            $view = view('backend.pages.cases.details-rv', compact('case'))->render();
+        } else if ($fi_type_details['name'] == 'ITR') {
+            $view = view('backend.pages.cases.details-itr', compact('case'))->render();
+        }
+
         return response()->json(['viewData' => $view]);
     }
 
