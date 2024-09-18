@@ -1364,7 +1364,6 @@ class CasesController extends Controller
         $caseFi->date_of_visit                      = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                      = $input['time_of_visit'] ?? null;
         $caseFi->supervisor_remarks                 = $input['supervisor_remarks'] ?? null;
-        $caseFi->visit_conducted                    = $input['visit_conducted'] ?? null;
         $caseFi->tcp1_name                          = $input['tcp1_name'] ?? null;
         $caseFi->tcp1_checked_with                  = $input['tcp1_checked_with'] ?? null;
         $caseFi->tcp1_negative_comments             = $input['tcp1_negative_comments'] ?? null;
@@ -1433,7 +1432,6 @@ class CasesController extends Controller
         $caseFi->name_of_employer_co            = $input['name_of_employer_co'] ?? null;
         $caseFi->established                    = $input['established'] ?? null;
         $caseFi->designation                    = $input['designation'] ?? null;
-        $caseFi->visit_conducted                = $input['visit_conducted'] ?? null;
         $caseFi->date_of_visit                  = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                  = $input['time_of_visit'] ?? null;
         $caseFi->latitude                       = $input['latitude'] ?? null;

@@ -188,6 +188,9 @@
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
             </tr>
+            <tr>
+                <td colspan="4">{{ $case->remarks ?? 'NA' }}</td>
+            </tr>
 
             <tr ng-hide="BVCase.VerifiedType==219 || BVCase.SubStatusId!=536"=218" class="">
                 <td colspan="4" class="subheading" style="text-align: center">AS CLAIMED / CONFIRMED</td>
@@ -204,7 +207,7 @@
             </tr>
             <tr ng-hide="BVCase.StatusID==220" class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ $case->visit_conducted ?? 'NA' }}</td>
+                <td colspan="3" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
             </tr>
 
             <tr>

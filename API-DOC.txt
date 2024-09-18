@@ -86,7 +86,6 @@ RV Payload
     "consolidated_remarks": "aaaaaaaaaa",
     "remarks": "aaaaaaaaaa",
     "recommended": "aaaaaaaaaa",
-    "visit_conducted": "aaaaaaaaaa",
     "date_of_visit": "aaaaaaaaaa",
     "time_of_visit": "aaaaaaaaaa",
     "latitude": "22.2222",
@@ -139,7 +138,6 @@ BV Payload
         "name_of_employer_co":"aaaaa",
         "established":"aaaaa",
         "designation":"aaaaa",
-        "visit_conducted":"aaaaa",
         "date_of_visit":"2020-01-01",
         "time_of_visit":"11:11",
         "latitude":"22.22",
@@ -162,6 +160,13 @@ BV Payload
 
 }
 -------------------------------------------------------------------------------------------------------
+
+
+not done
+drop column : visit_conducted
+
+
+
 
 
 

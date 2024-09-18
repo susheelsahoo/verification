@@ -233,7 +233,7 @@
                 <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
             </tr>
             <tr>
-                <td colspan="4">{{ $case->supervisor_remarks ?? 'NA' }}</td>
+                <td colspan="4">{{ $case->remarks ?? 'NA' }}</td>
             </tr>
             <tr class="">
                 <td colspan="4" class="subheading" style="text-align: center">NEGATIVE FEATURES</td>
@@ -243,7 +243,7 @@
             </tr>
             <tr class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ $case->no_of_residents_in_house ?? '0000' }}</td>
+                <td colspan="3" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Applicant Photos </td>

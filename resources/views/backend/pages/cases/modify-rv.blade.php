@@ -363,7 +363,7 @@
                 <tr class="">
                     <td>Visit Conducted </td>
                     <td colspan="3" class="ng-binding">
-                        <input type="text" name="visit_conducted" class="form-control" value="{{ $case->visit_conducted ?? '' }}" />
+                    <td colspan="3" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
 
                     </td>
                 </tr>
