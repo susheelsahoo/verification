@@ -325,11 +325,11 @@
                 <tr>
                     <td>Latitude</td>
                     <td class="BVstyle">
-                        <input type="text" name="latitude" class="form-control" value="{{ $case->latitude ?? '' }}">
+                        <input type=number step=0.01 name="latitude" class="form-control" value="{{ $case->latitude ?? '' }}">
                     </td>
                     <td>Longitude</td>
                     <td class="BVstyle">
-                        <input type="text" name="longitude" class="form-control" value="{{ $case->longitude ?? '' }}">
+                        <input type=number step=0.01 name="longitude" class="form-control" value="{{ $case->longitude ?? '' }}">
                     </td>
                 </tr>
 
