@@ -207,7 +207,7 @@
             </tr>
             <tr ng-hide="BVCase.StatusID==220" class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
+                <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
             </tr>
 
             <tr>
