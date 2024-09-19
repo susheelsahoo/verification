@@ -313,7 +313,6 @@ class CasesController extends Controller
         $cases->proof_attached                      = $data['proof_attached'];
         $cases->type_of_proof                       = $data['type_of_proof'];
         $cases->comments                            = $data['comments'];
-        $cases->supervisor_remarks                  = $data['supervisor_remarks'];
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
         $cases->remarks                             = $data['remarks'];
         $cases->recommended                         = $data['recommended'];

@@ -350,7 +350,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <input type="text" name="supervisor_remarks" class="form-control" value="{{ $case->supervisor_remarks ?? '' }}" />
+                        <input type="text" name="remarks" class="form-control" value="{{ $case->remarks ?? '' }}" />
 
                     </td>
                 </tr>

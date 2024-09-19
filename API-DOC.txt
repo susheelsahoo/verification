@@ -82,7 +82,6 @@ RV Payload
     "type_of_proof": "aaaaaaaaaa",
     "employement_details": "aaaaaaaaaa",
     "comments": "aaaaaaaaaa",
-    "supervisor_remarks": "aaaaaaaaaa",
     "consolidated_remarks": "aaaaaaaaaa",
     "remarks": "aaaaaaaaaa",
     "recommended": "aaaaaaaaaa",
@@ -220,7 +219,7 @@ ALTER TABLE `cases_fi_types` ADD `office` VARCHAR(255) NULL AFTER `scheduled_vis
 
 ALTER TABLE `cases_fi_types` ADD `accomodation_type` VARCHAR(255) NULL AFTER `locality`, ADD `interior_conditions` VARCHAR(255) NULL AFTER `accomodation_type`, ADD `assets_seen` VARCHAR(255) NULL AFTER `interior_conditions`, ADD `area` VARCHAR(255) NULL AFTER `assets_seen`, ADD `standard_of_living` VARCHAR(255) NULL AFTER `area`, ADD `nearest_landmark` VARCHAR(255) NULL AFTER `standard_of_living`, ADD `house_locked` ENUM('0','1') NULL AFTER `nearest_landmark`, ADD `locked_person_met` VARCHAR(255) NULL AFTER `house_locked`, ADD `locked_relationship` VARCHAR(255) NULL AFTER `locked_person_met`, ADD `applicant_age` VARCHAR(255) NULL AFTER `locked_relationship`, ADD `no_of_residents_in_house` VARCHAR(255) NULL AFTER `applicant_age`;
 
-ALTER TABLE `cases_fi_types`  ADD `years_lived_at_this_residence` VARCHAR(255) NULL  AFTER `no_of_residents_in_house`,  ADD `occupation` VARCHAR(255) NULL  AFTER `years_lived_at_this_residence`,  ADD `untraceable` VARCHAR(255) NULL  AFTER `occupation`,  ADD `verifiers_name` VARCHAR(255) NULL  AFTER `untraceable`,  ADD `verification_conducted_at` VARCHAR(255) NULL  AFTER `verifiers_name`,  ADD `proof_attached` VARCHAR(255) NULL  AFTER `verification_conducted_at`,  ADD `type_of_proof` VARCHAR(255) NULL  AFTER `proof_attached`,  ADD `audit_check_remarks_by_agency_with_stamp` VARCHAR(255) NULL  AFTER `type_of_proof`,  ADD `signature_of_agency_supervisor` VARCHAR(255) NULL  AFTER `audit_check_remarks_by_agency_with_stamp`,  ADD `employement_details` VARCHAR(255) NULL  AFTER `signature_of_agency_supervisor`,  ADD `comments` TEXT NULL  AFTER `employement_details`,  ADD `supervisor_remarks` TEXT NULL  AFTER `comments`,  ADD `consolidated_remarks` TEXT NULL  AFTER `supervisor_remarks`,  ADD `remarks` TEXT NULL  AFTER `consolidated_remarks`,  ADD `recommended` VARCHAR(255) NULL  AFTER `remarks`,  ADD `visit_conducted` VARCHAR(255) NULL  AFTER `recommended`,  ADD `date_of_visit` DATE NULL  AFTER `visit_conducted`,  ADD `time_of_visit` TIMESTAMP NULL  AFTER `date_of_visit`,  ADD `latitude` VARCHAR(255) NULL  AFTER `time_of_visit`,  ADD `longitude` VARCHAR(255) NULL  AFTER `latitude`,  ADD `neighbour_check_1` VARCHAR(255) NULL  AFTER `longitude`,  ADD `neighbour1_checked_with` VARCHAR(255) NULL  AFTER `neighbour_check_1`;
+
 
 
 
@@ -233,7 +232,7 @@ ALTER TABLE `cases_fi_types` ADD `sub_status` INT(11) NULL DEFAULT NULL AFTER `s
 
 ALTER TABLE `case_status` ADD `parent_id` INT(11) NOT NULL AFTER `updated_at`, ADD `type` INT(11) NOT NULL AFTER `parent_id`;
 ALTER TABLE `case_status` CHANGE `parent_id` `parent_id` INT(11) NOT NULL AFTER `id`, CHANGE `type` `type` INT(11) NOT NULL AFTER `name`
-ALTER TABLE `cases_fi_types` CHANGE `remarks` `remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `user_id`, CHANGE `supervisor_remarks` `supervisor_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `remarks`, CHANGE `consolidated_remarks` `consolidated_remarks` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `supervisor_remarks`
+
 
 
 ALTER TABLE `cases` DROP `guarantee_name`;

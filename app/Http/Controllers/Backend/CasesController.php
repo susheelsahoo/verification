@@ -1099,15 +1099,15 @@ class CasesController extends Controller
         $case_fi_type_id                = $request['case_fi_type_id'];
         $status                         = '4';
         $sub_status                     = $request['sub_status'];
-        $consolidated_remarks           = $request['consolidated_remarks'];
+        $remarks                        = $request['remarks'];
         $cases                          = casesFiType::find($case_fi_type_id);
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
-        $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->remarks    = $remarks;
         $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $consolidated_remarks, 'Verified Case', 'Verified Case');
+        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $remarks, 'Verified Case', 'Verified Case');
         LogHelper::logActivity('Verify Case', 'User verify case.');
         return redirect()->route('admin.dashboard');
     }
@@ -1263,11 +1263,7 @@ class CasesController extends Controller
         $fi_type_id = $case['fi_type_id'];
 
         $fi_type_details = FiType::find($fi_type_id);
-        if ($fi_type_details['name'] == 'BV') {
-            $view = view('backend.pages.cases.details-bv', compact('case'))->render();
-        } else {
-            $view = view('backend.pages.cases.details-rv', compact('case'))->render();
-        }
+
 
         if ($fi_type_details['name'] == 'BV') {
             $view = view('backend.pages.cases.details-bv', compact('case'))->render();
@@ -1275,6 +1271,8 @@ class CasesController extends Controller
             $view = view('backend.pages.cases.details-rv', compact('case'))->render();
         } else if ($fi_type_details['name'] == 'ITR') {
             $view = view('backend.pages.cases.details-itr', compact('case'))->render();
+        } else if ($fi_type_details['name'] == 'BSV') {
+            $view = view('backend.pages.cases.details-bsv', compact('case'))->render();
         }
 
         return response()->json(['viewData' => $view]);
@@ -1363,7 +1361,6 @@ class CasesController extends Controller
         $caseFi->type_of_proof                      = $input['type_of_proof'] ?? null;
         $caseFi->date_of_visit                      = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                      = $input['time_of_visit'] ?? null;
-        $caseFi->supervisor_remarks                 = $input['supervisor_remarks'] ?? null;
         $caseFi->tcp1_name                          = $input['tcp1_name'] ?? null;
         $caseFi->tcp1_checked_with                  = $input['tcp1_checked_with'] ?? null;
         $caseFi->tcp1_negative_comments             = $input['tcp1_negative_comments'] ?? null;
