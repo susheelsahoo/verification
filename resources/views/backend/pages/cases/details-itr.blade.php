@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">
-                    ITR Verification Format
+                    {{ $caseType }}
                 </td>
             </tr>
             <tr>

@@ -1270,10 +1270,16 @@ class CasesController extends Controller
         } else if ($fi_type_details['name'] == 'RV') {
             $view = view('backend.pages.cases.details-rv', compact('case'))->render();
         } else if ($fi_type_details['name'] == 'ITR') {
-            $view = view('backend.pages.cases.details-itr', compact('case'))->render();
+            $caseType = 'ITR Verification Format';
+            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
         } else if ($fi_type_details['name'] == 'BSV') {
-            $view = view('backend.pages.cases.details-bsv', compact('case'))->render();
+            $caseType = 'Residence Verification Format';
+            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
+        } else if ($fi_type_details['name'] == 'salary ship') {
+            $caseType = 'Salary sip Format';
+            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
         }
+
 
         return response()->json(['viewData' => $view]);
     }
