@@ -307,9 +307,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="subheading" style="text-align: center">Applicant Photos</td>
-                </tr>
-                <tr>
                     <td>VisitDate</td>
                     <td class="BVstyle">
                         <input type="date" name="date_of_visit" class="form-control" value="{{ $case->date_of_visit ?? '' }}">

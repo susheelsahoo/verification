@@ -28,6 +28,8 @@ use App\Exports\ExportCase;
 use Dompdf\Dompdf;
 use App\Helpers\LogHelper;
 use App\Helpers\CaseHistoryHelper;
+use Intervention\Image\Facades\Image;
+
 
 class CasesController extends Controller
 {
@@ -837,7 +839,8 @@ class CasesController extends Controller
 
         // Find the record by ID
         $case = CasesFiType::findOrFail($case_fi_type_id);
-
+        $latitude   = $case['latitude'];
+        $longitude  = $case['longitude'];
         $year = date('Y');
         $month = date('m');
         $path = "images/cases/{$year}/{$month}";
@@ -857,9 +860,10 @@ class CasesController extends Controller
                 $file->move(public_path($path), $filename);
 
                 // Save the filename to the current image field
-                $case->$imgField = "{$path}/{$filename}";
+                $image_name = "{$path}/{$filename}";
+                $case->$imgField = $image_name;
                 $case->save();
-
+                $this->addTextToImage($latitude, $longitude, $image_name);
                 session()->flash('success', 'Image uploaded successfully');
             } else {
                 session()->flash('error', 'All image slots are filled');
@@ -869,6 +873,54 @@ class CasesController extends Controller
         LogHelper::logActivity('Upload Document', 'User upload supported document to the case.');
         return back();
     }
+
+    private function addTextToImage($latitude, $longitude, $image_name)
+    {
+        // Load the image
+        $img = Image::make(public_path($image_name));
+
+        // Path to a TTF font file
+        $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
+
+        // Get image width and height
+        $width = $img->width();
+        $height = $img->height();
+
+        // Set padding from the left and bottom
+        $paddingLeft = 100;
+        $paddingBottom = 50;
+
+        // Define the lines of text
+        $lines = [
+            $latitude,
+            $longitude,
+        ];
+
+        // Set font size
+        $fontSize = 40;
+
+        // Add each line of text
+        foreach ($lines as $index => $line) {
+            $img->text(
+                $line,
+                $paddingLeft,                      // X position (left side with padding)
+                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
+                function ($font) use ($fontPath, $fontSize) {
+                    $font->file($fontPath);        // Specify the TTF font file
+                    $font->size($fontSize);        // Set font size
+                    $font->color('#FF0000');       // Set font color
+                    $font->align('left');          // Align text to the left
+                    $font->valign('bottom');       // Align text to the bottom
+                }
+            );
+        }
+
+        // Save the image
+        $img->save(public_path($image_name));
+        return true;
+    }
+
+
 
 
     private function getAvailableImageField($case)
@@ -1263,8 +1315,6 @@ class CasesController extends Controller
         $fi_type_id = $case['fi_type_id'];
 
         $fi_type_details = FiType::find($fi_type_id);
-
-
         if ($fi_type_details['name'] == 'BV') {
             $view = view('backend.pages.cases.details-bv', compact('case'))->render();
         } else if ($fi_type_details['name'] == 'RV') {
@@ -1279,8 +1329,6 @@ class CasesController extends Controller
             $caseType = 'Salary sip Format';
             $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
         }
-
-
         return response()->json(['viewData' => $view]);
     }
 
@@ -1345,6 +1393,8 @@ class CasesController extends Controller
         $caseFi->approx_value                       = $input['approx_value'] ?? null;
         $caseFi->bank_name                          = $input['bank_name'] ?? null;
         $caseFi->branch                             = $input['branch'] ?? null;
+        $caseFi->latitude                           = $input['latitude'] ?? null;
+        $caseFi->longitude                          = $input['longitude'] ?? null;
         $caseFi->permanent_address                  = $input['permanent_address'] ?? null;
         $caseFi->vehicles                           = $input['vehicles'] ?? null;
         $caseFi->make_and_type                      = $input['make_and_type'] ?? null;
@@ -1528,6 +1578,7 @@ class CasesController extends Controller
             return redirect()->back();
         }
     }
+
 
     public function generatePdf($id)
     {

@@ -253,47 +253,47 @@
                     <div class="row">
                         @if(!empty($case->image_1))
                         <div class="col-sm image_1">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_1) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_1) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_2))
                         <div class="col-sm image_2">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_2) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_2) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_3))
                         <div class="col-sm image_3">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_3) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_3) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_4))
                         <div class="col-sm image_4">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_4) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_4) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_5))
                         <div class="col-sm image_5">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_5) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_5) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_6))
                         <div class="col-sm image_6">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_6) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_6) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_7))
                         <div class="col-sm image_7">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_7) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_7) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_8))
                         <div class="col-sm image_8">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_8) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_8) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_9))
                         <div class="col-sm image_9">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_9) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_9) }}" />
                         </div>
                         @endif
 
@@ -351,7 +351,7 @@
                 <td colspan="2" style="text-align:center">
                     @if(!empty($case->signature_of_agency_supervisor))
                     <div class="col-sm image_1">
-                        <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
+                        <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
                     </div>
                     @endif
                     <br>

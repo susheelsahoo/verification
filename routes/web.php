@@ -56,6 +56,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.case.editCase');
     Route::post('cases/update-case/{id}', 'Backend\CasesController@modifyCase')->name('admin.case.modifyCase');
     Route::get('cases/view-form/{id}', 'Backend\CasesController@getForm')->name('admin.case.viewForm');
+    Route::get('cases/addTextToImage/{long}/{lati}', 'Backend\CasesController@addTextToImage')->name('admin.case.addTextToImage');
+
     Route::get('cases/view-form-edit/{id}', 'Backend\CasesController@modifyForm')->name('admin.case.viewForm.modify');
     // Route::post('cases/update-view-form-case/{id}', 'Backend\CasesController@modifyRVCase')->name('admin.case.modifyCase.viewCase');
     Route::post('cases/update-bv-form-case/{id}', 'Backend\CasesController@modifyBVCase')->name('admin.case.modifyBVCase');
