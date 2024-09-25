@@ -129,6 +129,7 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="consolidatedRemarks"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Consolidated remarks"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseHistory"><img src="{{URL::asset('backend/assets/images/icons/history1.png')}}" title="Case History"></img></a>
                                         <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseClose"><img src="{{URL::asset('backend/assets/images/icons/Close.gif')}}" title="Case close"></img></a>
                                         {{-- <a href="{{ route('admin.case.viewForm', $case->id) }}" class="viewForm"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View"></img></a> --}}
@@ -139,6 +140,7 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="Hold case"></img></a>
 
                                         <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a>
+
 
 
                                         <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
@@ -277,6 +279,29 @@ Cases - Admin Panel
     </div>
 </div>
 <div class="modal fade" id="consolidatedRemarksModel" tabindex="-1" role="dialog" aria-labelledby="consolidatedRemarksModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Consolidated remarks</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group col-md-12 col-sm-12">
+                    <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
+                    <label for="name">Consolidated remarks :</label>
+                    <textarea class="form-control consolidated_remarks" name="consolidated_remarks" readonly required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="caseHistoryModel" tabindex="-1" role="dialog" aria-labelledby="caseHistoryModelLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -566,6 +591,26 @@ Cases - Admin Panel
                     $(".consolidated_remarks").val(response.case_fi_type.consolidated_remarks);
                     $(".case_fi_type_id").val(case_id);
                     $('#consolidatedRemarksModel').modal('show');
+
+                },
+                error: function() {
+                    alert('Request failed');
+                }
+            });
+
+        });
+        $('.caseHistory').click(function() {
+            let case_id = $(this).attr('data-row');
+            var url = "{{ route('admin.case.getcaseHistory','CASE_ID')}}";
+            url = url.replace('CASE_ID', case_id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    $(".consolidated_remarks").val(response.case_fi_type);
+                    $(".case_fi_type_id").val(case_id);
+                    $('#caseHistoryModel').modal('show');
 
                 },
                 error: function() {

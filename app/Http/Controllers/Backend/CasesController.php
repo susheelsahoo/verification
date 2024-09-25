@@ -12,7 +12,7 @@ use App\Models\ApplicationType;
 use App\Models\User;
 use App\Models\casesFiType;
 use App\Imports\CasesImport;
-use App\Models\CaseStatus;
+use App\Models\CaseHistory;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use Illuminate\Http\Request;
@@ -647,20 +647,127 @@ class CasesController extends Controller
         $case_id = $originalCaseFiType->case_id;
         $originalCaseData  = Cases::findOrFail($case_id);
         $newCasedata = $originalCaseData->replicate();
-        $newCasedata->refrence_number = $request['refrence_number'];
-        $newCasedata->applicant_name = $request['applicant_name'];
-        $newCasedata->amount = $request['amount'];
-        $newCasedata->vehicle = $request['vehicle'];
+        $newCasedata->refrence_number   = $request['refrence_number'];
+        $newCasedata->applicant_name    = $request['applicant_name'];
+        $newCasedata->amount            = $request['amount'];
+        $newCasedata->vehicle           = $request['vehicle'];
         $newCasedata->save();
 
         $newCaseFiType = $originalCaseFiType->replicate();
-        $newCaseFiType->address     = $request['address'];
-        $newCaseFiType->mobile      = $request['mobile'];
-        $newCaseFiType->land_mark   = $request['land_mark'];
-        $newCaseFiType->pincode     = $request['pincode'];
-        $newCaseFiType->user_id     = '0';
-        $newCaseFiType->status      = '0';
         $newCaseFiType->case_id     = $newCasedata->id;
+        $newCaseFiType->mobile      = $request['mobile'];
+        $newCaseFiType->address     = $request['address'];
+        $newCaseFiType->pincode     = $request['pincode'];
+        $newCaseFiType->land_mark   = $request['land_mark'];
+
+        $newCaseFiType->image_1 = null;
+        $newCaseFiType->image_2 = null;
+        $newCaseFiType->image_3 = null;
+        $newCaseFiType->image_4 = null;
+        $newCaseFiType->image_5 = null;
+        $newCaseFiType->image_6 = null;
+        $newCaseFiType->image_7 = null;
+        $newCaseFiType->image_8 = null;
+        $newCaseFiType->image_9 = null;
+        $newCaseFiType->user_id     = '0';
+        $newCaseFiType->remarks = null;
+        $newCaseFiType->supervisor_remarks = null;
+        $newCaseFiType->consolidated_remarks = null;
+        $newCaseFiType->status      = '0';
+        $newCaseFiType->sub_status = null;
+        $newCaseFiType->scheduled_visit_date = null;
+        $newCaseFiType->address_confirmed = null;
+        $newCaseFiType->address_confirmed_by = null;
+        $newCaseFiType->person_met = null;
+        $newCaseFiType->relationship = null;
+        $newCaseFiType->no_of_residents_in_house = null;
+        $newCaseFiType->year_of_establishment = null;
+        $newCaseFiType->no_of_earning_family_members = null;
+        $newCaseFiType->residence_number = null;
+        $newCaseFiType->residence_status = null;
+        $newCaseFiType->name_of_employer = null;
+        $newCaseFiType->employer_address = null;
+        $newCaseFiType->telephone_no_residence = null;
+        $newCaseFiType->office = null;
+        $newCaseFiType->approx_value = null;
+        $newCaseFiType->approx_rent = null;
+        $newCaseFiType->designation = null;
+        $newCaseFiType->designation_other = null;
+        $newCaseFiType->bank_name = null;
+        $newCaseFiType->branch = null;
+        $newCaseFiType->permanent_address = null;
+        $newCaseFiType->vehicles = null;
+        $newCaseFiType->make_and_type = null;
+        $newCaseFiType->location = null;
+        $newCaseFiType->locality = null;
+        $newCaseFiType->accommodation_type = null;
+        $newCaseFiType->interior_conditions = null;
+        $newCaseFiType->assets_seen = null;
+        $newCaseFiType->area = null;
+        $newCaseFiType->standard_of_living = null;
+        $newCaseFiType->nearest_landmark = null;
+        $newCaseFiType->house_locked = null;
+        $newCaseFiType->locked_person_met = null;
+        $newCaseFiType->locked_relationship = null;
+        $newCaseFiType->applicant_age = null;
+        $newCaseFiType->occupation = null;
+        $newCaseFiType->untraceable = null;
+        $newCaseFiType->verifiers_name = null;
+        $newCaseFiType->verification_conducted_at = null;
+        $newCaseFiType->proof_attached = null;
+        $newCaseFiType->type_of_proof = null;
+        $newCaseFiType->audit_check_remarks_by_agency_with_stamp = null;
+        $newCaseFiType->signature_of_agency_supervisor = null;
+        $newCaseFiType->employment_details = null;
+        $newCaseFiType->comments = null;
+        $newCaseFiType->recommended = null;
+        $newCaseFiType->date_of_visit = null;
+        $newCaseFiType->time_of_visit = null;
+        $newCaseFiType->latitude = null;
+        $newCaseFiType->longitude = null;
+        $newCaseFiType->relationship_others = null;
+        $newCaseFiType->years_at_current_residence_others = null;
+        $newCaseFiType->no_of_earning_family_members_others = null;
+        $newCaseFiType->residence_status_others = null;
+        $newCaseFiType->tcp1_name = null;
+        $newCaseFiType->tcp1_checked_with = null;
+        $newCaseFiType->tcp1_negative_comments = null;
+        $newCaseFiType->tcp2_name = null;
+        $newCaseFiType->tcp2_checked_with = null;
+        $newCaseFiType->tcp2_negative_comments = null;
+        $newCaseFiType->verification_conducted_at_others = null;
+        $newCaseFiType->website_of_employer = null;
+        $newCaseFiType->email_of_employer = null;
+        $newCaseFiType->co_board_outside_bldg_office = null;
+        $newCaseFiType->line_of_business = null;
+        $newCaseFiType->level_of_business_activity = null;
+        $newCaseFiType->type_of_locality = null;
+        $newCaseFiType->terms_of_employment = null;
+        $newCaseFiType->grade = null;
+        $newCaseFiType->name_of_employer_co = null;
+        $newCaseFiType->established = null;
+        $newCaseFiType->telephono_no_office = null;
+        $newCaseFiType->ext = null;
+        $newCaseFiType->type_of_employer = null;
+        $newCaseFiType->nature_of_employer = null;
+        $newCaseFiType->no_of_employees = null;
+        $newCaseFiType->no_of_branches = null;
+        $newCaseFiType->not_recommended = null;
+        $newCaseFiType->nature_of_business = null;
+        $newCaseFiType->type_of_employer_co = null;
+        $newCaseFiType->visited_by = null;
+        $newCaseFiType->verified_by = null;
+        $newCaseFiType->to_whom_does_address_belong = null;
+        $newCaseFiType->is_applicant_know_to_person = null;
+        $newCaseFiType->other_stability_year_details = null;
+        $newCaseFiType->negative_feedback_reason = null;
+
+
+
+
+
+
+
         $newCaseFiType->save();
 
         session()->flash('success', 'Case Reinitatiate Successfully.');
@@ -765,6 +872,16 @@ class CasesController extends Controller
 
         if ($case_fi_type !== null) {
             LogHelper::logActivity('Get Case', 'User fetch case record.');
+            return response()->json(['case_fi_type' => $case_fi_type]);
+        } else {
+            return response()->json(['error' => 'Bank ID not provided.'], 400);
+        }
+    }
+    public function getcaseHistory($case_fi_type_id = null)
+    {
+        $case_fi_type = CaseHistory::findOrFail($case_fi_type_id);
+
+        if ($case_fi_type !== null) {
             return response()->json(['case_fi_type' => $case_fi_type]);
         } else {
             return response()->json(['error' => 'Bank ID not provided.'], 400);

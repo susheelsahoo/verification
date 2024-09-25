@@ -176,8 +176,9 @@ class CasesController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path($path), $filename);
 
-                // Save the filename to the current image field
-                $case->$imgField = "{$path}/{$filename}";
+                $case->latitude     = '';
+                $case->longitude    = '';
+                $case->$imgField    = "{$path}/{$filename}";
                 $case->save();
                 return response()->json(['message' => 'Image uploaded successfully'], 200);
             } else {
