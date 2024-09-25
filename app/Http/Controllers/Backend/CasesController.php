@@ -989,8 +989,12 @@ class CasesController extends Controller
         $img = Image::make(public_path($image_name));
 
         // Path to a TTF font file
-        $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
-
+        $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
+        if (!$fontPath) {
+            echo "Resolved Font file not found!<br/>";
+            echo $fontPath;
+            die;
+        }
         // Get image width and height
         $width = $img->width();
         $height = $img->height();
@@ -1001,8 +1005,8 @@ class CasesController extends Controller
 
         // Define the lines of text
         $lines = [
-            $latitude,
-            $longitude,
+            'latitude- '. $latitude,
+            'longitude- '. $longitude,
         ];
 
         // Set font size
