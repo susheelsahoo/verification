@@ -672,7 +672,6 @@ class CasesController extends Controller
         $newCaseFiType->image_9 = null;
         $newCaseFiType->user_id     = '0';
         $newCaseFiType->remarks = null;
-        $newCaseFiType->supervisor_remarks = null;
         $newCaseFiType->consolidated_remarks = null;
         $newCaseFiType->status      = '0';
         $newCaseFiType->sub_status = null;
