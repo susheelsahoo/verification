@@ -645,6 +645,7 @@ class CasesController extends Controller
         $case_fi_type_id = $request['case_fi_type_id'];
         $originalCaseFiType  = casesFiType::findOrFail($case_fi_type_id);
         $case_id = $originalCaseFiType->case_id;
+
         $originalCaseData  = Cases::findOrFail($case_id);
         $newCasedata = $originalCaseData->replicate();
         $newCasedata->refrence_number   = $request['refrence_number'];
@@ -761,12 +762,6 @@ class CasesController extends Controller
         $newCaseFiType->is_applicant_know_to_person = null;
         $newCaseFiType->other_stability_year_details = null;
         $newCaseFiType->negative_feedback_reason = null;
-
-
-
-
-
-
 
         $newCaseFiType->save();
 
