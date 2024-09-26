@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 // use App\Models\Cases;
 // use App\Models\Bank;
@@ -176,16 +177,66 @@ class CasesController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path($path), $filename);
 
-                $case->latitude     = '';
-                $case->longitude    = '';
-                $case->$imgField    = "{$path}/{$filename}";
+                $latitude           = $data['latitude'];
+                $longitude          = $data['longitude'];
+                $image_name         = "{$path}/{$filename}";
+                $case->latitude     = $latitude;
+                $case->longitude    = $longitude;
+                $case->$imgField    = $image_name;
                 $case->save();
+                $this->addTextToImage($latitude, $longitude, $image_name);
                 return response()->json(['message' => 'Image uploaded successfully'], 200);
             } else {
                 return response()->json(['message' => 'Image Not uploaded'], 500);
             }
         }
     }
+    private function addTextToImage($latitude, $longitude, $image_name)
+    {
+        // Load the image
+        $img = Image::make(public_path($image_name));
+
+        // Path to a TTF font file
+        $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
+
+        // Get image width and height
+        $width = $img->width();
+        $height = $img->height();
+
+        // Set padding from the left and bottom
+        $paddingLeft = 100;
+        $paddingBottom = 50;
+
+        // Define the lines of text
+        $lines = [
+            $latitude,
+            $longitude,
+        ];
+
+        // Set font size
+        $fontSize = 40;
+
+        // Add each line of text
+        foreach ($lines as $index => $line) {
+            $img->text(
+                $line,
+                $paddingLeft,                      // X position (left side with padding)
+                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
+                function ($font) use ($fontPath, $fontSize) {
+                    $font->file($fontPath);        // Specify the TTF font file
+                    $font->size($fontSize);        // Set font size
+                    $font->color('#FF0000');       // Set font color
+                    $font->align('left');          // Align text to the left
+                    $font->valign('bottom');       // Align text to the bottom
+                }
+            );
+        }
+
+        // Save the image
+        $img->save(public_path($image_name));
+        return true;
+    }
+
     public function uploadSignature(Request $request)
     {
         // Create New Cases 

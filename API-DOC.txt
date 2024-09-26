@@ -18,6 +18,8 @@ Method POST
 http://127.0.0.1:8000/api/cases/update
 
 case_fi_type_id
+latitude
+longitude
 image[]
 ----------------------------------------------------------------
 
