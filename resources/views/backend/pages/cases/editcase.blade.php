@@ -171,13 +171,13 @@ Cases - Admin Panel
                                 <tr>
                                     <td align="left" valign="middle"><strong>Assigned </strong></td>
                                     <td align="left" valign="middle">
-
-                                        <select class="custom-select created_by" name="created_by" id="created_by">
+                                        {{$case->getCase->getCreatedBy->id}}
+                                        <!-- <select class="custom-select created_by" name="created_by" id="created_by">
                                             <option value="">--Select Option--</option>
                                             @foreach ($users as $user)
                                             <option value="{{ $user->id }}" @if($case->getCase->getCreatedBy->id == $user->id) selected @endif>{{ $user->name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select> -->
 
                                     </td>
                                 </tr>
