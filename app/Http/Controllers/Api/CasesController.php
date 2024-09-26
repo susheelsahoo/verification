@@ -198,7 +198,7 @@ class CasesController extends Controller
             $img = Image::make(public_path($image_name));
 
             // Path to a TTF font file
-            $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
+            $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
 
             // Get image width and height
             $width = $img->width();
