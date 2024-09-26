@@ -46,32 +46,33 @@ Cases - Admin Panel
                                 <tr>
                                     <td align="left" valign="middle"><strong> Application Number : </strong></td>
                                     <td align="left" valign="middle">{{ $case->getCase->refrence_number ?? '' }}</td>
-                                    <td align="left" valign="middle"><strong> Applicant Name : </strong></td>
-                                    <td align="left" valign="middle"> {{ $case->getCase->applicant_name ?? '' }}</td>
-
+                                    <td align="left" valign="middle"><strong> Organization : </strong></td>
+                                    <td align="left" valign="middle"></td>
                                 </tr>
 
                                 <tr>
-                                    <td align="left" valign="middle"><strong> Organization : </strong></td>
-                                    <td align="left" valign="middle"></td>
+
                                     <td align="left" valign="middle"><strong> Assign To : </strong></td>
                                     <td align="left" valign="middle">{{ $case->getCase->getCreatedBy->name ?? '' }}</td>
-
+                                    <td align="left" valign="middle"><strong>Type of FI :</strong></td>
+                                    <td align="left" valign="middle"> {{ $case->getFiType->name }} </td>
                                 </tr>
 
                                 <tr>
                                     <td align="left" valign="middle"><strong> Address : </strong></td>
                                     <td align="left" valign="middle"><textarea class="form-control" name="address">{{ $case->address ?? '' }}</textarea></td>
-                                    <td align="left" valign="middle"><strong> City : </strong></td>
-                                    <td align="left" valign="middle"><input type="text" class="form-control" name="city" value="" /> </td>
+                                    <td align="left" valign="middle"><strong> Pincode : </strong></td>
+                                    <td align="left" valign="middle"><input type="text" class="form-control" name="pincode" value="{{ $case->pincode ??  '' }}" /> </td>
+
 
                                 </tr>
 
                                 <tr>
-                                    <td align="left" valign="middle"><strong> Pincode : </strong></td>
-                                    <td align="left" valign="middle"><input type="text" class="form-control" name="pincode" value="{{ $case->pincode ??  '' }}" /> </td>
                                     <td align="left" valign="middle"><strong> Company Name : </strong></td>
                                     <td align="left" valign="middle"><input type="text" class="form-control" name="company_name" value="" /> </td>
+                                    <td align="left" valign="middle"><strong>Created Date :</strong></td>
+                                    <td align="left" valign="middle">{{ $case->created_at ? date('d-m-Y', strtotime($case->created_at)) : '' }} </td>
+
 
                                 </tr>
 
@@ -83,22 +84,7 @@ Cases - Admin Panel
                                     <td align="left" valign="middle">{{ $case->sub_status }} </td>
 
                                 </tr>
-                                {{-- <tr>
-                                    <td align="left" valign="middle"><strong>Field Survey Status :</strong></td>
-                                    <td align="left" valign="middle">{{ get_status($case->status) }}</td>
 
-                                <td align="left" valign="middle"><strong>Assign To :</strong></td>
-                                <td align="left" valign="middle">{{ $case->getCase->getCreatedBy->name ?? '' }} </td>
-                                </tr> --}}
-                                <tr>
-                                    <td align="left" valign="middle"><strong>Created Date :</strong></td>
-                                    <td align="left" valign="middle">{{ $case->created_at ? date('d-m-Y', strtotime($case->created_at)) : '' }} </td>
-
-                                    <td align="left" valign="middle"><strong>Type of FI :</strong></td>
-                                    <td align="left" valign="middle"> {{ $case->getFiType->name }} </td>
-
-
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -114,10 +100,17 @@ Cases - Admin Panel
                                     <th valign="middle" colspan="2"></th>
                                 </tr>
                                 <tr>
-                                    <td align="left" width="50%" valign="middle"><strong>Reference_Number</strong></td>
-                                    <td align="left" width="50%" valign="middle"><input type="text" class="form-control" name="reference_number" value="{{ $case->getCase->id ?? '' }}" /></td>
+                                    <td align="left" valign="middle"><strong> Applicant Name : </strong></td>
+                                    <td align="left" valign="middle">
+                                        <input type="text" class="form-control" name="name" value="{{ $case->getCase->applicant_name ?? '' }}" />
+
+                                    </td>
                                 </tr>
                                 <tr>
+                                    <td align="left" width="50%" valign="middle"><strong>Reference_Number</strong></td>
+                                    <td align="left" width="50%" valign="middle"><input type="text" class="form-control" name="reference_number" value="{{ $case->getCase->refrence_number ?? '' }}" /></td>
+                                </tr>
+                                <!--  <tr>
                                     <td align="left" valign="middle"><strong>Internal_Code</strong></td>
                                     <td align="left" valign="middle"><input type="text" class="form-control" name="internal_code" value="{{ $case->getCase->refrence_number ?? '' }}" /></td>
                                 </tr>
@@ -132,7 +125,7 @@ Cases - Admin Panel
                                         </select>
 
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
 
                                     @if(isset($assign) && !$assign)
@@ -175,7 +168,7 @@ Cases - Admin Panel
                                     <td align="left" valign="middle"><input type="text" class="form-control" name="status_remark" value="" /></td>
                                 </tr>
                                 <tr>
-                                    <td align="left" valign="middle"><strong>CreatedBy </strong></td>
+                                    <td align="left" valign="middle"><strong>Assigned </strong></td>
                                     <td align="left" valign="middle">
 
                                         <select class="custom-select created_by" name="created_by" id="created_by">
