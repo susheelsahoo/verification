@@ -877,11 +877,6 @@ class CasesController extends Controller
         $caseHistories = CaseHistory::where('case_id', $case_fi_type_id)->get();
         $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
         return response()->json(['viewData' => $view]);
-        // if ($case_fi_type !== null) {
-        //     return response()->json(['case_fi_type' => $case_fi_type]);
-        // } else {
-        //     return response()->json(['error' => 'Bank ID not provided.'], 400);
-        // }
     }
     public function editCase($id)
     {
