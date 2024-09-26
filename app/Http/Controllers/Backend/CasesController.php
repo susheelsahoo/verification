@@ -881,6 +881,7 @@ class CasesController extends Controller
             })
             ->get();
 
+
         $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
         return response()->json(['viewData' => $view]);
     }
