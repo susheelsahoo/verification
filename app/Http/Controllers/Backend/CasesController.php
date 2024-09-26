@@ -873,11 +873,19 @@ class CasesController extends Controller
     }
     public function getcaseHistory($case_fi_type_id = null)
     {
-        // $case_fi_type = CaseHistory::findOrFail($case_fi_type_id);
-        $caseHistories = CaseHistory::where('case_id', $case_fi_type_id)->get();
+        $caseHistories = DB::table('case_history')
+            ->where('case_id', function ($query) use ($case_fi_type_id) {
+                $query->select('id')
+                    ->from('cases_fi_types')
+                    ->where('id', $case_fi_type_id);
+            })
+            ->get();
+
+
         $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
         return response()->json(['viewData' => $view]);
     }
+
     public function editCase($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
@@ -1408,14 +1416,29 @@ class CasesController extends Controller
     {
 
         $input = $request->all();
+        // dd($input);
         $case_fi_type_id = $input['case_fi_id'];
-        $cases           = casesFiType::findOrFail($case_fi_type_id);
-        $cases->remarks  = $input['status_remark'] ?? null;
-        $cases->address  = $input['address'] ?? null;
-        $cases->pincode  = $input['pincode'] ?? null;
+        $cases_fi_type   = casesFiType::findOrFail($case_fi_type_id);
+        $cases           = cases::findOrFail($cases_fi_type->case_id);
+
+        $cases->amount          = $input['loan_amont'] ?? null;
+        $cases->applicant_name  = $input['name'] ?? null;
+        // $cases->application_type = $input['application_type'] ?? null;
+        // $cases_fi_type->remarks  = $input['internal_code'] ?? null;
+        $cases->refrence_number = $input['reference_number'] ?? null;
+        $cases->created_by      = $input['created_by'] ?? null;
         $cases->save();
 
+        $cases_fi_type->address  = $input['address'] ?? null;
+        $cases_fi_type->pincode  = $input['pincode'] ?? null;
+        // $cases_fi_type->remarks  = $input['company_name'] ?? null;
+        $cases_fi_type->mobile  = $input['mobile'] ?? null;
+        $cases_fi_type->residence_number  = $input['alternate_number'] ?? null;
+        $cases_fi_type->save();
+        $cases_fi_type = $cases_fi_type->id;
         LogHelper::logActivity('Modify Case', 'User modify case.');
+        CaseHistoryHelper::logHistory($cases_fi_type, null, null, null, 'Update Case', 'Edit Case', 'Edit Case');
+        // CaseHistoryHelper::logHistory($cases_fi_type $status = 0, $sub_status = 0, $assign_to = null, $remark = 'New Case', $action = null, $description = null);
         return response()->json(['success' => 'Case Update successfully !!'], 200);
         // session()->flash('success', 'Case Update successfully !!');
         // return redirect()->back();
