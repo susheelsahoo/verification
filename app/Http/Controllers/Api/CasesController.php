@@ -184,7 +184,6 @@ class CasesController extends Controller
                 $case->longitude    = $longitude;
                 $case->$imgField    = $image_name;
                 $case->save();
-
                 $this->addTextToImage($latitude, $longitude, $image_name);
                 return response()->json(['message' => 'Image uploaded successfully'], 200);
             } else {
