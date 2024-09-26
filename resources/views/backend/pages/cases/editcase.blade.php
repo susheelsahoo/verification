@@ -163,6 +163,7 @@ Cases - Admin Panel
                                     <td align="left" valign="middle"><strong>LoanAmount</strong></td>
                                     <td align="left" valign="middle"><input type="text" class="form-control" name="loan_amont" value="{{ $case->getCase->amount ?? 0 }}" /> </td>
                                 </tr>
+
                                 <tr>
                                     <td align="left" valign="middle"><strong>Status_Remark</strong></td>
                                     <td align="left" valign="middle"><input type="text" class="form-control" name="status_remark" value="" /></td>
