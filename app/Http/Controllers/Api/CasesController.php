@@ -194,49 +194,51 @@ class CasesController extends Controller
     }
     private function addTextToImage($latitude, $longitude, $image_name)
     {
-        // Load the image
-        $img = Image::make(public_path($image_name));
+        if (!empty($latitude) && !empty($longitude)) {
+            $img = Image::make(public_path($image_name));
 
-        // Path to a TTF font file
-        $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
+            // Path to a TTF font file
+            $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
 
-        // Get image width and height
-        $width = $img->width();
-        $height = $img->height();
+            // Get image width and height
+            $width = $img->width();
+            $height = $img->height();
 
-        // Set padding from the left and bottom
-        $paddingLeft = 100;
-        $paddingBottom = 50;
+            // Set padding from the left and bottom
+            $paddingLeft = 100;
+            $paddingBottom = 50;
 
-        // Define the lines of text
-        $lines = [
-            $latitude,
-            $longitude,
-        ];
+            // Define the lines of text
+            $lines = [
+                'Latitude: ' . $latitude,
+                "Longitude: " . $longitude,
+            ];
 
-        // Set font size
-        $fontSize = 40;
+            // Set font size
+            $fontSize = 40;
 
-        // Add each line of text
-        foreach ($lines as $index => $line) {
-            $img->text(
-                $line,
-                $paddingLeft,                      // X position (left side with padding)
-                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
-                function ($font) use ($fontPath, $fontSize) {
-                    $font->file($fontPath);        // Specify the TTF font file
-                    $font->size($fontSize);        // Set font size
-                    $font->color('#FF0000');       // Set font color
-                    $font->align('left');          // Align text to the left
-                    $font->valign('bottom');       // Align text to the bottom
-                }
-            );
+            // Add each line of text
+            foreach ($lines as $index => $line) {
+                $img->text(
+                    $line,
+                    $paddingLeft,                      // X position (left side with padding)
+                    $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
+                    function ($font) use ($fontPath, $fontSize) {
+                        $font->file($fontPath);        // Specify the TTF font file
+                        $font->size($fontSize);        // Set font size
+                        $font->color('#FF0000');       // Set font color
+                        $font->align('left');          // Align text to the left
+                        $font->valign('bottom');       // Align text to the bottom
+                    }
+                );
+            }
+
+            // Save the image
+            $img->save(public_path($image_name));
         }
-
-        // Save the image
-        $img->save(public_path($image_name));
         return true;
     }
+
 
     public function uploadSignature(Request $request)
     {
