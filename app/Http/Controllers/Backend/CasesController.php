@@ -996,43 +996,22 @@ class CasesController extends Controller
         if (!empty($latitude) && !empty($longitude)) {
             $img = Image::make(public_path($image_name));
 
-<<<<<<< HEAD
-        // Path to a TTF font file
-        $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
-        if (!$fontPath) {
-            echo "Resolved Font file not found!<br/>";
-            echo $fontPath;
-            die;
-        }
-        // Get image width and height
-        $width = $img->width();
-        $height = $img->height();
-=======
             // Path to a TTF font file
             $fontPath = public_path('fonts/arial.ttf'); // Make sure this path is correct
 
             // Get image width and height
             $width = $img->width();
             $height = $img->height();
->>>>>>> origin/master
 
             // Set padding from the left and bottom
             $paddingLeft = 100;
             $paddingBottom = 50;
 
-<<<<<<< HEAD
-        // Define the lines of text
-        $lines = [
-            'latitude- '. $latitude,
-            'longitude- '. $longitude,
-        ];
-=======
             // Define the lines of text
             $lines = [
                 'Latitude: ' . $latitude,
                 "Longitude: " . $longitude,
             ];
->>>>>>> origin/master
 
             // Set font size
             $fontSize = 40;
