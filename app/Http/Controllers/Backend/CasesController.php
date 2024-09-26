@@ -873,11 +873,18 @@ class CasesController extends Controller
     }
     public function getcaseHistory($case_fi_type_id = null)
     {
-        // $case_fi_type = CaseHistory::findOrFail($case_fi_type_id);
-        $caseHistories = CaseHistory::where('case_id', $case_fi_type_id)->get();
+        $caseHistories = DB::table('case_history')
+            ->where('case_id', function ($query) use ($case_fi_type_id) {
+                $query->select('id')
+                    ->from('cases_fi_types')
+                    ->where('id', $case_fi_type_id);
+            })
+            ->get();
+
         $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
         return response()->json(['viewData' => $view]);
     }
+
     public function editCase($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
