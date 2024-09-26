@@ -171,11 +171,17 @@ Cases - Admin Panel
                                 <tr>
                                     <td align="left" valign="middle"><strong>Assigned </strong></td>
                                     <td align="left" valign="middle">
-
+                                        @php
+                                        if (isset($case->getUser) && isset($case->getUser->id)) {
+                                        $userId = $case->getUser->id;
+                                        } else {
+                                        $userId = null; // Or handle this case as needed
+                                        }
+                                        @endphp
                                         <select class="custom-select created_by" name="created_by" id="created_by">
                                             <option value="">--Select Option--</option>
                                             @foreach ($users as $user)
-                                            <option value="{{ $user->id }}" @if($case->getUser->id == $user->id) selected @endif>{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" @if($userId==$user->id) selected @endif>{{ $user->name }}</option>
                                             @endforeach
                                         </select>
 
