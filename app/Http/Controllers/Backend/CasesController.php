@@ -197,12 +197,12 @@ class CasesController extends Controller
                 $casesFiType->status        = $fi_type_id['status'];
                 $casesFiType->user_id       = '0';
                 $casesFiType->save();
+                $caseId  = $casesFiType->id;
+
+                LogHelper::logActivity('Create Case', 'User created a new case.');
+                CaseHistoryHelper::logHistory($caseId, null, 'New', 'New', 'New Case', 'Case Create', 'New Case Created');
             }
         }
-
-        LogHelper::logActivity('Create Case', 'User created a new case.');
-        CaseHistoryHelper::logHistory($cases_id, null, null, null, 'New Case', 'Case Create', 'New Case Created');
-
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.case.index');
     }
@@ -873,18 +873,21 @@ class CasesController extends Controller
     }
     public function getcaseHistory($case_fi_type_id = null)
     {
-        $case_fi_type = CaseHistory::findOrFail($case_fi_type_id);
-
-        if ($case_fi_type !== null) {
-            return response()->json(['case_fi_type' => $case_fi_type]);
-        } else {
-            return response()->json(['error' => 'Bank ID not provided.'], 400);
-        }
+        // $case_fi_type = CaseHistory::findOrFail($case_fi_type_id);
+        $caseHistories = CaseHistory::where('case_id', $case_fi_type_id)->get();
+        $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
+        return response()->json(['viewData' => $view]);
+        // if ($case_fi_type !== null) {
+        //     return response()->json(['case_fi_type' => $case_fi_type]);
+        // } else {
+        //     return response()->json(['error' => 'Bank ID not provided.'], 400);
+        // }
     }
     public function editCase($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
+
         $ApplicationTypes   = ApplicationType::all();
         $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
         return view('backend.pages.cases.editcase', compact('case', 'assign', 'ApplicationTypes', 'users'));

@@ -45,9 +45,9 @@ Cases - Admin Panel
                             <tbody>
                                 <tr>
                                     <td align="left" valign="middle"><strong> Application Number : </strong></td>
-                                    <td align="left" valign="middle"></td>
+                                    <td align="left" valign="middle">{{ $case->getCase->refrence_number ?? '' }}</td>
                                     <td align="left" valign="middle"><strong> Applicant Name : </strong></td>
-                                    <td align="left" valign="middle"> <input type="text" class="form-control" name="applicant_name" value="{{ $case->getCase->applicant_name ?? '' }}" /> </td>
+                                    <td align="left" valign="middle"> {{ $case->getCase->applicant_name ?? '' }}</td>
 
                                 </tr>
 
@@ -95,7 +95,7 @@ Cases - Admin Panel
                                     <td align="left" valign="middle">{{ $case->created_at ? date('d-m-Y', strtotime($case->created_at)) : '' }} </td>
 
                                     <td align="left" valign="middle"><strong>Type of FI :</strong></td>
-                                    <td align="left" valign="middle"> </td>
+                                    <td align="left" valign="middle"> {{ $case->getFiType->name }} </td>
 
 
                                 </tr>
@@ -132,10 +132,6 @@ Cases - Admin Panel
                                         </select>
 
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td align="left" valign="middle"><strong>Name</strong></td>
-                                    <td align="left" valign="middle"><input type="text" class="form-control" name="applicant_name" value="{{ $case->getCase->applicant_name ?? '' }}" /></td>
                                 </tr>
                                 <tr>
 
