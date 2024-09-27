@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Cases;
+use DateTime;
 
 class DashboardController extends Controller
 {
@@ -63,31 +64,44 @@ class DashboardController extends Controller
                 $inprogress = $positive_resolved = $negative_resolved = $positive_verified = $negative_verified = $hold = $close = 0;
                 $agentName  = $userData['0']['getuser']['name'];
                 $agentid    = $userData['0']['getuser']['id'];
+                $today = new DateTime();
                 foreach ($userData as $data) {
+                    $updatedAt = new DateTime($data['updated_at']);
+
                     switch ($data['status']) {
                         case 1:
                             $inprogress += 1;
                             break;
 
                         case 2:
-                            $positive_resolved += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $positive_resolved += 1;
+                            }
                             break;
 
                         case 3:
-                            $negative_resolved += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $negative_resolved += 1;
+                            }
                             break;
 
                         case 4:
-                            $positive_verified += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $positive_verified += 1;
+                            }
                             break;
                         case 5:
-                            $negative_verified += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $negative_verified += 1;
+                            }
                             break;
                         case 6:
                             $hold += 1;
                             break;
                         case 7:
-                            $close += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $close += 1;
+                            }
                             break;
                         default:
                     }
