@@ -993,48 +993,48 @@ class CasesController extends Controller
 
     private function addTextToImage($latitude, $longitude, $image_name)
     {
-        if (!empty($latitude) && !empty($longitude)) {
-            $img = Image::make(public_path($image_name));
+        // if (!empty($latitude) && !empty($longitude)) {
+        $img = Image::make(public_path($image_name));
 
-            // Path to a TTF font file
-            $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
+        // Path to a TTF font file
+        $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
 
-            // Get image width and height
-            $width = $img->width();
-            $height = $img->height();
+        // Get image width and height
+        $width = $img->width();
+        $height = $img->height();
 
-            // Set padding from the left and bottom
-            $paddingLeft = 100;
-            $paddingBottom = 50;
+        // Set padding from the left and bottom
+        $paddingLeft = 100;
+        $paddingBottom = 50;
 
-            // Define the lines of text
-            $lines = [
-                'Latitude: ' . $latitude,
-                "Longitude: " . $longitude,
-            ];
+        // Define the lines of text
 
-            // Set font size
-            $fontSize = 40;
+        $lines = [
+            'Latitude: ' . $latitude,
+            "Longitude: " . $longitude,
+        ];
+        // Set font size
+        $fontSize = 40;
 
-            // Add each line of text
-            foreach ($lines as $index => $line) {
-                $img->text(
-                    $line,
-                    $paddingLeft,                      // X position (left side with padding)
-                    $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
-                    function ($font) use ($fontPath, $fontSize) {
-                        $font->file($fontPath);        // Specify the TTF font file
-                        $font->size($fontSize);        // Set font size
-                        $font->color('#FF0000');       // Set font color
-                        $font->align('left');          // Align text to the left
-                        $font->valign('bottom');       // Align text to the bottom
-                    }
-                );
-            }
-
-            // Save the image
-            $img->save(public_path($image_name));
+        // Add each line of text
+        foreach ($lines as $index => $line) {
+            $img->text(
+                $line,
+                $paddingLeft,                      // X position (left side with padding)
+                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
+                function ($font) use ($fontPath, $fontSize) {
+                    $font->file($fontPath);        // Specify the TTF font file
+                    $font->size($fontSize);        // Set font size
+                    $font->color('#FF0000');       // Set font color
+                    $font->align('left');          // Align text to the left
+                    $font->valign('bottom');       // Align text to the bottom
+                }
+            );
         }
+
+        // Save the image
+        $img->save(public_path($image_name));
+        // }
         return true;
     }
 
@@ -1420,26 +1420,24 @@ class CasesController extends Controller
 
         $cases->amount          = $input['loan_amont'] ?? null;
         $cases->applicant_name  = $input['name'] ?? null;
-        // $cases->application_type = $input['application_type'] ?? null;
-        // $cases_fi_type->remarks  = $input['internal_code'] ?? null;
-        $cases->refrence_number = $input['reference_number'] ?? null;
-        $cases->created_by      = $input['created_by'] ?? null;
         $cases->save();
 
         $cases_fi_type->address  = $input['address'] ?? null;
         $cases_fi_type->pincode  = $input['pincode'] ?? null;
-        // $cases_fi_type->remarks  = $input['company_name'] ?? null;
         $cases_fi_type->mobile  = $input['mobile'] ?? null;
-        $cases_fi_type->residence_number  = $input['alternate_number'] ?? null;
-        $cases_fi_type->save();
-        $cases_fi_type = $cases_fi_type->id;
-        LogHelper::logActivity('Modify Case', 'User modify case.');
-        CaseHistoryHelper::logHistory($cases_fi_type, null, null, null, 'Update Case', 'Edit Case', 'Edit Case');
-        // CaseHistoryHelper::logHistory($cases_fi_type $status = 0, $sub_status = 0, $assign_to = null, $remark = 'New Case', $action = null, $description = null);
-        return response()->json(['success' => 'Case Update successfully !!'], 200);
-        // session()->flash('success', 'Case Update successfully !!');
-        // return redirect()->back();
 
+        $cases_fi_type->save();
+        $cases_fi_type_id  = $cases_fi_type->id;
+
+        $status         = get_status($cases_fi_type->status);
+        $sub_status     = $cases_fi_type->sub_status;
+        $assign_to      = $cases_fi_type->user_id;
+        $remark = 'Edit Case';
+        $action = 'Edit Case';
+        $description = 'Edit Case';
+        LogHelper::logActivity('Modify Case', 'User modify case.');
+        CaseHistoryHelper::logHistory($cases_fi_type_id, $status, $sub_status, $assign_to, $remark, $action, $description);
+        return response()->json(['success' => 'Case Update successfully !!'], 200);
     }
 
     public function getForm($id = null)
