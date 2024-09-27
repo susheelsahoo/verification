@@ -202,9 +202,9 @@
             </tr>
             <tr class="">
                 <td>Visit Conducted </td>
-                <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
+                <td class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
                 <td>Reason </td>
-                <td colspan="2" class="ng-binding">{{ $case->negative_feedback_reason ?? 'NA' }}</td>
+                <td class="ng-binding">{{ $case->negative_feedback_reason ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Applicant Photos </td>
