@@ -199,11 +199,7 @@ class CasesController extends Controller
                 $caseId  = $casesFiType->id;
 
                 LogHelper::logActivity('Create Case', 'User created a new case.');
-                // CaseHistoryHelper::logHistory($caseId, null, 'New', 'New', 'New Case', 'Case Create', 'New Case Created');
-<<<<<<< HEAD
-=======
                 CaseHistoryHelper::logHistory($caseId, $status = 0, $sub_status = 0, $assign_to = null, $remark = 'New Case', $action = 'Case Create', $description = 'New Case Created');
->>>>>>> origin/master
             }
         }
         session()->flash('success', 'Case has been created !!');
