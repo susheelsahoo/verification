@@ -97,7 +97,6 @@ class CasesController extends Controller
     public function store(Request $request)
     {
         // Validation Data
-
         $rules = [
             'applicant_name' => 'required|max:50',
         ];
@@ -200,7 +199,8 @@ class CasesController extends Controller
                 $caseId  = $casesFiType->id;
 
                 LogHelper::logActivity('Create Case', 'User created a new case.');
-                CaseHistoryHelper::logHistory($caseId, null, 'New', 'New', 'New Case', 'Case Create', 'New Case Created');
+                // CaseHistoryHelper::logHistory($caseId, null, 'New', 'New', 'New Case', 'Case Create', 'New Case Created');
+                CaseHistoryHelper::logHistory($caseId, $status = 0, $sub_status = 0, $assign_to = null, $remark = 'New Case', $action = 'Case Create', $description = 'New Case Created');
             }
         }
         session()->flash('success', 'Case has been created !!');
