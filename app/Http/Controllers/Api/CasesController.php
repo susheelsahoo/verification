@@ -363,7 +363,7 @@ class CasesController extends Controller
         $cases->status                              = $data['status'];
         $cases->occupation                          = $data['occupation'];
         $cases->untraceable                         = $data['untraceable'];
-        $cases->verifiers_name                      = $data['verifiers_name'];
+        $cases->verifiers_name                      = $cases['user_id'];
         $cases->verification_conducted_at           = $data['verification_conducted_at'];
         $cases->proof_attached                      = $data['proof_attached'];
         $cases->type_of_proof                       = $data['type_of_proof'];
@@ -371,12 +371,12 @@ class CasesController extends Controller
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
         $cases->remarks                             = $data['remarks'];
         $cases->recommended                         = $data['recommended'];
-        // $cases->accomodation_type                = $data['accomodation_type'];
+        $cases->accommodation_type                  = $data['accommodation_type'];
         // $cases->house_locked                     = $data['house_locked'];
         // $cases->no_of_residents_in_house         = $data['no_of_residents_in_house'];
         // $cases->employement_details              = $data['employement_details'];
-        $cases->date_of_visit                    = $data['date_of_visit'];
-        $cases->time_of_visit                    = $data['time_of_visit'];
+        $cases->date_of_visit                       = $data['date_of_visit'];
+        $cases->time_of_visit                       = $data['time_of_visit'];
         $cases->latitude                            = $data['latitude'];
         $cases->longitude                           = $data['longitude'];
         $cases->tcp1_name                           = $data['tcp1_name'];
@@ -425,7 +425,7 @@ class CasesController extends Controller
         $caseFi->type_of_locality               = $data['type_of_locality'];
         $caseFi->area                           = $data['area'];
         $caseFi->nearest_landmark               = $data['nearest_landmark'];
-        // $caseFi->ease_of_locating               = $data['ease_of_locating'];
+        $caseFi->verifiers_name                 = $caseFi['user_id'];
         $caseFi->terms_of_employment            = $data['terms_of_employment'];
         $caseFi->grade                          = $data['grade'];
         $caseFi->year_of_establishment          = $data['year_of_establishment'];
@@ -457,51 +457,51 @@ class CasesController extends Controller
         return $caseFi->id;
     }
 
-    public function storeCase(Request $request)
-    {
-        // Validation Data
-        // $request->validate([
-        //     'applicant_name' => 'required|max:50|',
-        // ]);
-        // Create New cases
-        dd(json_encode($request->all()));
-        $cases = new Cases();
-        $cases->bank_id             = $request->bank_id;
-        $cases->product_id          = $request->product_id;
-        $cases->application_type    = $request->application_type;
-        $cases->refrence_number     = $request->refrence_number;
-        $cases->applicant_name      = $request->applicant_name;
-        $cases->amount              = $request->amount;
-        $cases->vehicle             = $request->vehicle;
-        $cases->co_applicant_name   = $request->co_applicant_name;
-        $cases->guarantee_name      = $request->guarantee_name;
-        $cases->geo_limit           = $request->geo_limit;
-        $cases->tat_time            = $request->tat_time;
-        $cases->remarks             = $request->remarks;
-        $cases->created_by          = Auth::guard('admin')->user()->id;
-        $cases->updated_by          = Auth::guard('admin')->user()->id;
-        // $cases->name         = $request->name;
-        $cases->save();
-        $cases_id = $cases->id;
+    // public function storeCase(Request $request)
+    // {
+    //     // Validation Data
+    //     // $request->validate([
+    //     //     'applicant_name' => 'required|max:50|',
+    //     // ]);
+    //     // Create New cases
+    //     dd(json_encode($request->all()));
+    //     $cases = new Cases();
+    //     $cases->bank_id             = $request->bank_id;
+    //     $cases->product_id          = $request->product_id;
+    //     $cases->application_type    = $request->application_type;
+    //     $cases->refrence_number     = $request->refrence_number;
+    //     $cases->applicant_name      = $request->applicant_name;
+    //     $cases->amount              = $request->amount;
+    //     $cases->vehicle             = $request->vehicle;
+    //     $cases->co_applicant_name   = $request->co_applicant_name;
+    //     $cases->guarantee_name      = $request->guarantee_name;
+    //     $cases->geo_limit           = $request->geo_limit;
+    //     $cases->tat_time            = $request->tat_time;
+    //     $cases->remarks             = $request->remarks;
+    //     $cases->created_by          = Auth::guard('admin')->user()->id;
+    //     $cases->updated_by          = Auth::guard('admin')->user()->id;
+    //     // $cases->name         = $request->name;
+    //     $cases->save();
+    //     $cases_id = $cases->id;
 
-        foreach ($request->fi_type_id as $fi_type_id) {
+    //     foreach ($request->fi_type_id as $fi_type_id) {
 
-            if (!empty($fi_type_id['id'])) {
-                $casesFiType = new casesFiType;
-                $casesFiType->case_id       = $cases_id;
-                $casesFiType->fi_type_id    = $fi_type_id['id'];
-                $casesFiType->mobile        = $fi_type_id['phone_number'];
-                $casesFiType->address       = $fi_type_id['address'];
-                $casesFiType->pincode       = $fi_type_id['pincode'];
-                $casesFiType->land_mark     = $fi_type_id['landmark'];
-                $casesFiType->user_id       = $fi_type_id['agent'];
-                $casesFiType->save();
-            }
-        }
+    //         if (!empty($fi_type_id['id'])) {
+    //             $casesFiType = new casesFiType;
+    //             $casesFiType->case_id       = $cases_id;
+    //             $casesFiType->fi_type_id    = $fi_type_id['id'];
+    //             $casesFiType->mobile        = $fi_type_id['phone_number'];
+    //             $casesFiType->address       = $fi_type_id['address'];
+    //             $casesFiType->pincode       = $fi_type_id['pincode'];
+    //             $casesFiType->land_mark     = $fi_type_id['landmark'];
+    //             $casesFiType->user_id       = $fi_type_id['agent'];
+    //             $casesFiType->save();
+    //         }
+    //     }
 
-        session()->flash('success', 'Case has been created !!');
-        return redirect()->route('admin.case.index');
-    }
+    //     session()->flash('success', 'Case has been created !!');
+    //     return redirect()->route('admin.case.index');
+    // }
 
 
     /**
