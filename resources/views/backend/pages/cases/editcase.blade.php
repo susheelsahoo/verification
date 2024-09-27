@@ -70,7 +70,7 @@ Cases - Admin Panel
                                             <tr>
 
                                                 <td align="left" valign="middle"><strong> Assign To : </strong></td>
-                                                <td align="left" valign="middle">{{ $case->getCase->getCreatedBy->name ?? '' }}</td>
+                                                <td align="left" valign="middle">{{ $case->getCreatedBy->name ?? '' }}</td>
 
                                                 <td align="left" valign="middle"><strong> Organization : </strong></td>
                                                 <td align="left" valign="middle"></td>
