@@ -369,7 +369,7 @@ class CasesController extends Controller
         $cases->type_of_proof                       = $data['type_of_proof'];
         $cases->comments                            = $data['comments'];
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
-        $cases->remarks                             = $data['remarks'];
+        $cases->app_remarks                         = $data['app_remarks'];
         $cases->recommended                         = $data['recommended'];
         $cases->accommodation_type                  = $data['accommodation_type'];
         // $cases->house_locked                     = $data['house_locked'];
@@ -381,10 +381,10 @@ class CasesController extends Controller
         $cases->longitude                           = $data['longitude'];
         $cases->tcp1_name                           = $data['tcp1_name'];
         $cases->tcp1_checked_with                   = $data['tcp1_checked_with'];
-        // $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
+        $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
         $cases->tcp2_name                           = $data['tcp2_name'];
         $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
-        // $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
+        $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
         $cases->to_whom_does_address_belong         = $data['to_whom_does_address_belong'];
         $cases->is_applicant_know_to_person         = $data['is_applicant_know_to_person'];
         $cases->other_stability_year_details        = $data['other_stability_year_details'];
@@ -439,8 +439,10 @@ class CasesController extends Controller
         $caseFi->longitude                      = $data['longitude'];
         $caseFi->tcp1_name                      = $data['tcp1_name'];
         $caseFi->tcp1_checked_with              = $data['tcp1_checked_with'];
+        $caseFi->tcp1_negative_comments         = $data['tcp1_negative_comments'];
         $caseFi->tcp2_name                      = $data['tcp2_name'];
         $caseFi->tcp2_checked_with              = $data['tcp2_checked_with'];
+        $caseFi->tcp2_negative_comments         = $data['tcp2_negative_comments'];
         $caseFi->visited_by                     = $data['visited_by'];
         $caseFi->verified_by                    = $data['verified_by'];
         $caseFi->address_confirmed              = $data['address_confirmation_status'];
