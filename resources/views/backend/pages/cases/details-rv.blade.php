@@ -19,17 +19,15 @@
             </tr>
             <tr>
                 <td>Case Creation Login Details</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
+                <td class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
+                <td>Contact No.</td>
+                <td class="BVstyle ng-binding">{{ $case->mobile ?? '' }}</td>
             </tr>
             <tr>
                 <td>Product Name</td>
                 <td class="BVstyle ng-binding">{{ $case->getCase->getProduct->name ?? 'NA' }}</td>
                 <td>Loan Amount</td>
                 <td class="BVstyle ng-binding">{{ $case->getCase->amount ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Contact No.</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->mobile ?? '' }}</td>
             </tr>
             <tr>
                 <td>Address</td>
@@ -42,11 +40,9 @@
             </tr>
             <tr>
                 <td>Address Confirmed </td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->address_confirmed ?? 'NO' }} &nbsp; </td>
-            </tr>
-            <tr>
+                <td class="BVstyle ng-binding">{{ $case->address_confirmed ?? 'NO' }} &nbsp; </td>
                 <td>Address Confirmed By</td>
-                <td colspan="3" class="BVstyle ng-binding ng-hide">{{ $case->address_confirmed_by ?? 'NA' }} </td>
+                <td class="BVstyle ng-binding ng-hide">{{ $case->address_confirmed_by ?? 'NA' }} </td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">The following information should be obtained if the applicant/colleagues are contacted in the office </td>
@@ -54,8 +50,8 @@
             <tr>
                 <td>Applicant Name</td>
                 <td class="BVstyle ng-binding">{{ $case->applicant_name ?? 'NA' }} </td>
-                <td>Date Of Birth</td>
-                <td class="BVstyle ng-binding">{{ $case->date_of_birth ?? 'NA' }} </td>
+                <td>Permanent Address/Phone</td>
+                <td class="BVstyle ng-binding">{{ $case->permanent_address ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Person Met</td>
@@ -76,42 +72,11 @@
                 <td class="BVstyle ng-binding ng-hide">{{ $case->residence_status ?? 'NA' }}</td>
             </tr>
             <tr>
-                <td>Name of Employer</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->name_of_employer ?? 'NA' }}</td>
-                <td>Employer Address</td>
-                <td class="BVstyle">{{ $case->employer_address ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Telephone No. Residence</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->telephone_no_residence ?? 'NA' }}</td>
-                <td>Office</td>
-                <td class="BVstyle ng-binding">{{ $case->office ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Designation</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->designation ?? 'NA' }}</td>
-            </tr>
-            <tr>
                 <td>Approx Rent</td>
                 <td class="BVstyle ng-binding">{{ $case->approx_rent ?? 'NA' }}</td>
-                <td>Approx Value(If Owned)</td>
-                <td class="BVstyle ng-binding">{{ $case->approx_value ?? 'NA' }}</td>
             </tr>
             <tr>
-                <td>Bank Name</td>
-                <td class="BVstyle ng-binding">{{ $case->bank_name ?? 'NA' }}</td>
-                <td>Branch</td>
-                <td class="BVstyle ng-binding">{{ $case->branch ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Permanent Address/Phone</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->permanent_address ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Vehicles</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->vehicles ?? 'NA' }} </td>
-                <td>Make and Type</td>
-                <td class="BVstyle ng-binding">{{ $case->make_and_type ?? 'NA' }}</td>
+
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Verifier's Observations</td>
@@ -130,8 +95,9 @@
             </tr>
             <tr>
                 <td>Assets Seen</td>
-                <td colspan="3" class="BVstyle ng-binding ng-hide"> {{ $case->assets_seen ?? 'NA' }}</td>
-
+                <td class="BVstyle ng-binding ng-hide"> {{ $case->assets_seen ?? 'NA' }}</td>
+                <td>Nearest Landmark</td>
+                <td class="BVstyle ng-binding">{{ $case->nearest_landmark ?? 'NA' }} </td>
             </tr>
             <tr>
                 <td>Area</td>
@@ -141,8 +107,7 @@
             </tr>
 
             <tr>
-                <td>Nearest Landmark</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->nearest_landmark ?? 'NA' }} </td>
+
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">If the house is locked,the following information needs to be obtained from the Neighbour/Third Party.</td>
@@ -198,21 +163,15 @@
             </tr>
             <tr>
                 <td>Verifier's Name</td>
-                <td colspan="3">{{ $case->verifiers_name ?? 'NA' }}</td>
-
-            </tr>
-
-            <tr>
+                <td>{{ $case->verifiers_name ?? 'NA' }}</td>
                 <td>Verification Conducted at</td>
-                <td colspan="3">{{ $case->verification_conducted_at ?? 'NA' }}</td>
+                <td>{{ $case->verification_conducted_at ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Proof attached</td>
-                <td colspan="3">{{ $case->proof_attached ?? 'NA' }}</td>
-            </tr>
-            <tr>
+                <td>{{ $case->proof_attached ?? 'NA' }}</td>
                 <td>Type of Proof</td>
-                <td colspan="3">{{ $case->type_of_proof ?? 'NA' }}</td>
+                <td>{{ $case->type_of_proof ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Date of Visit</td>
