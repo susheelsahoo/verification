@@ -885,15 +885,7 @@ class CasesController extends Controller
         return response()->json(['viewData' => $view]);
     }
 
-    public function editCase($id)
-    {
-        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $assign = false;
 
-        $ApplicationTypes   = ApplicationType::all();
-        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-        return view('backend.pages.cases.editcase', compact('case', 'assign', 'ApplicationTypes', 'users'));
-    }
 
 
     /**
@@ -1394,12 +1386,30 @@ class CasesController extends Controller
         LogHelper::logActivity('Export Case', 'User export case.');
         return Excel::download(new ExportCase, 'cases.xlsx');
     }
-
-    public function viewCase($id)
+    public function editCase($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
-        return view('backend.pages.cases.view', compact('case', 'assign'));
+        $is_edit_case = 1;
+        $ApplicationTypes   = ApplicationType::all();
+        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+        return view('backend.pages.cases.editcase', compact('case', 'assign', 'is_edit_case', 'ApplicationTypes', 'users'));
+    }
+
+    public function viewCase($id)
+    {
+
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = false;
+
+        $ApplicationTypes   = ApplicationType::all();
+        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+        $is_edit_case = 0;
+        return view('backend.pages.cases.editcase', compact('case', 'assign', 'is_edit_case', 'ApplicationTypes', 'users'));
+
+        // $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        // $assign = false;
+        // return view('backend.pages.cases.view', compact('case', 'assign'));
     }
     public function viewCaseAssign($id)
     {

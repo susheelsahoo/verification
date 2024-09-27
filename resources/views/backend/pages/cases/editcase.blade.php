@@ -37,7 +37,13 @@ Cases - Admin Panel
         <div class="col-12 mt-5" bis_skin_checked="1">
             <div class="card" bis_skin_checked="1">
                 <div class="card-body" bis_skin_checked="1">
+                    @if($is_edit_case)
                     <h4 class="header-title">Edit Case</h4>
+                    @else
+                    <h4 class="header-title">View Case</h4>
+                    @endif
+
+
 
                     <form action="{{ route('admin.case.modifyCase',$case->id)}}" method="POST" name="caseEdit" id="editCase">
                         @csrf
@@ -142,8 +148,10 @@ Cases - Admin Panel
 
                         <div class="col-md-12 d-flex justify-content-center mt-2 gap-5">
                             <a href="javascript:history.back()" class="btn btn-sm btn-primary"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
-
+                            @if($is_edit_case)
                             <button class="btn btn-sm btn-success ml-2 updateCase" type="submit" name="submit"> Update </button>
+                            @endif
+
                         </div>
                     </form>
 
