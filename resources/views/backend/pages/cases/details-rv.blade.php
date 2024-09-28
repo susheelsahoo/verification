@@ -128,11 +128,13 @@
                 <td>No. of Residents in House</td>
                 <td class="BVstyle ng-binding ng-hide">{{ $case->residence_status_others ?? 'NA' }}</td>
                 <td>Years Lived at this Residence</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->years_at_current_residence_others ?? 'NA' }}</td>
+                <td class="BVstyle ng-binding ng-hide">{{ $case->years_at_current_residence ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Occupation</td>
                 <td class="BVstyle ng-binding ng-hide">{{ $case->occupation ?? '0000' }}</td>
+                <td>Years Lived at this Residence other</td>
+                <td class="BVstyle ng-binding ng-hide">{{ $case->years_at_current_residence_others ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">If the address is not confirmed then the following information needs to be filled.</td>
