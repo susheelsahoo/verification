@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\casesFiType;
 
 class HomeController extends Controller
 {
@@ -29,5 +30,11 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function caseDetail($id=null){
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = true;
+        return view('view', compact('case', 'assign'));
     }
 }

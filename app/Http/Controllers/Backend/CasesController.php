@@ -1488,4 +1488,70 @@ class CasesController extends Controller
         LogHelper::logActivity('Print Case', 'User export case as pdf.');
         return true;
     }
+
+    public function telecallerForm($id = null)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $AvailbleProduct = [];
+        if ($case->getCase->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $case->getCase->bank_id)
+                ->where('products.status', '1')
+                ->get();
+        }
+        $fi_type_id = $case['fi_type_id'];
+        $fi_type_details = FiType::find($fi_type_id);
+        $view = view('backend.pages.cases.caller',  compact('case', 'AvailbleProduct'))->render();
+        return response()->json(['viewData' => $view]);
+    }
+
+    public function telecallerSubmit(Request $request,$id){
+        $input =  $request->all();
+        $caseFi = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $case =  Cases::find($caseFi->case_id);
+        $case->refrence_number = $input['refrence_number'] ?? null;
+        $case->applicant_name = $input['applicant_name'] ?? null;
+        $case->save();
+        $caseFi->mobile        = $input['mobile'] ?? null;
+        $caseFi->address       = $input['address'] ?? null;
+        $caseFi->person_met    = $input['person_met'] ?? null;
+        $caseFi->relationship  = $input['relationship'] ?? null;
+        $caseFi->applicant_age = $input['applicant_age'] ?? null;
+        $caseFi->designation   = $input['designation'] ?? null;
+        $caseFi->remarks       = $input['remarks'] ?? null;
+        $caseFi->save();
+        session()->flash('success', 'Case Update successfully !!');
+        LogHelper::logActivity('Telecaller Case Update', 'Telecaller Case Update.');
+        return redirect()->back();
+    }
+
+    public function sendCaseNotificaton($id = null)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $AvailbleProduct = [];
+        if ($case->getCase->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $case->getCase->bank_id)
+                ->where('products.status', '1')
+                ->get();
+        }
+        $fi_type_id = $case['fi_type_id'];
+        $fi_type_details = FiType::find($fi_type_id);
+        $view = view('backend.pages.cases.notify',  compact('case', 'AvailbleProduct'))->render();
+        return response()->json(['viewData' => $view]);
+    }
+
+    public function sendCaseNotificatonSubmit(Request $request,$id){
+        $input =  $request->all();
+        $caseFi = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+
+        echo '<pre>';
+        print_r($caseFi);
+        die;
+
+
+        return redirect()->back();
+    }
 }
