@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\casesFiType;
 use App\Imports\CasesImport;
 use App\Models\CaseHistory;
+use App\Models\CaseStatus;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use Illuminate\Http\Request;
@@ -26,10 +27,11 @@ use ZipStream\File;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\ExportCase;
 use Dompdf\Dompdf;
+use Intervention\Image\Facades\Image;
 use App\Helpers\LogHelper;
 use App\Helpers\CaseHistoryHelper;
-use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class CasesController extends Controller
 {
@@ -97,6 +99,7 @@ class CasesController extends Controller
     public function store(Request $request)
     {
         // Validation Data
+
         $rules = [
             'applicant_name' => 'required|max:50',
         ];
@@ -116,63 +119,24 @@ class CasesController extends Controller
 
             ];
         }
-        $applicant_name      = $co_applicant_name   = NULL;
         $request->validate($rules, $messages);
-        if ($request->application_type == '1') {
-            $applicant_name      = $request->applicant_name;
-        } elseif ($request->application_type == '2') {
-            $applicant_name      = $request->applicant_name;
-            $co_applicant_name   = $request->co_applicant_name;
-        } elseif ($request->application_type == '3') {
-            $applicant_name      = $request->guarantee_name;
-        } elseif ($request->application_type == '4') {
-            $applicant_name      = $request->applicant_name;
-        }
 
-        // Convert the request data to an array or collection
-        $fiTypeIds = $request->fi_type_id;
 
-        foreach ($fiTypeIds as $key => $fiTypeId) {
-            // Check if the phone number is not empty
-            if (!empty($fiTypeId['phone_number'])) {
-                // Fetch the results from the database based on the given conditions
-                $results = DB::table('cases_fi_types as cft')
-                    ->join('cases as c', 'c.id', '=', 'cft.case_id')
-                    ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
-                    ->select(
-                        'c.application_type',
-                        'cft.fi_type_id',
-                        'ft.name',
-                        'c.product_id',
-                        'c.applicant_name',
-                        'c.co_applicant_name',
-                        'cft.mobile',
-                        'cft.address',
-                        'cft.pincode',
-                        'cft.land_mark'
-                    )
-                    ->where('c.application_type', $request->application_type) // Access the request data properly
-                    ->where('cft.address', $fiTypeId['address']) // Access array instead of modifying request
-                    ->where('cft.pincode', $fiTypeId['pincode'])
-                    ->where('cft.mobile', $fiTypeId['phone_number'])
-                    ->where('cft.land_mark', $fiTypeId['landmark'])
-                    ->get()
-                    ->toArray();
-
-                // Update the status based on the results
-                $fiTypeIds[$key]['status'] = empty($results) ? '0' : '8';
-            }
-        }
-
-        // Optional: If you need to assign the modified data back to the request
-        $request->merge(['fi_type_id' => $fiTypeIds]);
         // Create New cases
         $cases = new Cases();
         $cases->bank_id             = $request->bank_id;
         $cases->product_id          = $request->product_id;
         $cases->application_type    = $request->application_type;
-        $cases->applicant_name      = $applicant_name;
-        $cases->co_applicant_name   = $co_applicant_name;
+        if ($request->application_type == '1') {
+            $cases->applicant_name      = $request->applicant_name;
+        } elseif ($request->application_type == '2') {
+            $cases->applicant_name      = $request->applicant_name;
+            $cases->co_applicant_name   = $request->co_applicant_name;
+        } elseif ($request->application_type == '3') {
+            $cases->applicant_name      = $request->guarantee_name;
+        } elseif ($request->application_type == '4') {
+            $cases->applicant_name      = $request->applicant_name;
+        }
         $cases->refrence_number     = $request->refrence_number;
         $cases->amount              = $request->amount;
         $cases->vehicle             = $request->vehicle;
@@ -180,6 +144,7 @@ class CasesController extends Controller
         $cases->remarks             = $request->remarks;
         $cases->created_by          = Auth::guard('admin')->user()->id;
         $cases->updated_by          = Auth::guard('admin')->user()->id;
+        // $cases->name         = $request->name;
         $cases->save();
         $cases_id = $cases->id;
 
@@ -193,15 +158,14 @@ class CasesController extends Controller
                 $casesFiType->address       = $fi_type_id['address'];
                 $casesFiType->pincode       = $fi_type_id['pincode'];
                 $casesFiType->land_mark     = $fi_type_id['landmark'];
-                $casesFiType->status        = $fi_type_id['status'];
                 $casesFiType->user_id       = '0';
                 $casesFiType->save();
-                $caseId  = $casesFiType->id;
-
-                LogHelper::logActivity('Create Case', 'User created a new case.');
-                CaseHistoryHelper::logHistory($caseId, $status = 0, $sub_status = 0, $assign_to = null, $remark = 'New Case', $action = 'Case Create', $description = 'New Case Created');
             }
         }
+
+        LogHelper::logActivity('Create Case', 'User created a new case.');
+        CaseHistoryHelper::logHistory($cases_id, null, null, null, 'New Case', 'Case Create', 'New Case Created');
+
         session()->flash('success', 'Case has been created !!');
         return redirect()->route('admin.case.index');
     }
@@ -644,123 +608,22 @@ class CasesController extends Controller
         $case_fi_type_id = $request['case_fi_type_id'];
         $originalCaseFiType  = casesFiType::findOrFail($case_fi_type_id);
         $case_id = $originalCaseFiType->case_id;
-
         $originalCaseData  = Cases::findOrFail($case_id);
         $newCasedata = $originalCaseData->replicate();
-        $newCasedata->refrence_number   = $request['refrence_number'];
-        $newCasedata->applicant_name    = $request['applicant_name'];
-        $newCasedata->amount            = $request['amount'];
-        $newCasedata->vehicle           = $request['vehicle'];
+        $newCasedata->refrence_number = $request['refrence_number'];
+        $newCasedata->applicant_name = $request['applicant_name'];
+        $newCasedata->amount = $request['amount'];
+        $newCasedata->vehicle = $request['vehicle'];
         $newCasedata->save();
 
         $newCaseFiType = $originalCaseFiType->replicate();
-        $newCaseFiType->case_id     = $newCasedata->id;
-        $newCaseFiType->mobile      = $request['mobile'];
         $newCaseFiType->address     = $request['address'];
-        $newCaseFiType->pincode     = $request['pincode'];
+        $newCaseFiType->mobile      = $request['mobile'];
         $newCaseFiType->land_mark   = $request['land_mark'];
-
-        $newCaseFiType->image_1 = null;
-        $newCaseFiType->image_2 = null;
-        $newCaseFiType->image_3 = null;
-        $newCaseFiType->image_4 = null;
-        $newCaseFiType->image_5 = null;
-        $newCaseFiType->image_6 = null;
-        $newCaseFiType->image_7 = null;
-        $newCaseFiType->image_8 = null;
-        $newCaseFiType->image_9 = null;
+        $newCaseFiType->pincode     = $request['pincode'];
         $newCaseFiType->user_id     = '0';
-        $newCaseFiType->remarks = null;
-        $newCaseFiType->consolidated_remarks = null;
         $newCaseFiType->status      = '0';
-        $newCaseFiType->sub_status = null;
-        $newCaseFiType->scheduled_visit_date = null;
-        $newCaseFiType->address_confirmed = null;
-        $newCaseFiType->address_confirmed_by = null;
-        $newCaseFiType->person_met = null;
-        $newCaseFiType->relationship = null;
-        $newCaseFiType->no_of_residents_in_house = null;
-        $newCaseFiType->year_of_establishment = null;
-        $newCaseFiType->no_of_earning_family_members = null;
-        $newCaseFiType->residence_number = null;
-        $newCaseFiType->residence_status = null;
-        $newCaseFiType->name_of_employer = null;
-        $newCaseFiType->employer_address = null;
-        $newCaseFiType->telephone_no_residence = null;
-        $newCaseFiType->office = null;
-        $newCaseFiType->approx_value = null;
-        $newCaseFiType->approx_rent = null;
-        $newCaseFiType->designation = null;
-        $newCaseFiType->designation_other = null;
-        $newCaseFiType->bank_name = null;
-        $newCaseFiType->branch = null;
-        $newCaseFiType->permanent_address = null;
-        $newCaseFiType->vehicles = null;
-        $newCaseFiType->make_and_type = null;
-        $newCaseFiType->location = null;
-        $newCaseFiType->locality = null;
-        $newCaseFiType->accommodation_type = null;
-        $newCaseFiType->interior_conditions = null;
-        $newCaseFiType->assets_seen = null;
-        $newCaseFiType->area = null;
-        $newCaseFiType->standard_of_living = null;
-        $newCaseFiType->nearest_landmark = null;
-        $newCaseFiType->house_locked = null;
-        $newCaseFiType->locked_person_met = null;
-        $newCaseFiType->locked_relationship = null;
-        $newCaseFiType->applicant_age = null;
-        $newCaseFiType->occupation = null;
-        $newCaseFiType->untraceable = null;
-        $newCaseFiType->verifiers_name = null;
-        $newCaseFiType->verification_conducted_at = null;
-        $newCaseFiType->proof_attached = null;
-        $newCaseFiType->type_of_proof = null;
-        $newCaseFiType->audit_check_remarks_by_agency_with_stamp = null;
-        $newCaseFiType->signature_of_agency_supervisor = null;
-        $newCaseFiType->employment_details = null;
-        $newCaseFiType->comments = null;
-        $newCaseFiType->recommended = null;
-        $newCaseFiType->date_of_visit = null;
-        $newCaseFiType->time_of_visit = null;
-        $newCaseFiType->latitude = null;
-        $newCaseFiType->longitude = null;
-        $newCaseFiType->relationship_others = null;
-        $newCaseFiType->years_at_current_residence_others = null;
-        $newCaseFiType->no_of_earning_family_members_others = null;
-        $newCaseFiType->residence_status_others = null;
-        $newCaseFiType->tcp1_name = null;
-        $newCaseFiType->tcp1_checked_with = null;
-        $newCaseFiType->tcp1_negative_comments = null;
-        $newCaseFiType->tcp2_name = null;
-        $newCaseFiType->tcp2_checked_with = null;
-        $newCaseFiType->tcp2_negative_comments = null;
-        $newCaseFiType->verification_conducted_at_others = null;
-        $newCaseFiType->website_of_employer = null;
-        $newCaseFiType->email_of_employer = null;
-        $newCaseFiType->co_board_outside_bldg_office = null;
-        $newCaseFiType->line_of_business = null;
-        $newCaseFiType->level_of_business_activity = null;
-        $newCaseFiType->type_of_locality = null;
-        $newCaseFiType->terms_of_employment = null;
-        $newCaseFiType->grade = null;
-        $newCaseFiType->name_of_employer_co = null;
-        $newCaseFiType->established = null;
-        $newCaseFiType->telephono_no_office = null;
-        $newCaseFiType->ext = null;
-        $newCaseFiType->type_of_employer = null;
-        $newCaseFiType->nature_of_employer = null;
-        $newCaseFiType->no_of_employees = null;
-        $newCaseFiType->no_of_branches = null;
-        $newCaseFiType->not_recommended = null;
-        $newCaseFiType->nature_of_business = null;
-        $newCaseFiType->type_of_employer_co = null;
-        $newCaseFiType->visited_by = null;
-        $newCaseFiType->verified_by = null;
-        $newCaseFiType->to_whom_does_address_belong = null;
-        $newCaseFiType->is_applicant_know_to_person = null;
-        $newCaseFiType->other_stability_year_details = null;
-        $newCaseFiType->negative_feedback_reason = null;
-
+        $newCaseFiType->case_id     = $newCasedata->id;
         $newCaseFiType->save();
 
         session()->flash('success', 'Case Reinitatiate Successfully.');
@@ -870,22 +733,14 @@ class CasesController extends Controller
             return response()->json(['error' => 'Bank ID not provided.'], 400);
         }
     }
-    public function getcaseHistory($case_fi_type_id = null)
+    public function editCase($id)
     {
-        $caseHistories = DB::table('case_history')
-            ->where('case_id', function ($query) use ($case_fi_type_id) {
-                $query->select('id')
-                    ->from('cases_fi_types')
-                    ->where('id', $case_fi_type_id);
-            })
-            ->get();
-
-
-        $view = view('backend.pages.cases.caseHistory', compact('caseHistories'))->render();
-        return response()->json(['viewData' => $view]);
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $assign = false;
+        $ApplicationTypes   = ApplicationType::all();
+        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
+        return view('backend.pages.cases.editcase', compact('case', 'assign', 'ApplicationTypes', 'users'));
     }
-
-
 
 
     /**
@@ -947,8 +802,7 @@ class CasesController extends Controller
 
         // Find the record by ID
         $case = CasesFiType::findOrFail($case_fi_type_id);
-        $latitude   = $case['latitude'];
-        $longitude  = $case['longitude'];
+
         $year = date('Y');
         $month = date('m');
         $path = "images/cases/{$year}/{$month}";
@@ -968,10 +822,9 @@ class CasesController extends Controller
                 $file->move(public_path($path), $filename);
 
                 // Save the filename to the current image field
-                $image_name = "{$path}/{$filename}";
-                $case->$imgField = $image_name;
+                $case->$imgField = "{$path}/{$filename}";
                 $case->save();
-                $this->addTextToImage($latitude, $longitude, $image_name);
+
                 session()->flash('success', 'Image uploaded successfully');
             } else {
                 session()->flash('error', 'All image slots are filled');
@@ -981,55 +834,6 @@ class CasesController extends Controller
         LogHelper::logActivity('Upload Document', 'User upload supported document to the case.');
         return back();
     }
-
-    private function addTextToImage($latitude, $longitude, $image_name)
-    {
-        // if (!empty($latitude) && !empty($longitude)) {
-        $img = Image::make(public_path($image_name));
-
-        // Path to a TTF font file
-        $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
-
-        // Get image width and height
-        $width = $img->width();
-        $height = $img->height();
-
-        // Set padding from the left and bottom
-        $paddingLeft = 100;
-        $paddingBottom = 50;
-
-        // Define the lines of text
-
-        $lines = [
-            'Latitude: ' . $latitude,
-            "Longitude: " . $longitude,
-        ];
-        // Set font size
-        $fontSize = 40;
-
-        // Add each line of text
-        foreach ($lines as $index => $line) {
-            $img->text(
-                $line,
-                $paddingLeft,                      // X position (left side with padding)
-                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
-                function ($font) use ($fontPath, $fontSize) {
-                    $font->file($fontPath);        // Specify the TTF font file
-                    $font->size($fontSize);        // Set font size
-                    $font->color('#FF0000');       // Set font color
-                    $font->align('left');          // Align text to the left
-                    $font->valign('bottom');       // Align text to the bottom
-                }
-            );
-        }
-
-        // Save the image
-        $img->save(public_path($image_name));
-        // }
-        return true;
-    }
-
-
 
 
     private function getAvailableImageField($case)
@@ -1151,6 +955,34 @@ class CasesController extends Controller
     {
         $user_id = $user_id ?? 0;
 
+        /*
+        $query = DB::table('cases_fi_types as cft')
+            ->select(
+                'cft.id',
+                'c.refrence_number',
+                'c.applicant_name',
+                'c.co_applicant_name',
+                'cft.mobile',
+                'cft.address',
+                'b.name as bank_name',
+                'p.name as product_name',
+                'ft.name as fi_type_name',
+                'cft.scheduled_visit_date',
+                'cft.status',
+                'u.name as agent_name'
+            )
+            ->join('cases as c', 'c.id', '=', 'cft.case_id')
+            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
+            ->join('banks as b', 'b.id', '=', 'c.bank_id')
+            ->join('products as p', 'p.id', '=', 'c.product_id')
+            ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
+            ->where('cft.user_id', $user_id)
+            ->where('cft.status', '!=', '7');
+        if ($status != 'aaa') {
+            $query->where('cft.status', $status);
+        }
+        $cases = $query->get(); */
+
         $assign = false;
 
         if ($status != 'aaa') {
@@ -1159,34 +991,9 @@ class CasesController extends Controller
             $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
         }
 
+        //echo '<pre>'; print_r($case); die;
+
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
-    }
-    public function dedupCase($case_id)
-    {
-        $cases_fi_type = casesFiType::with(['getCase'])->where('id', $case_id)->first();
-
-        $results = DB::table('cases_fi_types as cft')
-            ->join('cases as c', 'c.id', '=', 'cft.case_id')
-            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
-            ->select(
-                'cft.id'
-            )
-            ->where('c.application_type', $cases_fi_type->getCase->application_type) // Access the request data properly
-            ->where('cft.address', $cases_fi_type['address']) // Access array instead of modifying request
-            ->where('cft.pincode', $cases_fi_type['pincode'])
-            ->where('cft.mobile', $cases_fi_type['mobile'])
-            ->where('cft.land_mark', $cases_fi_type['land_mark'])
-            ->get()
-            ->pluck('id')  // Extract the IDs from the result
-            ->toArray();
-
-        $assign = false;
-        $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
-            ->whereIn('id', $results)
-            ->get();
-
-
-        return view('backend.pages.cases.dedupCaseList', compact('cases', 'assign'));
     }
 
     public function assigned($status, $user_id = null)
@@ -1260,15 +1067,15 @@ class CasesController extends Controller
         $case_fi_type_id                = $request['case_fi_type_id'];
         $status                         = '4';
         $sub_status                     = $request['sub_status'];
-        $remarks                        = $request['remarks'];
+        $consolidated_remarks           = $request['consolidated_remarks'];
         $cases                          = casesFiType::find($case_fi_type_id);
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
-        $cases->remarks    = $remarks;
+        $cases->consolidated_remarks    = $consolidated_remarks;
         $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $remarks, 'Verified Case', 'Verified Case');
+        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $consolidated_remarks, 'Verified Case', 'Verified Case');
         LogHelper::logActivity('Verify Case', 'User verify case.');
         return redirect()->route('admin.dashboard');
     }
@@ -1317,15 +1124,6 @@ class CasesController extends Controller
         CaseHistoryHelper::logHistory($newCasedata->id, null, null, null, 'Clone Case ' . $case_id, 'Clone Case', 'Clone Case');
         return response()->json(['success' => 'Case Clone successfully.'], 200);
     }
-
-    public function holdCase($case_fi_type_id)
-    {
-        $cases  = casesFiType::findOrFail($case_fi_type_id);
-        $cases->status                  = '6';
-        $cases->save();
-        return response()->json(['success' => 'Case Hold successfully.'], 200);
-    }
-
 
     public function deleteImage(Request $request, $image_number)
     {
@@ -1386,30 +1184,12 @@ class CasesController extends Controller
         LogHelper::logActivity('Export Case', 'User export case.');
         return Excel::download(new ExportCase, 'cases.xlsx');
     }
-    public function editCase($id)
-    {
-        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $assign = false;
-        $is_edit_case = 1;
-        $ApplicationTypes   = ApplicationType::all();
-        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-        return view('backend.pages.cases.editcase', compact('case', 'assign', 'is_edit_case', 'ApplicationTypes', 'users'));
-    }
 
     public function viewCase($id)
     {
-
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
-
-        $ApplicationTypes   = ApplicationType::all();
-        $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-        $is_edit_case = 0;
-        return view('backend.pages.cases.editcase', compact('case', 'assign', 'is_edit_case', 'ApplicationTypes', 'users'));
-
-        // $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        // $assign = false;
-        // return view('backend.pages.cases.view', compact('case', 'assign'));
+        return view('backend.pages.cases.view', compact('case', 'assign'));
     }
     public function viewCaseAssign($id)
     {
@@ -1422,31 +1202,18 @@ class CasesController extends Controller
     {
 
         $input = $request->all();
-        // dd($input);
         $case_fi_type_id = $input['case_fi_id'];
-        $cases_fi_type   = casesFiType::findOrFail($case_fi_type_id);
-        $cases           = cases::findOrFail($cases_fi_type->case_id);
-
-        $cases->amount          = $input['loan_amont'] ?? null;
-        $cases->applicant_name  = $input['name'] ?? null;
+        $cases           = casesFiType::findOrFail($case_fi_type_id);
+        $cases->remarks  = $input['status_remark'] ?? null;
+        $cases->address  = $input['address'] ?? null;
+        $cases->pincode  = $input['pincode'] ?? null;
         $cases->save();
 
-        $cases_fi_type->address  = $input['address'] ?? null;
-        $cases_fi_type->pincode  = $input['pincode'] ?? null;
-        $cases_fi_type->mobile  = $input['mobile'] ?? null;
-
-        $cases_fi_type->save();
-        $cases_fi_type_id  = $cases_fi_type->id;
-
-        $status         = get_status($cases_fi_type->status);
-        $sub_status     = $cases_fi_type->sub_status;
-        $assign_to      = $cases_fi_type->user_id;
-        $remark = 'Edit Case';
-        $action = 'Edit Case';
-        $description = 'Edit Case';
         LogHelper::logActivity('Modify Case', 'User modify case.');
-        CaseHistoryHelper::logHistory($cases_fi_type_id, $status, $sub_status, $assign_to, $remark, $action, $description);
         return response()->json(['success' => 'Case Update successfully !!'], 200);
+        // session()->flash('success', 'Case Update successfully !!');
+        // return redirect()->back();
+
     }
 
     public function getForm($id = null)
@@ -1457,18 +1224,10 @@ class CasesController extends Controller
         $fi_type_details = FiType::find($fi_type_id);
         if ($fi_type_details['name'] == 'BV') {
             $view = view('backend.pages.cases.details-bv', compact('case'))->render();
-        } else if ($fi_type_details['name'] == 'RV') {
+        } else {
             $view = view('backend.pages.cases.details-rv', compact('case'))->render();
-        } else if ($fi_type_details['name'] == 'ITR') {
-            $caseType = 'ITR Verification Format';
-            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
-        } else if ($fi_type_details['name'] == 'BSV') {
-            $caseType = 'Residence Verification Format';
-            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
-        } else if ($fi_type_details['name'] == 'salary ship') {
-            $caseType = 'Salary sip Format';
-            $view = view('backend.pages.cases.details-itr', compact('case', 'caseType'))->render();
         }
+
         return response()->json(['viewData' => $view]);
     }
 
@@ -1546,6 +1305,8 @@ class CasesController extends Controller
         $caseFi->type_of_proof                      = $input['type_of_proof'] ?? null;
         $caseFi->date_of_visit                      = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                      = $input['time_of_visit'] ?? null;
+        $caseFi->supervisor_remarks                 = $input['supervisor_remarks'] ?? null;
+        $caseFi->visit_conducted                    = $input['visit_conducted'] ?? null;
         $caseFi->tcp1_name                          = $input['tcp1_name'] ?? null;
         $caseFi->tcp1_checked_with                  = $input['tcp1_checked_with'] ?? null;
         $caseFi->tcp1_negative_comments             = $input['tcp1_negative_comments'] ?? null;
@@ -1614,6 +1375,7 @@ class CasesController extends Controller
         $caseFi->name_of_employer_co            = $input['name_of_employer_co'] ?? null;
         $caseFi->established                    = $input['established'] ?? null;
         $caseFi->designation                    = $input['designation'] ?? null;
+        $caseFi->visit_conducted                = $input['visit_conducted'] ?? null;
         $caseFi->date_of_visit                  = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                  = $input['time_of_visit'] ?? null;
         $caseFi->latitude                       = $input['latitude'] ?? null;
@@ -1708,7 +1470,6 @@ class CasesController extends Controller
         }
     }
 
-
     public function generatePdf($id)
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
@@ -1721,5 +1482,70 @@ class CasesController extends Controller
         $dompdf->stream($fileName, array("Attachment" => 1));
         LogHelper::logActivity('Print Case', 'User export case as pdf.');
         return true;
+    }
+
+    public function telecallerForm($id = null)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $AvailbleProduct = [];
+        if ($case->getCase->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $case->getCase->bank_id)
+                ->where('products.status', '1')
+                ->get();
+        }
+        $fi_type_id = $case['fi_type_id'];
+        $fi_type_details = FiType::find($fi_type_id);
+        $view = view('backend.pages.cases.caller',  compact('case', 'AvailbleProduct'))->render();
+        return response()->json(['viewData' => $view]);
+    }
+
+    public function telecallerSubmit(Request $request, $id)
+    {
+        $input =  $request->all();
+        $caseFi = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $case =  Cases::find($caseFi->case_id);
+        $case->refrence_number = $input['refrence_number'] ?? null;
+        $case->applicant_name = $input['applicant_name'] ?? null;
+        $case->save();
+        $caseFi->mobile        = $input['mobile'] ?? null;
+        $caseFi->address       = $input['address'] ?? null;
+        $caseFi->person_met    = $input['person_met'] ?? null;
+        $caseFi->relationship  = $input['relationship'] ?? null;
+        $caseFi->applicant_age = $input['applicant_age'] ?? null;
+        $caseFi->designation   = $input['designation'] ?? null;
+        $caseFi->remarks       = $input['remarks'] ?? null;
+        $caseFi->save();
+        session()->flash('success', 'Case Update successfully !!');
+        LogHelper::logActivity('Telecaller Case Update', 'Telecaller Case Update.');
+        return redirect()->back();
+    }
+
+    public function sendCaseNotificaton($id = null)
+    {
+        $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $AvailbleProduct = [];
+        if ($case->getCase->bank_id) {
+            $AvailbleProduct = Product::select('bpm.id', 'bpm.bank_id', 'bpm.product_id', 'products.name', 'products.product_code')
+                ->leftJoin('bank_product_mappings as bpm', 'bpm.product_id', '=', 'products.id')
+                ->where('bpm.bank_id', $case->getCase->bank_id)
+                ->where('products.status', '1')
+                ->get();
+        }
+        $fi_type_id = $case['fi_type_id'];
+        $fi_type_details = FiType::find($fi_type_id);
+        $view = view('backend.pages.cases.notify',  compact('case', 'AvailbleProduct'))->render();
+        return response()->json(['viewData' => $view]);
+    }
+
+    public function sendCaseNotificatonSubmit(Request $request, $id)
+    {
+        $input =  $request->all();
+        $caseFi = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
+        $details = ['body' => 'Your Case detail ink is ' . route('home.caseDetail', $id), 'from' => 'info@intelisysweb.com', 'subject' => 'Verification Status'];
+        Mail::to('susheelcs0024@gmail.com')->send(new SendMail($details));
+        session()->flash('success', 'Email sent successfully !!');
+        return redirect()->back();
     }
 }

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +24,13 @@ Auth::routes();
 
 Route::get('/', 'HomeController@redirectAdmin')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/case-detail/{id}', 'HomeController@caseDetail')->name('home.caseDetail');
+
+Route::get('test-mail', function () {
+    $details = ['body' => 'This is for testing email using smtp','from'=> 'info@intelisysweb.com','subject'=> 'Verification Status'];
+    Mail::to('ashwini.burgeon@gmail.com')->send(new SendMail($details));
+    dd("Email is Sent.");
+});
 
 /**
  * Admin routes
@@ -67,7 +77,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('cases/export-excel/{id}', 'Backend\CasesController@exportCase')->name('admin.case.export.excel');
     Route::get('cases/export-pdf/{id}', 'Backend\CasesController@generatePdf')->name('admin.case.export.pdf');
 
+    Route::get('cases/telecaller-form/{id}', 'Backend\CasesController@telecallerForm')->name('admin.case.telecaller.form');
+    Route::post('cases/telecaller-submit/{id}', 'Backend\CasesController@telecallerSubmit')->name('admin.case.telecaller.submit');
 
+    Route::get('cases/send-notification/{id}', 'Backend\CasesController@sendCaseNotificaton')->name('admin.case.send.notify.form');
+    Route::post('cases/send-notification-submit/{id}', 'Backend\CasesController@sendCaseNotificatonSubmit')->name('admin.case.send.notify.submit');
 
     Route::get('cases/assigned/{status}/{user_id?}', 'Backend\CasesController@assigned')->name('admin.case.assigned');
     Route::get('cases/detail/{id}', 'Backend\CasesController@viewCaseAssign')->name('admin.case.viewCaseAssign');
@@ -95,3 +109,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/password/reset', 'Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', 'Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
 });
+
+
