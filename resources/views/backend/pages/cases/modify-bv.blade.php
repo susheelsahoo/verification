@@ -102,40 +102,11 @@
                         <input type="text" name="employer_address" class="form-control" value="{{ $case->address ?? '' }}">
                     </td>
                 </tr>
+
                 <tr>
-                    <td>Website of Employer/Co(if available)</td>
-                    <td class="BVstyle">
-                        <input type="text" name="website_of_employer" class="form-control" value="{{ $case->website_of_employer ?? '' }}">
-                    </td>
-                    <td>e-mail address of Employer/Co(if available)</td>
-                    <td class="BVstyle">
-                        <input type="text" name="email_of_employer" class="form-control" value="{{ $case->email_of_employer ?? '' }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Telephone Number Office</td>
-                    <td class="BVstyle">
-                        <input type="text" name="telephono_no_office" class="form-control" value="{{ $case->telephono_no_office ?? '' }}">
-                    </td>
-                    <td>EXT</td>
-                    <td class="BVstyle">
-                        <input type="text" name="ext" class="form-control" value="{{ $case->ext ?? '' }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Telephone Number Residence</td>
-                    <td class="BVstyle">
-                        <input type="text" name="telephone_no_residence" class="form-control" value="{{ $case->telephone_no_residence ?? '' }}">
-                    </td>
                     <td>Mobile Number</td>
                     <td class="BVstyle">
                         <input type="text" name="mobile" class="form-control" value="{{ $case->mobile ?? '' }}">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Co. Board Outside Bldg/Office</td>
-                    <td class="BVstyle">
-                        <input type="text" name="co_board_outside_bldg_office" class="form-control" value="{{ $case->co_board_outside_bldg_office ?? '' }}">
                     </td>
                     <td>Type of Employer/Co</td>
                     <td class="BVstyle">

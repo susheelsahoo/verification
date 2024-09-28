@@ -71,26 +71,8 @@
                 <td colspan="3" class="BVstyle ng-binding">{{ $case->address ?? 'NA' }}</td>
             </tr>
             <tr>
-                <td>Website of Employer/Co(if available)</td>
-                <td class="BVstyle ng-binding">{{ $case->website_of_employer ?? 'NA' }}</td>
-                <td>e-mail address of Employer/Co(if available)</td>
-                <td class="BVstyle ng-binding">{{ $case->email_of_employer ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Telephone Number Office</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->telephono_no_office ?? 'NA' }}</td>
-                <td>EXT</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->ext ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Telephone Number Residence</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->telephone_no_residence ?? 'NA' }}</td>
                 <td>Mobile Number</td>
                 <td class="BVstyle" ng-hide="BVResponse.mobileno">{{ $case->mobile ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Co. Board Outside Bldg/Office</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->co_board_outside_bldg_office ?? 'NA' }}</td>
                 <td>Type of Employer/Co</td>
                 <td class="BVstyle ng-binding">{{ $case->email_of_employer ?? 'NA' }}</td>
             </tr>

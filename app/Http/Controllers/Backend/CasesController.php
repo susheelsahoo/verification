@@ -1350,12 +1350,6 @@ class CasesController extends Controller
         $caseFi->address_confirmed_by           = $input['address_confirmed_by'] ?? null;
         $caseFi->name_of_employer               = $input['name_of_employer'] ?? null;
         $caseFi->person_met                     = $input['person_met'] ?? null;
-        $caseFi->website_of_employer            = $input['website_of_employer'] ?? null;
-        $caseFi->email_of_employer              = $input['email_of_employer'] ?? null;
-        $caseFi->telephono_no_office            = $input['telephono_no_office'] ?? null;
-        $caseFi->ext                            = $input['ext'] ?? null;
-        $caseFi->telephone_no_residence         = $input['telephone_no_residence'] ?? null;
-        $caseFi->co_board_outside_bldg_office   = $input['co_board_outside_bldg_office'] ?? null;
         $caseFi->type_of_employer               = $input['type_of_employer'] ?? null;
         $caseFi->nature_of_employer             = $input['nature_of_employer'] ?? null;
         $caseFi->line_of_business               = $input['line_of_business'] ?? null;
