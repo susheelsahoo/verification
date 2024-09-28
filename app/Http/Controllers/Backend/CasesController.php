@@ -737,9 +737,10 @@ class CasesController extends Controller
     {
         $case = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
         $assign = false;
+        $is_edit_case  = '1';
         $ApplicationTypes   = ApplicationType::all();
         $users              = User::where('admin_id', Auth::guard('admin')->user()->id)->get();
-        return view('backend.pages.cases.editcase', compact('case', 'assign', 'ApplicationTypes', 'users'));
+        return view('backend.pages.cases.editcase', compact('case', 'assign', 'is_edit_case', 'ApplicationTypes', 'users'));
     }
 
 
