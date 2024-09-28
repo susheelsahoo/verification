@@ -12,7 +12,8 @@ use App\Models\ApplicationType;
 use App\Models\User;
 use App\Models\casesFiType;
 use App\Imports\CasesImport;
-use App\Modelsuse App\Models\CaseStatus;
+use App\Models\CaseHistory;
+use App\Models\CaseStatus;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use Illuminate\Http\Request;
@@ -26,8 +27,11 @@ use ZipStream\File;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\ExportCase;
 use Dompdf\Dompdf;
+use Intervention\Image\Facades\Image;
 use App\Helpers\LogHelper;
 use App\Helpers\CaseHistoryHelper;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class CasesController extends Controller
 {
@@ -1546,8 +1550,9 @@ class CasesController extends Controller
     public function sendCaseNotificatonSubmit(Request $request,$id){
         $input =  $request->all();
         $caseFi = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('id', $id)->firstOrFail();
-        $details = ['body' => 'Your Case detail ink is '. roue('home.caseDetail',$id) ,'from'=> 'info@intelisysweb.com','subject'=> 'Verification Status'];
+        $details = ['body' => 'Your Case detail ink is '. route('home.caseDetail',$id) ,'from'=> 'info@intelisysweb.com','subject'=> 'Verification Status'];
         Mail::to('susheelcs0024@gmail.com')->send(new SendMail($details));
+        session()->flash('success', 'Email sent successfully !!');
         return redirect()->back();
     }
 }
