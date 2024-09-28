@@ -65,10 +65,6 @@
                 <tr>
                     <td>Applicant Name</td>
                     <td class="BVstyle ng-binding"><input type="text" name="applicant_name" class="form-control" value="{{ $case->getCase->applicant_name ?? '' }}" /></td>
-                    <td>Date Of Birth</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="date" name="date_of_birth" class="form-control" value="{{ $case->getCase->date_of_birth ?? '' }}" />
-                    </td>
                 </tr>
                 <tr>
                     <td>Person Met</td>
@@ -103,51 +99,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Name of Employer</td>
-                    <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="name_of_employer" class="form-control" value="{{ $case->name_of_employer ?? '' }}" />
-                    </td>
-                    <td>Employer Address</td>
-                    <td class="BVstyle">
-                        <input type="text" name="employer_address" class="form-control" value="{{ $case->employer_address ?? '' }}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Telephone No. Residence</td>
-                    <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="telephone_no_residence" class="form-control" value="{{ $case->telephone_no_residence ?? '' }}" />
-                    </td>
-                    <td>Office</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="text" name="office" class="form-control" value="{{ $case->office ?? '' }}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Designation</td>
-                    <td colspan="3" class="BVstyle ng-binding">
-                        <input type="text" name="designation" class="form-control" value="{{ $case->designation ?? '' }}" />
-
-                    </td>
-                </tr>
-                <tr>
                     <td>Approx Rent</td>
                     <td class="BVstyle ng-binding">
                         <input type="text" name="approx_rent" class="form-control" value="{{ $case->approx_rent ?? '' }}" />
 
-                    </td>
-                    <td>Approx Value(If Owned)</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="text" name="approx_value" class="form-control" value="{{ $case->approx_value ?? '' }}" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>Bank Name</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="text" name="bank_name" class="form-control" value="{{ $case->bank_name ?? '' }}" />
-                    </td>
-                    <td>Branch</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="text" name="branch" class="form-control" value="{{ $case->branch ?? '' }}" />
                     </td>
                 </tr>
                 <tr>
@@ -155,16 +110,6 @@
                     <td colspan="3" class="BVstyle ng-binding">
                         <input type="text" name="permanent_address" class="form-control" value="{{ $case->permanent_address ?? '' }}" />
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>Vehicles</td>
-                    <td class="BVstyle ng-binding ng-hide">
-                        <input type="text" name="vehicles" class="form-control" value="{{ $case->vehicles ?? '' }}" />
-                    </td>
-                    <td>Make and Type</td>
-                    <td class="BVstyle ng-binding">
-                        <input type="text" name="make_and_type" class="form-control" value="{{ $case->make_and_type ?? '' }}" />
                     </td>
                 </tr>
                 <tr>

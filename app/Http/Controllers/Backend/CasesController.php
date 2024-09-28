@@ -1509,8 +1509,7 @@ class CasesController extends Controller
 
         $case->refrence_number  = $input['refrence_number'] ?? null;
         $case->applicant_name   = $input['applicant_name'] ?? null;
-        // $case->product_id       = $input['product_id'] ?? null;
-        $case->date_of_birth    = $input['date_of_birth'] ?? null;
+
         $case->amount           = $input['amount'] ?? null;
         $case->save();
 
@@ -1524,20 +1523,10 @@ class CasesController extends Controller
         $caseFi->year_of_establishment              = $input['year_of_establishment'] ?? null;
         $caseFi->no_of_earning_family_members       = $input['no_of_earning_family_members'] ?? null;
         $caseFi->residence_status                   = $input['residence_status'] ?? null;
-        $caseFi->name_of_employer                   = $input['name_of_employer'] ?? null;
-        $caseFi->employer_address                   = $input['employer_address'] ?? null;
-        $caseFi->telephone_no_residence             = $input['telephone_no_residence'] ?? null;
-        $caseFi->office                             = $input['office'] ?? null;
-        $caseFi->designation                        = $input['designation'] ?? null;
         $caseFi->approx_rent                        = $input['approx_rent'] ?? null;
-        $caseFi->approx_value                       = $input['approx_value'] ?? null;
-        $caseFi->bank_name                          = $input['bank_name'] ?? null;
-        $caseFi->branch                             = $input['branch'] ?? null;
         $caseFi->latitude                           = $input['latitude'] ?? null;
         $caseFi->longitude                          = $input['longitude'] ?? null;
         $caseFi->permanent_address                  = $input['permanent_address'] ?? null;
-        $caseFi->vehicles                           = $input['vehicles'] ?? null;
-        $caseFi->make_and_type                      = $input['make_and_type'] ?? null;
         $caseFi->location                           = $input['location'] ?? null;
         $caseFi->locality                           = $input['locality'] ?? null;
         $caseFi->accommodation_type                 = $input['accommodation_type'] ?? null;
