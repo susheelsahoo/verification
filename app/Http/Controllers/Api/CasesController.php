@@ -336,6 +336,7 @@ class CasesController extends Controller
         $cases->employer_address                    = $data['employer_address'];
         $cases->telephone_no_residence              = $data['telephone_no_residence'];
         $cases->relationship_others                 = $data['relationship_others'];
+        $cases->years_at_current_residence          = $data['years_at_current_residence'];
         $cases->years_at_current_residence_others   = $data['years_at_current_residence_others'];
         $cases->no_of_earning_family_members_others = $data['no_of_earning_family_members_others'];
         $cases->residence_status_others             = $data['residence_status_others'];
