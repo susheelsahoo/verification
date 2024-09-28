@@ -40,12 +40,10 @@ Cases - Admin Panel
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title float-left">Cases List</h4>
+                    <h4 class="header-title float-left">Dedup Cases List</h4>
                     <p class="float-right mb-2">
 
-                        {{-- {{-- <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds" data-toggle="modal" data-target="#exampleModal">
-                            Assign
-                        </button> --}}
+
 
                         <button type="button" class="btn btn-primary text-white btn-sm" id="getSelectedIds">Assign</button>
                         <a class="btn btn-warning text-white" href="{{ route('admin.case.export.excel','a') }}">Export Cases</a>
@@ -124,37 +122,34 @@ Cases - Admin Panel
                                         <a href="{{ route('admin.case.viewCaseAssign', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/user.png')}}" title="View"></img></a>
                                         @endif
 
-                                        <a href="{{ route('admin.case.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
+                                        <!-- <a href="{{ route('admin.case.editCase', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="Edit"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="assignSingle"><img src="{{URL::asset('backend/assets/images/icons/stock_task-assigned-to.png')}}" title="Assign"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="resolveCase"><img src="{{URL::asset('backend/assets/images/icons/change_status.png')}}" title="Resolve"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="verifiedCase"><img src="{{URL::asset('backend/assets/images/icons/checkbox.png')}}" title="Verified"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="consolidatedRemarks"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Consolidated remarks"></img></a>
-                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseHistory"><img src="{{URL::asset('backend/assets/images/icons/history1.png')}}" title="Case History"></img></a>
-                                        <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a>
+                                        <a href="{{ route('admin.case.upload.image', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/uploadImage.png')}}" title="Upload"></img></a> -->
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseClose"><img src="{{URL::asset('backend/assets/images/icons/Close.gif')}}" title="Case close"></img></a>
-                                        {{-- <a href="{{ route('admin.case.viewForm', $case->id) }}" class="viewForm"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View"></img></a> --}}
                                         <a href="javascript::void(0)" class="viewForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/verified_cases.png')}}" title="View Form"></img></a>
-                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
+                                        <!-- <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
+                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="Hold case"></img></a> -->
+
                                         <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
-                                        <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
-                                        <a href="javascript::void(0)" class="telecallerForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/telecaller.png')}}" title="Telecaller Form"/></a>
-                                        <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="Hold case"></img></a>
-
-                                        <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a>
-
 
 
                                         <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
-                                        <a href="{{ route('admin.case.dedup-case', $case->id) }}" target="__blank"><img src="{{URL::asset('backend/assets/images/icons/view.png')}}" title="show orignal case"></img></a>
+                                        <!-- <a href="{{ route('admin.case.dedup-case', $case->id) }}" target="__blank"><img src="{{URL::asset('backend/assets/images/icons/view.png')}}" title="show orignal case"></img></a> -->
 
-                                        <a href="javascript::void(0)" class="sendNotifyForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/world.png')}}" title="Notification Form"/></a>
+
+
 
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
+
                                         <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
                                             Delete
                                         </a>
+
                                         <form id="delete-form-{{ $case->id }}" action="{{ route('admin.case.destroy', $case->id) }}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             @csrf
@@ -267,7 +262,7 @@ Cases - Admin Panel
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="name">Remarks :</label>
-                        <textarea class="form-control" name="remarks" required></textarea>
+                        <textarea class="form-control" name="consolidated_remarks" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -283,29 +278,6 @@ Cases - Admin Panel
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Consolidated remarks</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group col-md-12 col-sm-12">
-                    <input name="case_fi_type_id" class="case_fi_type_id" type="hidden">
-                    <label for="name">Consolidated remarks :</label>
-                    <textarea class="form-control consolidated_remarks" name="consolidated_remarks" readonly required></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="modal fade modal-lg" id="caseHistoryModel" tabindex="-1" role="dialog" aria-labelledby="caseHistoryModelLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Case History</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -346,7 +318,7 @@ Cases - Admin Panel
         </div>
     </div>
 </div>
-<div class="modal fade" id="viewFormModel" tabindex="-1" role="dialog" aria-labelledby="viewFormModelLabel" aria-hidden="true" data-bs-backdrop='static'>
+<div class="modal fade" id="viewFormModel" tabindex="-1" role="dialog" aria-labelledby="viewFormModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -362,42 +334,11 @@ Cases - Admin Panel
 </div>
 
 
-<div class="modal fade" id="viewFormEditModel" tabindex="-1" role="dialog" aria-labelledby="viewFormEditModelLabel" aria-hidden="true" data-bs-backdrop='static'>
+<div class="modal fade" id="viewFormEditModel" tabindex="-1" role="dialog" aria-labelledby="viewFormEditModelLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">View Form Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="telecallerFormModel" tabindex="-1" role="dialog" aria-labelledby="telecallerFormModelLabel" aria-hidden="true" data-bs-backdrop='static'>
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update Case</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="sendNotificationFormModel" tabindex="-1" role="dialog" aria-labelledby="sendNotificationFormModelLabel" aria-hidden="true" data-bs-backdrop='static'>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Send Mail</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body"></div>
@@ -630,25 +571,6 @@ Cases - Admin Panel
             });
 
         });
-        $('.caseHistory').click(function() {
-            let case_id = $(this).attr('data-row');
-            var url = "{{ route('admin.case.getcaseHistory','CASE_ID')}}";
-            url = url.replace('CASE_ID', case_id);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    $("#caseHistoryModel").find('.modal-body').html(response.viewData);
-                    $('#caseHistoryModel').modal('show');
-
-                },
-                error: function() {
-                    alert('Request failed');
-                }
-            });
-
-        });
         $('.caseClose').click(function() {
             if (confirm('Are you sure to close this case')) {
                 let case_id = $(this).attr('data-row');
@@ -792,49 +714,6 @@ Cases - Admin Panel
             });
 
         });
-
-        $('.telecallerForm').click(function(e) {
-            e.preventDefault();
-            let case_id = $(this).attr('data-row');
-            var url = "{{ route('admin.case.telecaller.form','CASE_ID')}}";
-            url = url.replace('CASE_ID', case_id);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    $("#telecallerFormModel").find('.modal-body').html(response.viewData);
-                    $('#telecallerFormModel').modal('show');
-                },
-                error: function() {
-                    alert('Request failed');
-                }
-            });
-
-        });
-
-        $('.sendNotifyForm').click(function(e) {
-            e.preventDefault();
-            let case_id = $(this).attr('data-row');
-            var url = "{{ route('admin.case.send.notify.form','CASE_ID')}}";
-            url = url.replace('CASE_ID', case_id);
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    $("#sendNotificationFormModel").find('.modal-body').html(response.viewData);
-                    $('#sendNotificationFormModel').modal('show');
-                },
-                error: function() {
-                    alert('Request failed');
-                }
-            });
-
-        });
-
-
-
-
     });
 </script>
 <script>

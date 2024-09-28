@@ -302,12 +302,9 @@
                 </tr>
                 <tr>
                     <td>Visit Conducted </td>
-                    <td colspan="3" class="ng-binding">
-                        <input type="text" name="visit_conducted" class="form-control" value="{{ $case->visit_conducted ?? '' }}">
+                    <td colspan="2" class="ng-binding">
+                    <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="subheading" style="text-align: center">Applicant Photos</td>
                 </tr>
                 <tr>
                     <td>VisitDate</td>
@@ -325,11 +322,11 @@
                 <tr>
                     <td>Latitude</td>
                     <td class="BVstyle">
-                        <input type="text" name="latitude" class="form-control" value="{{ $case->latitude ?? '' }}">
+                        <input type=number step=0.01 name="latitude" class="form-control" value="{{ $case->latitude ?? '' }}">
                     </td>
                     <td>Longitude</td>
                     <td class="BVstyle">
-                        <input type="text" name="longitude" class="form-control" value="{{ $case->longitude ?? '' }}">
+                        <input type=number step=0.01 name="longitude" class="form-control" value="{{ $case->longitude ?? '' }}">
                     </td>
                 </tr>
 

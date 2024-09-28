@@ -350,7 +350,7 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <input type="text" name="supervisor_remarks" class="form-control" value="{{ $case->supervisor_remarks ?? '' }}" />
+                        <input type="text" name="remarks" class="form-control" value="{{ $case->remarks ?? '' }}" />
 
                     </td>
                 </tr>
@@ -362,8 +362,8 @@
                 </tr>
                 <tr class="">
                     <td>Visit Conducted </td>
-                    <td colspan="3" class="ng-binding">
-                        <input type="text" name="visit_conducted" class="form-control" value="{{ $case->visit_conducted ?? '' }}" />
+                    <td colspan="2" class="ng-binding">
+                    <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
 
                     </td>
                 </tr>
@@ -372,12 +372,12 @@
                 </tr>
                 <tr>
                     <td>Latitude</td>
-                    <td class="BVstyle ng-binding">
-                        {{ $case->latitude ?? 'NA' }}
+                    <td class="BVstyle">
+                        <input type=number step=0.01 name="latitude" class="form-control" value="{{ $case->latitude ?? '' }}">
                     </td>
                     <td>Longitude</td>
-                    <td class="BVstyle ng-binding">
-                        {{ $case->longitude ?? 'NA' }}
+                    <td class="BVstyle">
+                        <input type=number step=0.01 name="longitude" class="form-control" value="{{ $case->longitude ?? '' }}">
                     </td>
                 </tr>
                 <!-- <tr>

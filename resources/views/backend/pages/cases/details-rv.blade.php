@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <span align="right" height="30px;">
-        <a href="javascript:void()" onclick="printformFunction()">Click here to print</a>
+        <a href="javascript:void(0)" onclick="printformFunction()">Click here to print</a>
     </span>
     <table class="table table-bordered" id="outprint">
         <tbody>
@@ -19,17 +19,15 @@
             </tr>
             <tr>
                 <td>Case Creation Login Details</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
+                <td class="BVstyle ng-binding">{{ $case->no_of_residents_in_house ?? 'NA' }}</td>
+                <td>Contact No.</td>
+                <td class="BVstyle ng-binding">{{ $case->mobile ?? '' }}</td>
             </tr>
             <tr>
                 <td>Product Name</td>
                 <td class="BVstyle ng-binding">{{ $case->getCase->getProduct->name ?? 'NA' }}</td>
                 <td>Loan Amount</td>
                 <td class="BVstyle ng-binding">{{ $case->getCase->amount ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Contact No.</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->mobile ?? '' }}</td>
             </tr>
             <tr>
                 <td>Address</td>
@@ -42,11 +40,9 @@
             </tr>
             <tr>
                 <td>Address Confirmed </td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->address_confirmed ?? 'NO' }} &nbsp; </td>
-            </tr>
-            <tr>
+                <td class="BVstyle ng-binding">{{ $case->address_confirmed ?? 'NO' }} &nbsp; </td>
                 <td>Address Confirmed By</td>
-                <td colspan="3" class="BVstyle ng-binding ng-hide">{{ $case->address_confirmed_by ?? 'NA' }} </td>
+                <td class="BVstyle ng-binding ng-hide">{{ $case->address_confirmed_by ?? 'NA' }} </td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">The following information should be obtained if the applicant/colleagues are contacted in the office </td>
@@ -54,8 +50,8 @@
             <tr>
                 <td>Applicant Name</td>
                 <td class="BVstyle ng-binding">{{ $case->applicant_name ?? 'NA' }} </td>
-                <td>Date Of Birth</td>
-                <td class="BVstyle ng-binding">{{ $case->date_of_birth ?? 'NA' }} </td>
+                <td>Permanent Address/Phone</td>
+                <td class="BVstyle ng-binding">{{ $case->permanent_address ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Person Met</td>
@@ -76,42 +72,11 @@
                 <td class="BVstyle ng-binding ng-hide">{{ $case->residence_status ?? 'NA' }}</td>
             </tr>
             <tr>
-                <td>Name of Employer</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->name_of_employer ?? 'NA' }}</td>
-                <td>Employer Address</td>
-                <td class="BVstyle">{{ $case->employer_address ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Telephone No. Residence</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->telephone_no_residence ?? 'NA' }}</td>
-                <td>Office</td>
-                <td class="BVstyle ng-binding">{{ $case->office ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Designation</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->designation ?? 'NA' }}</td>
-            </tr>
-            <tr>
                 <td>Approx Rent</td>
                 <td class="BVstyle ng-binding">{{ $case->approx_rent ?? 'NA' }}</td>
-                <td>Approx Value(If Owned)</td>
-                <td class="BVstyle ng-binding">{{ $case->approx_value ?? 'NA' }}</td>
             </tr>
             <tr>
-                <td>Bank Name</td>
-                <td class="BVstyle ng-binding">{{ $case->bank_name ?? 'NA' }}</td>
-                <td>Branch</td>
-                <td class="BVstyle ng-binding">{{ $case->branch ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Permanent Address/Phone</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->permanent_address ?? 'NA' }}</td>
-            </tr>
-            <tr>
-                <td>Vehicles</td>
-                <td class="BVstyle ng-binding ng-hide">{{ $case->vehicles ?? 'NA' }} </td>
-                <td>Make and Type</td>
-                <td class="BVstyle ng-binding">{{ $case->make_and_type ?? 'NA' }}</td>
+
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Verifier's Observations</td>
@@ -130,8 +95,9 @@
             </tr>
             <tr>
                 <td>Assets Seen</td>
-                <td colspan="3" class="BVstyle ng-binding ng-hide"> {{ $case->assets_seen ?? 'NA' }}</td>
-
+                <td class="BVstyle ng-binding ng-hide"> {{ $case->assets_seen ?? 'NA' }}</td>
+                <td>Nearest Landmark</td>
+                <td class="BVstyle ng-binding">{{ $case->nearest_landmark ?? 'NA' }} </td>
             </tr>
             <tr>
                 <td>Area</td>
@@ -141,8 +107,7 @@
             </tr>
 
             <tr>
-                <td>Nearest Landmark</td>
-                <td colspan="3" class="BVstyle ng-binding">{{ $case->nearest_landmark ?? 'NA' }} </td>
+
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">If the house is locked,the following information needs to be obtained from the Neighbour/Third Party.</td>
@@ -198,21 +163,15 @@
             </tr>
             <tr>
                 <td>Verifier's Name</td>
-                <td colspan="3">{{ $case->verifiers_name ?? 'NA' }}</td>
-
-            </tr>
-
-            <tr>
+                <td>{{ $case->verifiers_name ?? 'NA' }}</td>
                 <td>Verification Conducted at</td>
-                <td colspan="3">{{ $case->verification_conducted_at ?? 'NA' }}</td>
+                <td>{{ $case->verification_conducted_at ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Proof attached</td>
-                <td colspan="3">{{ $case->proof_attached ?? 'NA' }}</td>
-            </tr>
-            <tr>
+                <td>{{ $case->proof_attached ?? 'NA' }}</td>
                 <td>Type of Proof</td>
-                <td colspan="3">{{ $case->type_of_proof ?? 'NA' }}</td>
+                <td>{{ $case->type_of_proof ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td>Date of Visit</td>
@@ -233,7 +192,7 @@
                 <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
             </tr>
             <tr>
-                <td colspan="4">{{ $case->supervisor_remarks ?? 'NA' }}</td>
+                <td colspan="4">{{ $case->remarks ?? 'NA' }}</td>
             </tr>
             <tr class="">
                 <td colspan="4" class="subheading" style="text-align: center">NEGATIVE FEATURES</td>
@@ -243,7 +202,9 @@
             </tr>
             <tr class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ $case->no_of_residents_in_house ?? '0000' }}</td>
+                <td class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
+                <td>Reason </td>
+                <td class="ng-binding">{{ $case->negative_feedback_reason ?? 'NA' }}</td>
             </tr>
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Applicant Photos </td>
@@ -253,47 +214,47 @@
                     <div class="row">
                         @if(!empty($case->image_1))
                         <div class="col-sm image_1">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_1) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_1) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_2))
                         <div class="col-sm image_2">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_2) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_2) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_3))
                         <div class="col-sm image_3">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_3) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_3) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_4))
                         <div class="col-sm image_4">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_4) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_4) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_5))
                         <div class="col-sm image_5">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_5) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_5) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_6))
                         <div class="col-sm image_6">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_6) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_6) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_7))
                         <div class="col-sm image_7">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_7) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_7) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_8))
                         <div class="col-sm image_8">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_8) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_8) }}" />
                         </div>
                         @endif
                         @if(!empty($case->image_9))
                         <div class="col-sm image_9">
-                            <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_9) }}" />
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_9) }}" />
                         </div>
                         @endif
 
@@ -351,7 +312,7 @@
                 <td colspan="2" style="text-align:center">
                     @if(!empty($case->signature_of_agency_supervisor))
                     <div class="col-sm image_1">
-                        <img title='' style='width:100px;float:left; height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
+                        <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->signature_of_agency_supervisor) }}" />
                     </div>
                     @endif
                     <br>

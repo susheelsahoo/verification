@@ -201,7 +201,7 @@
             </tr>
             <tr ng-hide="BVCase.StatusID==220" class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ $case->visit_conducted ?? 'NA' }}</td>
+                <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
             </tr>
 
             <tr>
@@ -244,7 +244,7 @@
             <tr>
                 <td colspan="2" style="text-align:center">
                     @if(!empty($case->signature_of_agency_supervisor))
-                        <img title='' style='width:100px;height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ public_path(asset($case->signature_of_agency_supervisor)) }}" />
+                    <img title='' style='width:100px;height:100px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ public_path(asset($case->signature_of_agency_supervisor)) }}" />
                     @endif
                     <br>
                     Signature of Agency Supervisor (With agency Seal)

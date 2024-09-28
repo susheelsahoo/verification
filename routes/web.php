@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.case']);
     Route::get('cases/getList/{id}', 'Backend\CasesController@getItem')->name('admin.case.item');
     Route::get('cases/getcase/{id}', 'Backend\CasesController@getCase')->name('admin.case.getCase');
+    Route::get('cases/getcaseHistory/{id}', 'Backend\CasesController@getcaseHistory')->name('admin.case.getcaseHistory');
     Route::get('cases/importExportView/{id}', 'Backend\CasesController@importExportView')->name('admin.case.import.view');
     Route::get('cases/export', 'Backend\CasesController@export')->name('admin.case.export');
     Route::post('cases/import', 'Backend\CasesController@import')->name('admin.case.import');
@@ -57,13 +58,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('cases/updateConsolidated', 'Backend\CasesController@updateConsolidated')->name('admin.case.updateConsolidated');
     Route::get('cases/caseClose/{id}', 'Backend\CasesController@closeCase')->name('admin.case.close');
     Route::get('cases/clone/{id}', 'Backend\CasesController@cloneCase')->name('admin.case.clone');
+    Route::get('cases/hold/{id}', 'Backend\CasesController@holdCase')->name('admin.case.hold');
     Route::get('cases/case-status/{status}/{user_id?}', 'Backend\CasesController@caseStatus')->name('admin.case.caseStatus');
+    Route::get('cases/dedup-case/{case_id?}', 'Backend\CasesController@dedupCase')->name('admin.case.dedup-case');
     Route::get('cases/view/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.viewCase');
     Route::get('cases/update/{id}', 'Backend\CasesController@viewCaseByCftId')->name('admin.case.updateCase');
     Route::get('cases/getdetail/{id}', 'Backend\CasesController@viewCase')->name('admin.case.viewCase');
     Route::get('cases/{id}/editCase', 'Backend\CasesController@editCase')->name('admin.case.editCase');
     Route::post('cases/update-case/{id}', 'Backend\CasesController@modifyCase')->name('admin.case.modifyCase');
     Route::get('cases/view-form/{id}', 'Backend\CasesController@getForm')->name('admin.case.viewForm');
+    Route::get('cases/addTextToImage/{long}/{lati}', 'Backend\CasesController@addTextToImage')->name('admin.case.addTextToImage');
+
     Route::get('cases/view-form-edit/{id}', 'Backend\CasesController@modifyForm')->name('admin.case.viewForm.modify');
     // Route::post('cases/update-view-form-case/{id}', 'Backend\CasesController@modifyRVCase')->name('admin.case.modifyCase.viewCase');
     Route::post('cases/update-bv-form-case/{id}', 'Backend\CasesController@modifyBVCase')->name('admin.case.modifyBVCase');

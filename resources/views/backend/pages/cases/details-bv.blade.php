@@ -1,8 +1,8 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <span align="right" height="30px;">
-        <a href="javascript:void()" onclick="printformFunction()">Click here to print</a>
+        <a href="javascript:void(0)" onclick="printformFunction()">Click here to print</a>
     </span>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="outprint">
         <tbody>
             <tr>
                 <td style="border:none;font-size:22px;color:#0094ff" align="center" colspan="1">
@@ -188,6 +188,9 @@
             <tr>
                 <td colspan="4" class="subheading" style="text-align: center">Supervisor Remarks</td>
             </tr>
+            <tr>
+                <td colspan="4">{{ $case->remarks ?? 'NA' }}</td>
+            </tr>
 
             <tr ng-hide="BVCase.VerifiedType==219 || BVCase.SubStatusId!=536"=218" class="">
                 <td colspan="4" class="subheading" style="text-align: center">AS CLAIMED / CONFIRMED</td>
@@ -204,9 +207,63 @@
             </tr>
             <tr ng-hide="BVCase.StatusID==220" class="">
                 <td>Visit Conducted </td>
-                <td colspan="3" class="ng-binding">{{ $case->visit_conducted ?? 'NA' }}</td>
+                <td colspan="2" class="ng-binding">{{ ($case->status == 2) ? 'positive' : (($case->status == 3) ? 'negative' : 'NA') }}</td>
             </tr>
+            <tr>
+                <td colspan="4" class="subheading" style="text-align: center">Applicant Photos </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="row">
+                        @if(!empty($case->image_1))
+                        <div class="col-sm image_1">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_1) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_2))
+                        <div class="col-sm image_2">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_2) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_3))
+                        <div class="col-sm image_3">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_3) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_4))
+                        <div class="col-sm image_4">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_4) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_5))
+                        <div class="col-sm image_5">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_5) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_6))
+                        <div class="col-sm image_6">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_6) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_7))
+                        <div class="col-sm image_7">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_7) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_8))
+                        <div class="col-sm image_8">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_8) }}" />
+                        </div>
+                        @endif
+                        @if(!empty($case->image_9))
+                        <div class="col-sm image_9">
+                            <img title='' style='width:300px;float:left; height:300px;margin-bottom:5px; margin-left:5px;border:2px solid #b06c1c;border-radius:10px;' src="{{ asset($case->image_9) }}" />
+                        </div>
+                        @endif
 
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>VisitDate</td>
                 <td class="BVstyle ng-binding">{{ $case->date_of_visit ?? 'NA' }}</td>

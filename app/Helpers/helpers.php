@@ -29,6 +29,9 @@ if (!function_exists('get_status')) {
             case 7:
                 $statusValue = 'close';
                 break;
+            case 8:
+                $statusValue = 'Duplicate';
+                break;
             default:
                 throw new Exception("Invalid status provided.");
         }

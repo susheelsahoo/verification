@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Cases;
+use DateTime;
 
 class DashboardController extends Controller
 {
@@ -44,6 +45,7 @@ class DashboardController extends Controller
         $total_admins = count(Admin::select('id')->get());
         $total_permissions = count(Permission::select('id')->get());
         $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->where('status', '0')->get());
+        $total_dedup  = count(casesFiType::select('id')->where('status', '8')->get());
         $agentLists = User::where('admin_id', $this->user->id)->get();
         $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
 
@@ -62,31 +64,44 @@ class DashboardController extends Controller
                 $inprogress = $positive_resolved = $negative_resolved = $positive_verified = $negative_verified = $hold = $close = 0;
                 $agentName  = $userData['0']['getuser']['name'];
                 $agentid    = $userData['0']['getuser']['id'];
+                $today = new DateTime();
                 foreach ($userData as $data) {
+                    $updatedAt = new DateTime($data['updated_at']);
+
                     switch ($data['status']) {
                         case 1:
                             $inprogress += 1;
                             break;
 
                         case 2:
-                            $positive_resolved += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $positive_resolved += 1;
+                            }
                             break;
 
                         case 3:
-                            $negative_resolved += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $negative_resolved += 1;
+                            }
                             break;
 
                         case 4:
-                            $positive_verified += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $positive_verified += 1;
+                            }
                             break;
                         case 5:
-                            $negative_verified += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $negative_verified += 1;
+                            }
                             break;
                         case 6:
                             $hold += 1;
                             break;
                         case 7:
-                            $close += 1;
+                            if ($updatedAt->format('Y-m-d') === $today->format('Y-m-d')) {
+                                $close += 1;
+                            }
                             break;
                         default:
                     }
@@ -115,6 +130,6 @@ class DashboardController extends Controller
         $totalSum = ['total' => $total, 'inprogressTotal' => $inprogressTotal, 'positive_resolvedTotal' => $positive_resolvedTotal, 'negative_resolvedTotal' => $negative_resolvedTotal, 'positive_verifiedTotal' => $positive_verifiedTotal, 'negative_verifiedTotal' => $negative_verifiedTotal, 'holdTotal' => $holdTotal];
 
 
-        return view('backend.pages.dashboard.index', compact('totalSum', 'userCount', 'agentLists', 'total_Unassigned'));
+        return view('backend.pages.dashboard.index', compact('totalSum', 'userCount', 'agentLists', 'total_Unassigned', 'total_dedup'));
     }
 }

@@ -53,6 +53,7 @@ class ProductsController extends Controller
         $products = new Product();
         $products->name         = $request->name;
         $products->product_code = $request->product_code;
+        $products->status       = '1';
         $products->created_by   = Auth::guard('admin')->user()->id;
         $products->updated_by   = Auth::guard('admin')->user()->id;
         $products->save();

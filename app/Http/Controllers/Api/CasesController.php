@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 // use App\Models\Cases;
 // use App\Models\Bank;
@@ -176,15 +177,69 @@ class CasesController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path($path), $filename);
 
-                // Save the filename to the current image field
-                $case->$imgField = "{$path}/{$filename}";
+                $latitude           = $data['latitude'];
+                $longitude          = $data['longitude'];
+                $image_name         = "{$path}/{$filename}";
+                $case->latitude     = $latitude;
+                $case->longitude    = $longitude;
+                $case->$imgField    = $image_name;
                 $case->save();
+
+                $this->addTextToImage($latitude, $longitude, $image_name);
                 return response()->json(['message' => 'Image uploaded successfully'], 200);
             } else {
                 return response()->json(['message' => 'Image Not uploaded'], 500);
             }
         }
     }
+    private function addTextToImage($latitude, $longitude, $image_name)
+    {
+        // if (!empty($latitude) && !empty($longitude)) {
+        $img = Image::make(public_path($image_name));
+
+        // Path to a TTF font file
+        $fontPath = public_path('fonts/ARIAL.TTF'); // Make sure this path is correct
+
+        // Get image width and height
+        $width = $img->width();
+        $height = $img->height();
+
+        // Set padding from the left and bottom
+        $paddingLeft = 100;
+        $paddingBottom = 50;
+
+        // Define the lines of text
+        $lines = [
+            'Latitude: ' . $latitude,
+            "Longitude: " . $longitude,
+        ];
+
+        // Set font size
+        $fontSize = 40;
+
+        // Add each line of text
+        foreach ($lines as $index => $line) {
+            $img->text(
+                $line,
+                $paddingLeft,                      // X position (left side with padding)
+                $height - $paddingBottom - ($index * ($fontSize + 5)), // Y position (bottom side with padding)
+                function ($font) use ($fontPath, $fontSize) {
+                    $font->file($fontPath);        // Specify the TTF font file
+                    $font->size($fontSize);        // Set font size
+                    $font->color('#FF0000');       // Set font color
+                    $font->align('left');          // Align text to the left
+                    $font->valign('bottom');       // Align text to the bottom
+                }
+            );
+        }
+
+        // Save the image
+        $img->save(public_path($image_name));
+        // }
+        return true;
+    }
+
+
     public function uploadSignature(Request $request)
     {
         // Create New Cases 
@@ -241,6 +296,7 @@ class CasesController extends Controller
     {
         // Create New Cases
         $data = $request->all();
+
         $validator = Validator::make(
             request()->all(),
             array(
@@ -249,14 +305,15 @@ class CasesController extends Controller
             )
         );
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors(), 400]);
         }
 
-        // dd($request->all());
+
         if ($data['fi_type_id'] == '1') {
             $this->SubmitRVCase($data);
         } elseif ($data['fi_type_id'] == '2') {
             $this->SubmitBVCase($data);
+        } else {
+            return response()->json(['error' => 'Fi type is not vaild', 400]);
         }
 
         return response()->json(['message' => 'Case Submit Successfully'], 200);
@@ -306,30 +363,28 @@ class CasesController extends Controller
         $cases->status                              = $data['status'];
         $cases->occupation                          = $data['occupation'];
         $cases->untraceable                         = $data['untraceable'];
-        $cases->verifiers_name                      = $data['verifiers_name'];
+        $cases->verifiers_name                      = $cases['user_id'];
         $cases->verification_conducted_at           = $data['verification_conducted_at'];
         $cases->proof_attached                      = $data['proof_attached'];
         $cases->type_of_proof                       = $data['type_of_proof'];
         $cases->comments                            = $data['comments'];
-        $cases->supervisor_remarks                  = $data['supervisor_remarks'];
         $cases->consolidated_remarks                = $data['consolidated_remarks'];
-        $cases->remarks                             = $data['remarks'];
+        $cases->app_remarks                         = $data['app_remarks'];
         $cases->recommended                         = $data['recommended'];
-        $cases->visit_conducted                     = $data['visit_conducted'];
-        // $cases->accomodation_type                = $data['accomodation_type'];
+        $cases->accommodation_type                  = $data['accommodation_type'];
         // $cases->house_locked                     = $data['house_locked'];
         // $cases->no_of_residents_in_house         = $data['no_of_residents_in_house'];
         // $cases->employement_details              = $data['employement_details'];
-        // $cases->date_of_visit                    = $data['date_of_visit'];
-        // $cases->time_of_visit                    = $data['time_of_visit'];
+        $cases->date_of_visit                       = $data['date_of_visit'];
+        $cases->time_of_visit                       = $data['time_of_visit'];
         $cases->latitude                            = $data['latitude'];
         $cases->longitude                           = $data['longitude'];
         $cases->tcp1_name                           = $data['tcp1_name'];
         $cases->tcp1_checked_with                   = $data['tcp1_checked_with'];
-        // $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
+        $cases->tcp1_negative_comments              = $data['tcp1_negative_comments'];
         $cases->tcp2_name                           = $data['tcp2_name'];
         $cases->tcp2_checked_with                   = $data['tcp2_checked_with'];
-        // $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
+        $cases->tcp2_negative_comments              = $data['tcp2_negative_comments'];
         $cases->to_whom_does_address_belong         = $data['to_whom_does_address_belong'];
         $cases->is_applicant_know_to_person         = $data['is_applicant_know_to_person'];
         $cases->other_stability_year_details        = $data['other_stability_year_details'];
@@ -345,8 +400,8 @@ class CasesController extends Controller
         $case_fi_type_id = $data['case_fi_type_id'];
 
         $caseFi = casesFiType::findOrFail($case_fi_type_id);
-        $caseFi->mobile                         = $data['mobile'];
-        $caseFi->address                        = $data['address'];
+        // $caseFi->mobile                         = $data['mobile'];
+        // $caseFi->address                        = $data['address'];
         $caseFi->address_confirmed              = $data['address_confirmed'];
         $caseFi->employer_address               = $data['employer_address'];
         $caseFi->type_of_proof                  = $data['type_of_proof'];
@@ -370,7 +425,7 @@ class CasesController extends Controller
         $caseFi->type_of_locality               = $data['type_of_locality'];
         $caseFi->area                           = $data['area'];
         $caseFi->nearest_landmark               = $data['nearest_landmark'];
-        // $caseFi->ease_of_locating               = $data['ease_of_locating'];
+        $caseFi->verifiers_name                 = $caseFi['user_id'];
         $caseFi->terms_of_employment            = $data['terms_of_employment'];
         $caseFi->grade                          = $data['grade'];
         $caseFi->year_of_establishment          = $data['year_of_establishment'];
@@ -378,66 +433,77 @@ class CasesController extends Controller
         $caseFi->name_of_employer_co            = $data['name_of_employer_co'];
         $caseFi->established                    = $data['established'];
         $caseFi->designation                    = $data['designation'];
-        $caseFi->visit_conducted                = $data['visit_conducted'];
         $caseFi->date_of_visit                  = $data['date_of_visit'];
         $caseFi->time_of_visit                  = $data['time_of_visit'];
         $caseFi->latitude                       = $data['latitude'];
         $caseFi->longitude                      = $data['longitude'];
         $caseFi->tcp1_name                      = $data['tcp1_name'];
         $caseFi->tcp1_checked_with              = $data['tcp1_checked_with'];
+        $caseFi->tcp1_negative_comments         = $data['tcp1_negative_comments'];
         $caseFi->tcp2_name                      = $data['tcp2_name'];
         $caseFi->tcp2_checked_with              = $data['tcp2_checked_with'];
+        $caseFi->tcp2_negative_comments         = $data['tcp2_negative_comments'];
         $caseFi->visited_by                     = $data['visited_by'];
         $caseFi->verified_by                    = $data['verified_by'];
+        $caseFi->address_confirmed              = $data['address_confirmation_status'];
+        $caseFi->employer_address               = $data['address_of_employer_co'];
+        $caseFi->designation_other              = $data['designation_other'];
+        $caseFi->accommodation_type             = $data['type_industry'];
+        $caseFi->residence_number               = $data['residence_number'];
+        $caseFi->type_of_employer               = $data['type_of_profession'];
+        $caseFi->year_of_establishment          = $data['year_of_establishment_of_business'];
+        $caseFi->other_stability_year_details   = $data['year_of_employment'];
+        $caseFi->negative_feedback_reason       = $data['verifier_feedback'];
+        $caseFi->status                          = $data['status'];
         $caseFi->save();
         return $caseFi->id;
     }
 
-    public function storeCase(Request $request)
-    {
-        // Validation Data
-        // $request->validate([
-        //     'applicant_name' => 'required|max:50|',
-        // ]);
-        // Create New cases
-        dd(json_encode($request->all()));
-        $cases = new Cases();
-        $cases->bank_id             = $request->bank_id;
-        $cases->product_id          = $request->product_id;
-        $cases->application_type    = $request->application_type;
-        $cases->refrence_number     = $request->refrence_number;
-        $cases->applicant_name      = $request->applicant_name;
-        $cases->amount              = $request->amount;
-        $cases->vehicle             = $request->vehicle;
-        $cases->co_applicant_name   = $request->co_applicant_name;
-        $cases->guarantee_name      = $request->guarantee_name;
-        $cases->geo_limit           = $request->geo_limit;
-        $cases->tat_time            = $request->tat_time;
-        $cases->remarks             = $request->remarks;
-        $cases->created_by          = Auth::guard('admin')->user()->id;
-        $cases->updated_by          = Auth::guard('admin')->user()->id;
-        // $cases->name         = $request->name;
-        $cases->save();
-        $cases_id = $cases->id;
+    // public function storeCase(Request $request)
+    // {
+    //     // Validation Data
+    //     // $request->validate([
+    //     //     'applicant_name' => 'required|max:50|',
+    //     // ]);
+    //     // Create New cases
+    //     dd(json_encode($request->all()));
+    //     $cases = new Cases();
+    //     $cases->bank_id             = $request->bank_id;
+    //     $cases->product_id          = $request->product_id;
+    //     $cases->application_type    = $request->application_type;
+    //     $cases->refrence_number     = $request->refrence_number;
+    //     $cases->applicant_name      = $request->applicant_name;
+    //     $cases->amount              = $request->amount;
+    //     $cases->vehicle             = $request->vehicle;
+    //     $cases->co_applicant_name   = $request->co_applicant_name;
+    //     $cases->guarantee_name      = $request->guarantee_name;
+    //     $cases->geo_limit           = $request->geo_limit;
+    //     $cases->tat_time            = $request->tat_time;
+    //     $cases->remarks             = $request->remarks;
+    //     $cases->created_by          = Auth::guard('admin')->user()->id;
+    //     $cases->updated_by          = Auth::guard('admin')->user()->id;
+    //     // $cases->name         = $request->name;
+    //     $cases->save();
+    //     $cases_id = $cases->id;
 
-        foreach ($request->fi_type_id as $fi_type_id) {
+    //     foreach ($request->fi_type_id as $fi_type_id) {
 
-            if (!empty($fi_type_id['id'])) {
-                $casesFiType = new casesFiType;
-                $casesFiType->case_id       = $cases_id;
-                $casesFiType->fi_type_id    = $fi_type_id['id'];
-                $casesFiType->mobile        = $fi_type_id['phone_number'];
-                $casesFiType->address       = $fi_type_id['address'];
-                $casesFiType->pincode       = $fi_type_id['pincode'];
-                $casesFiType->land_mark     = $fi_type_id['landmark'];
-                $casesFiType->user_id       = $fi_type_id['agent'];
-                $casesFiType->save();
-            }
-        }
+    //         if (!empty($fi_type_id['id'])) {
+    //             $casesFiType = new casesFiType;
+    //             $casesFiType->case_id       = $cases_id;
+    //             $casesFiType->fi_type_id    = $fi_type_id['id'];
+    //             $casesFiType->mobile        = $fi_type_id['phone_number'];
+    //             $casesFiType->address       = $fi_type_id['address'];
+    //             $casesFiType->pincode       = $fi_type_id['pincode'];
+    //             $casesFiType->land_mark     = $fi_type_id['landmark'];
+    //             $casesFiType->user_id       = $fi_type_id['agent'];
+    //             $casesFiType->save();
+    //         }
+    //     }
 
-        session()->flash('success', 'Case has been created !!');
-        return redirect()->route('admin.case.index');
-    }
+    //     session()->flash('success', 'Case has been created !!');
+    //     return redirect()->route('admin.case.index');
+    // }
 
 
     /**
