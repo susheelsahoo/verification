@@ -137,14 +137,12 @@ Cases - Admin Panel
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="cloneCase"><img src="{{URL::asset('backend/assets/images/icons/add.png')}}" title="clone case"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="caseReinitiates"><img src="{{URL::asset('backend/assets/images/icons/page_white_text_width.png')}}" title="Reinitiates Case"></img></a>
                                         <a href="javascript::void(0)" class="viewFormEdit" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/edit.png')}}" title="View Form Edit"></img></a>
-                                        <!-- <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a> -->
                                         <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
                                         <a href="javascript:void(0)" data-row="{{ $case->id }}" class="HoldCase"><img src="{{URL::asset('backend/assets/images/icons/HoldCase.png')}}" title="Hold case"></img></a>
                                         <a href="{{ route('admin.case.zip.download', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/downloads.png')}}" title="Download Zip"></img></a>
-                                        <a href="{{ route('admin.case.export.pdf', $case->id) }}"><img src="{{URL::asset('backend/assets/images/icons/Pdf.png')}}" title="Download PDF"></img></a>
                                         <a href="{{ route('admin.case.dedup-case', $case->id) }}" target="__blank"><img src="{{URL::asset('backend/assets/images/icons/view.png')}}" title="show orignal case"></img></a>
-                                        <a href="javascript::void(0)" class="telecallerForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/telecaller.png')}}" title="Telecaller Form"/></a>
-                                        <a href="javascript::void(0)" class="sendNotifyForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/world.png')}}" title="Notification Form"/></a>
+                                        <!-- <a href="javascript::void(0)" class="telecallerForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/telecaller.png')}}" title="Telecaller Form" /></a>
+                                        <a href="javascript::void(0)" class="sendNotifyForm" data-row="{{ $case->id }}"><img src="{{URL::asset('backend/assets/images/icons/world.png')}}" title="Notification Form" /></a> -->
                                         <!-- <a class="btn btn-success text-white" href="{{ route('admin.case.edit', $case->id) }}">Edit</a>
                                         <a class="btn btn-danger text-white" href="{{ route('admin.case.edit', $case->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $case->id }}').submit();">
                                             Delete
