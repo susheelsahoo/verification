@@ -1065,15 +1065,15 @@ class CasesController extends Controller
         $case_fi_type_id                = $request['case_fi_type_id'];
         $status                         = '4';
         $sub_status                     = $request['sub_status'];
-        $consolidated_remarks           = $request['consolidated_remarks'];
+        $supervisor_remarks           = $request['supervisor_remarks'];
         $cases                          = casesFiType::find($case_fi_type_id);
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
-        $cases->consolidated_remarks    = $consolidated_remarks;
+        $cases->supervisor_remarks      = $supervisor_remarks;
         $cases->verified_by             = Auth::guard('admin')->user()->name;
         $cases->save();
         session()->flash('success', 'Case Resolve successfully !!');
-        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $consolidated_remarks, 'Verified Case', 'Verified Case');
+        CaseHistoryHelper::logHistory($cases->case_id, $status, $sub_status, $cases->user_id, $supervisor_remarks, 'Verified Case', 'Verified Case');
         LogHelper::logActivity('Verify Case', 'User verify case.');
         return redirect()->route('admin.dashboard');
     }

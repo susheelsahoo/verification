@@ -141,7 +141,7 @@ Create Case Create - Admin Panel
                         <div class="form-row">
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Remarks</label>
-                                <textarea name="remarks" rows="2" cols="20" id="remarks" class="form-control" placeholder="Remarks">Test Remark</textarea>
+                                <textarea name="remarks" rows="2" cols="20" id="remarks" class="form-control" placeholder="Remarks"></textarea>
                             </div>
 
                         </div>

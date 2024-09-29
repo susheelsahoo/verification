@@ -259,7 +259,7 @@ Cases - Admin Panel
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label for="name">Remarks :</label>
-                        <textarea class="form-control" name="remarks" required></textarea>
+                        <textarea class="form-control" name="supervisor_remarks" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
