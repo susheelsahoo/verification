@@ -98,28 +98,24 @@ class CasesController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation Data
-
-        $rules = [
-            'applicant_name' => 'required|max:50',
-        ];
+        $rules = [];
+        $messages = [];
         if ($request['application_type'] == '1' || $request['application_type'] == '2') {
-            $messages = [
-                'applicant_name.required' => 'The applicant name is required.',
-
-            ];
+            // Validate applicant name for Applicant and Co-Applicant
+            $rules['applicant_name'] = 'required|max:50';
+            $messages['applicant_name.required'] = 'The applicant name is required.';
         } elseif ($request['application_type'] == '3') {
-            $messages = [
-                'applicant_name.required' => 'The guranter name is required.',
-
-            ];
+            // Validate guarantee name for Guarantor
+            $rules['guarantee_name'] = 'required|max:50';
+            $messages['guarantee_name.required'] = 'The guarantor name is required.';
         } elseif ($request['application_type'] == '4') {
-            $messages = [
-                'applicant_name.required' => 'The seller name is required.',
-
-            ];
+            // Validate seller name for Seller
+            $rules['seller_name'] = 'required|max:50';
+            $messages['seller_name.required'] = 'The seller name is required.';
         }
+
         $request->validate($rules, $messages);
+
 
 
         // Create New cases
@@ -135,7 +131,7 @@ class CasesController extends Controller
         } elseif ($request->application_type == '3') {
             $cases->applicant_name      = $request->guarantee_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->applicant_name;
+            $cases->applicant_name      = $request->seller_name;
         }
         $cases->refrence_number     = $request->refrence_number;
         $cases->amount              = $request->amount;

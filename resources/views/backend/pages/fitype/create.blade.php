@@ -52,6 +52,7 @@ Fi Type Create - Admin Panel
                             <div class="form-group col-md-6 col-sm-12">
                                 <label for="name">Fi Type Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter FI Name">
+                                <span> Should be single word</span>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save Fi Type</button>
