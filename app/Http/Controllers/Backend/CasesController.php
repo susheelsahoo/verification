@@ -72,7 +72,7 @@ class CasesController extends Controller
             $fitypesFeild .= '</div>';
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
             $fitypesFeild .= '<label for="Pincode' . $fitype['id'] . '">' . $fitype['name'] . ' Pincode</label>';
-            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" placeholder="Pincode">';
+            $fitypesFeild .= '<input type="number" class="form-control" name="fi_type_id[' . $key . '][pincode]" pattern="[0-9]{6}" maxlength="6" placeholder="Pincode">';
 
             $fitypesFeild .= '</div>';
             $fitypesFeild .= '<div class="form-group col-md-6 col-sm-12 ' . $fitype['name'] . '_section' . ' d-none">';
@@ -98,24 +98,40 @@ class CasesController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
-        $messages = [];
-        if ($request['application_type'] == '1' || $request['application_type'] == '2') {
+        // Define the base rules and messages for pincode and application_type
+        $rules = [
+            'pincode' => 'required|digits:6',
+            'application_type' => 'required|in:1,2,3,4', // Ensure valid application type
+        ];
+
+        $messages = [
+            'pincode.required' => 'The pincode field is required.',
+            'pincode.digits' => 'The pincode must be exactly 6 digits.',
+            'application_type.required' => 'The application type is required.',
+            'application_type.in' => 'The selected application type is invalid.',
+        ];
+
+        // Get the application_type from the request
+        $applicationType = (string) $request->input('application_type');
+
+        // Add conditional validation based on the selected application_type
+        if ($applicationType == '1' || $applicationType == '2') {
             // Validate applicant name for Applicant and Co-Applicant
             $rules['applicant_name'] = 'required|max:50';
             $messages['applicant_name.required'] = 'The applicant name is required.';
-        } elseif ($request['application_type'] == '3') {
+        } elseif ($applicationType == '3') {
             // Validate guarantee name for Guarantor
             $rules['guarantee_name'] = 'required|max:50';
             $messages['guarantee_name.required'] = 'The guarantor name is required.';
-        } elseif ($request['application_type'] == '4') {
-            // Validate seller name for Seller
-            $rules['seller_name'] = 'required|max:50';
-            $messages['seller_name.required'] = 'The seller name is required.';
         }
+        // elseif ($applicationType == '4') {
+        //     // Validate seller name for Seller
+        //     $rules['seller_name'] = 'required|max:50';
+        //     $messages['seller_name.required'] = 'The seller name is required.';
+        // }
 
+        // Perform validation
         $request->validate($rules, $messages);
-
 
 
         // Create New cases
