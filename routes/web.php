@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/case-detail/{id}', 'HomeController@caseDetail')->name('home.caseDetail');
 
 Route::get('test-mail', function () {
-    $details = ['body' => 'This is for testing email using smtp','from'=> 'info@intelisysweb.com','subject'=> 'Verification Status'];
+    $details = ['body' => 'This is for testing email using smtp', 'from' => 'info@intelisysweb.com', 'subject' => 'Verification Status'];
     Mail::to('ashwini.burgeon@gmail.com')->send(new SendMail($details));
     dd("Email is Sent.");
 });
@@ -39,6 +39,7 @@ Route::get('test-mail', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'Backend\DashboardController@index')->name('admin.dashboard');
+    Route::post('/', 'Backend\DashboardController@index')->name('admin.dashboard');
     Route::resource('cases', 'Backend\CasesController', ['names' => 'admin.case']);
     Route::get('cases/getList/{id}', 'Backend\CasesController@getItem')->name('admin.case.item');
     Route::get('cases/getcase/{id}', 'Backend\CasesController@getCase')->name('admin.case.getCase');
@@ -109,5 +110,3 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/password/reset', 'Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset/submit', 'Backend\Auth\ForgetPasswordController@reset')->name('admin.password.update');
 });
-
-

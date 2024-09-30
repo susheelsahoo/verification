@@ -14,6 +14,8 @@ use App\Models\casesFiType;
 use App\Imports\CasesImport;
 use App\Models\CaseHistory;
 use App\Models\CaseStatus;
+use Carbon\Carbon;
+
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 use Illuminate\Http\Request;
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\ExportCase;
 use Dompdf\Dompdf;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Session;
 use App\Helpers\LogHelper;
 use App\Helpers\CaseHistoryHelper;
 use Illuminate\Support\Facades\Mail;
@@ -35,6 +38,7 @@ use App\Mail\SendMail;
 
 class CasesController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -949,17 +953,35 @@ class CasesController extends Controller
     }
 
 
-    public function caseStatus($status, $user_id = Null)
+    public function caseStatus(Request $request,  $status, $user_id = Null)
     {
         $user_id = $user_id ?? 0;
 
         $assign = false;
+        if ($request->FromDate) {
+            $FromDate = $request->FromDate;
+            $ToDate = $request->ToDate;
+        } else {
+            $FromDate = date('Y-m-d 00:00:00');
+            $ToDate = date('Y-m-d 23:59:59');
+        }
+
+        $FromDate = Carbon::now()->startOfDay(); // 2024-10-01 00:00:00
+        $ToDate = Carbon::now()->endOfDay();     // 2024-10-01 23:59:59
 
         if ($status != 'aaa') {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->where('status', $status)->get();
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+                ->where('status', $status)
+                ->where('user_id', $user_id)
+                ->whereBetween('updated_at', [$FromDate, $ToDate])
+                ->get();
         } else {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
+            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+                ->where('user_id', $user_id)
+                ->whereBetween('updated_at', [$FromDate, $ToDate])
+                ->get();
         }
+
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
 

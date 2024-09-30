@@ -12,17 +12,24 @@ use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Cases;
 use DateTime;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
     public $user;
+    public $FromDate;
+    public $ToDate;
 
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
+            $this->FromDate = $this->ToDate =  date('Y-m-d');
+
             return $next($request);
         });
+
+        // $login_user_id = Auth::guard('admin')->user()->id;
     }
 
     public function _group_by($array, $key)
@@ -35,10 +42,17 @@ class DashboardController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('dashboard.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
+        }
+        if ($request->FromDate) {
+            $FromDate = $request->FromDate;
+            $ToDate = $request->ToDate;
+        } else {
+            $FromDate = $this->FromDate;
+            $ToDate = $this->ToDate;
         }
 
         $total_roles        = count(Role::select('id')->get());
@@ -48,6 +62,8 @@ class DashboardController extends Controller
         $total_dedup        = count(casesFiType::select('id')->where('status', '8')->get());
         $agentLists         = User::where('admin_id', $this->user->id)->get();
         $getCases           = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
+        $getUserWithCase    = User::with('getcasesWithFiType')->get();
+
 
 
         $userwise = [];

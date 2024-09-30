@@ -14,11 +14,16 @@ class User extends Authenticatable
     use Notifiable, HasRoles;
 
     protected $fillable = [
-        'username', 'name', 'email', 'password', 'api_token',
+        'username',
+        'name',
+        'email',
+        'password',
+        'api_token',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
     /**
      * The attributes that should be cast to native types.
@@ -28,6 +33,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getcasesWithFiType()
+    {
+        return $this->hasMany('App\Models\casesFiType', 'user_id', 'id');
+    }
 
     public static function getpermissionGroups()
     {

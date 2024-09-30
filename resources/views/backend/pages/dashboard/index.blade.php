@@ -32,9 +32,10 @@ Dashboard Page - Admin Panel
 
     <div class="row mt-4">
         <div class="col-lg-10 col-md-10">
-            <form method="" action="" id="filterForm">
+            <form method="POST" action="{{ route('admin.dashboard') }}" id="filterForm">
                 <div class="row">
-                    <div class="form-group col-md-2">
+                    @csrf
+                    <!-- <div class="form-group col-md-2">
                         <label for="Organisation">Organisation</label>
                         <select name="Organisation" id="Organisation" class="form-control">
                             <option selected="selected" value="">--Select--</option>
@@ -69,7 +70,7 @@ Dashboard Page - Admin Panel
                             <option value="20010104">SBI ITR</option>
                             <option value="20010105">SBI ITR</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="form-group col-md-2">
                         <label for="agent">Agent</label>
                         <select name="agent" id="agent" class="form-control">
@@ -83,11 +84,11 @@ Dashboard Page - Admin Panel
                     </div>
                     <div class="form-group col-md-2">
                         <label for="FromDate">From Date</label>
-                        <input type="date" class="form-control" id="FromDate" name="FromDate">
+                        <input type="date" class="form-control" id="FromDate" value="{{ date('Y-m-d') }}" name="FromDate">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="ToDate">To Date</label>
-                        <input type="date" class="form-control" id="ToDate" name="ToDate">
+                        <input type="date" class="form-control" id="ToDate" value="{{ date('Y-m-d') }}" name="ToDate">
                     </div>
                     <div class="form-group col-md-2">
                         <input type="submit" class="form-control btn btn-sm btn-primary mt-4" id="submit" name="submit" value="Filter">
