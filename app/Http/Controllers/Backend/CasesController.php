@@ -1061,11 +1061,10 @@ class CasesController extends Controller
     }
     public function verifiedCase(Request $request)
     {
-
         $case_fi_type_id                = $request['case_fi_type_id'];
         $status                         = '4';
         $sub_status                     = $request['sub_status'];
-        $supervisor_remarks           = $request['supervisor_remarks'];
+        $supervisor_remarks             = $request['supervisor_remarks'];
         $cases                          = casesFiType::find($case_fi_type_id);
         $cases->status                  = $status;
         $cases->sub_status              = $sub_status;
