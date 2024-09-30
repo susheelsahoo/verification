@@ -376,7 +376,7 @@ class CasesController extends Controller
         // $cases->house_locked                     = $data['house_locked'];
         // $cases->no_of_residents_in_house         = $data['no_of_residents_in_house'];
         // $cases->employement_details              = $data['employement_details'];
-        $cases->date_of_visit                       = date('Y-m-d');;
+        $cases->date_of_visit                       = date('Y-m-d');
         $cases->time_of_visit                       = date('H:i:s');
         $cases->latitude                            = $data['latitude'];
         $cases->longitude                           = $data['longitude'];
@@ -434,8 +434,8 @@ class CasesController extends Controller
         $caseFi->name_of_employer_co            = $data['name_of_employer_co'];
         $caseFi->established                    = $data['established'];
         $caseFi->designation                    = $data['designation'];
-        $caseFi->date_of_visit                  = $data['date_of_visit'];
-        $caseFi->time_of_visit                  = $data['time_of_visit'];
+        $caseFi->date_of_visit                  = date('Y-m-d');
+        $caseFi->time_of_visit                  = date('H:i:s');
         $caseFi->latitude                       = $data['latitude'];
         $caseFi->longitude                      = $data['longitude'];
         $caseFi->tcp1_name                      = $data['tcp1_name'];
