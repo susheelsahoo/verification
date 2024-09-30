@@ -41,13 +41,13 @@ class DashboardController extends Controller
             abort(403, 'Sorry !! You are Unauthorized to view dashboard !');
         }
 
-        $total_roles = count(Role::select('id')->get());
-        $total_admins = count(Admin::select('id')->get());
-        $total_permissions = count(Permission::select('id')->get());
-        $total_Unassigned  = count(casesFiType::select('id')->where('user_id', '0')->where('status', '0')->get());
-        $total_dedup  = count(casesFiType::select('id')->where('status', '8')->get());
-        $agentLists = User::where('admin_id', $this->user->id)->get();
-        $getCases = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
+        $total_roles        = count(Role::select('id')->get());
+        $total_admins       = count(Admin::select('id')->get());
+        $total_permissions  = count(Permission::select('id')->get());
+        $total_Unassigned   = count(casesFiType::select('id')->where('user_id', '0')->where('status', '0')->get());
+        $total_dedup        = count(casesFiType::select('id')->where('status', '8')->get());
+        $agentLists         = User::where('admin_id', $this->user->id)->get();
+        $getCases           = casesFiType::with('getuser')->where('user_id', '!=', '0')->get();
 
 
         $userwise = [];

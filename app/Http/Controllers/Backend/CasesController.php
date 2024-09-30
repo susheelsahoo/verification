@@ -751,24 +751,24 @@ class CasesController extends Controller
     public function updateCase(Request $request, $id)
     {
         $cases = Cases::findOrFail($id);
-        $cases->bank_id             = $request->bank_id ??  $cases->bank_id;
-        $cases->product_id          = $request->product_id ??   $cases->product_id;
-        $cases->application_type    = $request->application_type ??  $cases->application_type;
+        $cases->bank_id             = $request->bank_id;
+        $cases->product_id          = $request->product_id;
+        $cases->application_type    = $request->application_type;
         if ($request->application_type == '1') {
-            $cases->applicant_name      = $request->applicant_name ?? $cases->applicant_name;
+            $cases->applicant_name      = $request->applicant_name;
         } elseif ($request->application_type == '2') {
-            $cases->applicant_name      = $request->applicant_name ?? $cases->applicant_name;
-            $cases->co_applicant_name   = $request->co_applicant_name ?? $cases->co_applicant_name;
+            $cases->applicant_name      = $request->applicant_name;
+            $cases->co_applicant_name   = $request->co_applicant_name;
         } elseif ($request->application_type == '3') {
-            $cases->applicant_name      = $request->guarantee_name ?? $cases->applicant_name;
+            $cases->applicant_name      = $request->guarantee_name;
         } elseif ($request->application_type == '4') {
-            $cases->applicant_name      = $request->applicant_name ??  $cases->applicant_name;
+            $cases->applicant_name      = $request->applicant_name;
         }
-        $cases->refrence_number     = $request->refrence_number ??  $cases->refrence_number;
-        $cases->amount              = $request->amount ??   $cases->amount;
-        $cases->vehicle             = $request->vehicle ??  $cases->vehicle;
-        $cases->geo_limit           = $request->geo_limit ??   $cases->geo_limit;
-        $cases->remarks             = $request->remarks ??   $cases->remarks;
+        $cases->refrence_number     = $request->refrence_number;
+        $cases->amount              = $request->amount;
+        $cases->vehicle             = $request->vehicle;
+        $cases->geo_limit           = $request->geo_limit;
+        $cases->remarks             = $request->remarks;
         $cases->updated_by          = Auth::guard('admin')->user()->id;
         $cases->save();
         foreach ($request->fi_type_id as $fi_type_id) {
@@ -953,34 +953,6 @@ class CasesController extends Controller
     {
         $user_id = $user_id ?? 0;
 
-        /*
-        $query = DB::table('cases_fi_types as cft')
-            ->select(
-                'cft.id',
-                'c.refrence_number',
-                'c.applicant_name',
-                'c.co_applicant_name',
-                'cft.mobile',
-                'cft.address',
-                'b.name as bank_name',
-                'p.name as product_name',
-                'ft.name as fi_type_name',
-                'cft.scheduled_visit_date',
-                'cft.status',
-                'u.name as agent_name'
-            )
-            ->join('cases as c', 'c.id', '=', 'cft.case_id')
-            ->join('fi_types as ft', 'ft.id', '=', 'cft.fi_type_id')
-            ->join('banks as b', 'b.id', '=', 'c.bank_id')
-            ->join('products as p', 'p.id', '=', 'c.product_id')
-            ->leftJoin('users as u', 'u.id', '=', 'cft.user_id')
-            ->where('cft.user_id', $user_id)
-            ->where('cft.status', '!=', '7');
-        if ($status != 'aaa') {
-            $query->where('cft.status', $status);
-        }
-        $cases = $query->get(); */
-
         $assign = false;
 
         if ($status != 'aaa') {
@@ -988,9 +960,6 @@ class CasesController extends Controller
         } else {
             $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])->where('user_id', $user_id)->get();
         }
-
-        //echo '<pre>'; print_r($case); die;
-
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
 

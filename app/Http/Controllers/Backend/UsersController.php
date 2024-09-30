@@ -148,12 +148,13 @@ class UsersController extends Controller
     }
     public function getAgent($bankId = null)
     {
-        $users = User::where('admin_id', 1)->get()->toArray();
+        $login_user_id  = Auth::guard('admin')->user()->id;
+        $users = User::where('admin_id', $login_user_id)->get()->toArray();
 
         if ($bankId !== null) {
             return response()->json(['users' => $users]);
         } else {
-            return response()->json(['error' => 'Bank ID not provided.'], 400);
+            return response()->json(['error' => 'something went wrong please contect to admin.'], 400);
         }
     }
 

@@ -65,7 +65,7 @@
                              @if ($usr->can('fitype.view'))
                              <li class="{{ Route::is('admin.fitypes.index')  || Route::is('admin.fitypes.edit') ? 'active' : '' }}"><a href="{{ route('admin.fitypes.index') }}">Fi Type </a></li>
                              @endif
-                             @if ($usr->can('role.create'))
+                             @if ($usr->can('fitype.create'))
                              <li class="{{ Route::is('admin.fitypes.create')  ? 'active' : '' }}"><a href="{{ route('admin.fitypes.create') }}">Create Fi Type</a></li>
                              @endif
                          </ul>
