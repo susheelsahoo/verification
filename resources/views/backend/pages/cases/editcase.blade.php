@@ -189,7 +189,7 @@ Cases - Admin Panel
                 data: formData,
                 success: function(response) {
                     alert('case update successfully');
-                    location.reload();
+                    //location.reload();
                 },
                 error: function() {
                     alert('Request failed');

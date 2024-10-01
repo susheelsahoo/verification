@@ -1194,13 +1194,21 @@ class CasesController extends Controller
 
         $input = $request->all();
         $case_fi_type_id = $input['case_fi_id'];
-        $cases           = casesFiType::findOrFail($case_fi_type_id);
-        $cases->remarks  = $input['status_remark'] ?? null;
-        $cases->address  = $input['address'] ?? null;
-        $cases->pincode  = $input['pincode'] ?? null;
-        $cases->save();
+        $casesFiType             = casesFiType::findOrFail($case_fi_type_id);
+        $case                    = Cases::find($casesFiType->case_id);
+
+        $casesFiType->mobile     = $input['mobile'] ?? null;
+        $casesFiType->address    = $input['address'] ?? null;
+        $casesFiType->pincode    = $input['pincode'] ?? null;
+        $casesFiType->land_mark  = $input['land_mark'] ?? null;
+        $casesFiType->save();
+
+        $case->amount           = $input['loan_amont'] ?? null;
+        $case->applicant_name   = $input['name'] ?? null;
+        $case->save();
 
         LogHelper::logActivity('Modify Case', 'User modify case.');
+        // CaseHistoryHelper::logHistory($case_fi_type_id, $status, $sub_status, $cases->user_id, $supervisor_remarks, 'Verified Case', 'Verified Case');
         return response()->json(['success' => 'Case Update successfully !!'], 200);
         // session()->flash('success', 'Case Update successfully !!');
         // return redirect()->back();
