@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\casesFiType;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
@@ -47,10 +48,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+
         // Revoke the user's API token
         $user = Auth::user();
         $user->api_token = null;
         $user->save();
+        if (isset($request['token'])) {
+            casesFiType::truncate();
+        }
+
 
         return response()->json(['message' => 'Logged out successfully']);
     }
