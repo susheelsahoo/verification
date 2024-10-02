@@ -951,8 +951,6 @@ class CasesController extends Controller
         LogHelper::logActivity('Import Case', 'User imprt case.');
         return redirect()->route('admin.case.index');
     }
-
-
     public function caseStatus(Request $request,  $status, $user_id = Null)
     {
         $user_id = $user_id ?? 0;
@@ -970,20 +968,51 @@ class CasesController extends Controller
         $ToDate = Carbon::now()->endOfDay();     // 2024-10-01 23:59:59
 
         if ($status != 'aaa') {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
-                ->where('status', $status)
-                ->where('user_id', $user_id)
-                ->whereBetween('updated_at', [$FromDate, $ToDate])
-                ->get();
+            $casesQuery = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+                ->where('status', $status);  // Filter by user ID           
         } else {
-            $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
-                ->where('user_id', $user_id)
-                ->whereBetween('updated_at', [$FromDate, $ToDate])
-                ->get();
+            $casesQuery = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus']);
         }
+        if (!in_array($status, [0, 1, 6])) {
+            $casesQuery->whereBetween('updated_at', [$FromDate, $ToDate]);
+        }
+        $casesQuery->where('user_id', $user_id);
+        $cases = $casesQuery->get();
 
         return view('backend.pages.cases.caseList', compact('cases', 'assign'));
     }
+
+    // public function caseStatussss(Request $request,  $status, $user_id = Null)
+    // {
+    //     $user_id = $user_id ?? 0;
+
+    //     $assign = false;
+    //     if ($request->FromDate) {
+    //         $FromDate = $request->FromDate;
+    //         $ToDate = $request->ToDate;
+    //     } else {
+    //         $FromDate = date('Y-m-d 00:00:00');
+    //         $ToDate = date('Y-m-d 23:59:59');
+    //     }
+
+    //     $FromDate = Carbon::now()->startOfDay(); // 2024-10-01 00:00:00
+    //     $ToDate = Carbon::now()->endOfDay();     // 2024-10-01 23:59:59
+
+    //     if ($status != 'aaa') {
+    //         $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+    //             ->where('status', $status)
+    //             ->where('user_id', $user_id)
+    //             ->whereBetween('updated_at', [$FromDate, $ToDate])
+    //             ->get();
+    //     } else {
+    //         $cases = casesFiType::with(['getUser', 'getCase', 'getCaseFiType', 'getFiType', 'getCaseStatus'])
+    //             ->where('user_id', $user_id)
+    //             ->whereBetween('updated_at', [$FromDate, $ToDate])
+    //             ->get();
+    //     }
+
+    //     return view('backend.pages.cases.caseList', compact('cases', 'assign'));
+    // }
 
     public function assigned($status, $user_id = null)
     {
@@ -1313,7 +1342,7 @@ class CasesController extends Controller
         $caseFi->date_of_visit                      = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                      = $input['time_of_visit'] ?? null;
         $caseFi->supervisor_remarks                 = $input['supervisor_remarks'] ?? null;
-        $caseFi->visit_conducted                    = $input['visit_conducted'] ?? null;
+        // $caseFi->visit_conducted                    = $input['visit_conducted'] ?? 'NO';
         $caseFi->tcp1_name                          = $input['tcp1_name'] ?? null;
         $caseFi->tcp1_checked_with                  = $input['tcp1_checked_with'] ?? null;
         $caseFi->tcp1_negative_comments             = $input['tcp1_negative_comments'] ?? null;
@@ -1376,7 +1405,7 @@ class CasesController extends Controller
         $caseFi->name_of_employer_co            = $input['name_of_employer_co'] ?? null;
         $caseFi->established                    = $input['established'] ?? null;
         $caseFi->designation                    = $input['designation'] ?? null;
-        $caseFi->visit_conducted                = $input['visit_conducted'] ?? null;
+        // $caseFi->visit_conducted                = $input['visit_conducted'] ?? 'NO';
         $caseFi->date_of_visit                  = $input['date_of_visit'] ?? null;
         $caseFi->time_of_visit                  = $input['time_of_visit'] ?? null;
         $caseFi->latitude                       = $input['latitude'] ?? null;
