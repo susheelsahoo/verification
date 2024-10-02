@@ -1,3 +1,8 @@
+logout case
+Method Post
+http://127.0.0.1:8000/api/logout
+------------------------------------------------------------
+
 Get Case with count
 Method Get
 http://127.0.0.1:8000/api/cases/show/count/{user_id}
